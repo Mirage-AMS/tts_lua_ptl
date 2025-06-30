@@ -1,0 +1,42 @@
+# 编译输出文件
+*.out
+*.o
+*.a
+*.so
+*.dll
+*.exe
+
+# 包管理目录
+/.luarocks/
+/.luarocks_cache/
+/.cache/
+/modules/
+/.env
+
+# 日志文件
+*.log
+*.txt
+
+# 临时文件
+*.swp
+*.swo
+*.bak
+*~
+
+# 配置文件
+config.lua
+*.secret.lua
+
+# 编辑器/IDE配置
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# 环境特定文件
+.env.*
+!.env.example
+
+# 测试报告
+/coverage/
+/test-results/
