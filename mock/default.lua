@@ -43,7 +43,16 @@ Wait = {
 }
 
 self = {}
-Global = {}
+Global = {
+    --- Adds a menu item to the objects right-click context menu.
+    --- @param label string: Label for the menu item.
+    --- @param callback function: Execute if menu item is selected. Called as callback(player_color, object_position, object)
+    --- @param keep_open boolean: Keep context menu open after menu item was selected (default: false)
+    --- @return boolean result 
+    addContextMenuItem = function(label, callback, keep_open)
+        return true
+    end
+}
 
 coroutine = {
     yield = function(val)
@@ -51,9 +60,10 @@ coroutine = {
     end,
 }
 
+--- Starts a Lua coroutine.
+---@param function_owner any: The Object that the function being called is on. Global is a valid target.
+---@param function_name string: Name of the function being called as a coroutine.
 function startLuaCoroutine(function_owner, function_name)
-    -- [object] function_owner: The Object that the function being called is on. Global is a valid target.
-    -- [string] function_name: Name of the function being called as a coroutine.
 end
 
 function getSeatedPlayers()

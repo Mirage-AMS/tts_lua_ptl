@@ -4,6 +4,7 @@ require("com/basic")
 require("src/public_service")
 require("src/player_service")
 require("src/build_data")
+require("src/event_dev_mode")
 
 local function clearScriptingZones()
     local objTbl = self.getObjects()
@@ -30,7 +31,6 @@ function FactoryCreateGame()
     end
 
     function game:getPublicItemManager()
-        ---@diagnostic disable-next-line: unnecessary-if
         if self.public_service then
             return self.public_service.item_manager
         end
@@ -105,10 +105,7 @@ function FactoryCreateGame()
 
     function game:init()
         -- init development mode settings
-        if self:isDevelopmentMode() then
-            -- TODO add Development Mode Settings
-
-        end
+        Global.addContextMenuItem("switch dev mode", SwitchDevMode, false)
 
         -- init main board buttons
         local itemManager = self:getPublicItemManager()

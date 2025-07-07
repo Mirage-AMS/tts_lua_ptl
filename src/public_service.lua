@@ -11,13 +11,20 @@ function FactoryCreatePublicService()
 
     -- get function
     function service:isDevelopmentMode()
-        ---@diagnostic disable-next-line: unnecessary-if
         if self.mode_manager then
             return self.mode_manager:isDevelopmentMode()
         end
         error("fatal error: mode_manager is nil")
     end
     
+    -- set function
+    function service:setMode(new_mode)
+        if self.mode_manager then
+            self.mode_manager:setMode(new_mode)
+        end
+        error("fatal error: mode_manager is nil")
+    end
+
     -- Save and Load
     function service:onSave()
         return {
