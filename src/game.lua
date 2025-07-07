@@ -105,7 +105,7 @@ function FactoryCreateGame()
 
     function game:init()
         -- init development mode settings
-        Global.addContextMenuItem("switch dev mode", SwitchDevMode, false)
+        addContextMenuItem("switch dev mode", SwitchDevMode, false)
 
         -- init main board buttons
         local itemManager = self:getPublicItemManager()
