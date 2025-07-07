@@ -1,6 +1,7 @@
 require("com/const")
 require("com/basic")
 require("com/vector")
+require("com/enum_const")
 
 local function processZoneType(data, paramTemplate, paramData, zoneName, slotType, isPatternBased, refGuid)
     -- processZoneType辅助函数：处理单一区域类型的数据
@@ -111,6 +112,9 @@ function buildDefaultData()
                     PUBLIC_ZONE_NAME_LIST,
                     GUID_MAIN_BOARD)
             },
+            mode_manager = {
+                mode = GameMode.Development, -- 默认模式为开发模式
+            }
         },
         player_service = {
             players = playerData

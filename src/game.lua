@@ -30,7 +30,11 @@ function FactoryCreateGame()
     end
 
     function game:getPublicItemManager()
-        return self.public_service.item_manager
+        ---@diagnostic disable-next-line: unnecessary-if
+        if self.public_service then
+            return self.public_service.item_manager
+        end
+        error("fatal error: public_service not initialized")
     end
 
     function game:getPlayerService()
@@ -39,6 +43,10 @@ function FactoryCreateGame()
 
     function game:getPrivateItemManager(player_color)
         return self:getPlayerService():getPlayer(player_color).item_manager
+    end
+
+    function game:isDevelopmentMode()
+        return self.public_service:isDevelopmentMode()
     end
 
     ---------------------------------------------------------------------
@@ -96,6 +104,13 @@ function FactoryCreateGame()
     end
 
     function game:init()
+        -- init development mode settings
+        if self:isDevelopmentMode() then
+            -- TODO add Development Mode Settings
+
+        end
+
+        -- init main board buttons
         local itemManager = self:getPublicItemManager()
         local mainBoard = itemManager:getBoard(NAME_BOARD_MAIN)
         if mainBoard then
