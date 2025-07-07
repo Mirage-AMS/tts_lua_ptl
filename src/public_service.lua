@@ -19,8 +19,9 @@ function FactoryCreatePublicService()
     
     -- set function
     function service:setMode(new_mode)
-        if self.mode_manager then
+        if self.mode_manager ~= nil then
             self.mode_manager:setMode(new_mode)
+            return
         end
         error("fatal error: mode_manager is nil")
     end

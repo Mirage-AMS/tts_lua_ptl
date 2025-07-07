@@ -25,37 +25,43 @@ local function registerDeck(deck, info)
     local _initShift = 1.75
     local _eachShift = 0.2
     local pos = deck.getPosition()
-    pos.y = pos.y + _initShift
+    pos.y = pos.y + _initShift + _eachShift * cardNum
 
     -- closure to create a callback function for each card
-    local function createCallback(cardInfo)
+    local function createCallback(idx)
         return function(spawnedObject)
-            table.insert(cardSet, spawnedObject)
+            cardSet[idx] = spawnedObject
             spawnedObject.setLock(true)
-            if cardInfo then
-                spawnedObject.name = cardInfo.name
+            if info then
+                local cardInfo = info[idx]
+                spawnedObject.setName(cardInfo.name)
                 spawnedObject.memo = cardInfo.memo
             end
         end
     end
 
     -- 生成卡牌
-    for idx = cardNum, 1, -1 do
-        local cardInfo = info and info[idx]  -- 提前获取当前卡牌信息
+    for idx = 1, cardNum do
         deck.takeObject({
-            index = idx,
             position = pos,
-            callback_function = createCallback(cardInfo)  -- 传递信息而非索引
+            callback_function = createCallback(idx)  -- 传递信息而非索引
         })
-        pos.y = pos.y + _eachShift
+        pos.y = pos.y - _eachShift
     end
 
-    Wait.time(function()
-        for _, eacCard in cardSet do
-            eacCard.setLock(false)
+    Wait.condition(
+    function()
+        for _, eachCard in ipairs(cardSet) do
+            eachCard.setLock(false)
         end
+        end,
+    function()
+        return #cardSet == cardNum
     end,
-    2)
+    2,
+    function()
+        error("fatal error: card set size does not match expected number of cards: "..tostring(#cardSet))
+    end)
 end
 
 --- initDevelopmentMode: Initializes the game in development mode.
@@ -106,8 +112,8 @@ end
 ---@return nil
 function SwitchDevMode()
     if GAME:isDevelopmentMode() then
-        initDevelopmentMode()
-    else
         cleanDevelopmentMode()
+    else
+        initDevelopmentMode()
     end
 end
