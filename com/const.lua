@@ -1,3 +1,5 @@
+require("mock/default")
+
 -- TYPE
 DEFAULT_TYPE_CARD = "Card"
 DEFAULT_TYPE_DECK = "Deck"
