@@ -65,3 +65,66 @@ function numCard(obj)
         return 0
     end
 end
+
+
+--- registerCard: generate all deck items and register info on them
+--- @param deck any: The deck to register.
+--- @param info table|nil: The information about the deck.
+--- @return nil
+function registerCard(deck, info)
+    -- quick break if not legal deck object
+    if deck == nil then
+        error("fatal error: a nil deck object was passed to register")
+    end
+    if not isCardLike(deck) then
+        error("fatal error: a non-card object was passed to register")
+    end
+    local cardNum = numCard(deck)
+    if info and #info ~= cardNum then
+        error("fatal error: info table length does not match card number")
+    end
+
+    -- register the deck
+    deck.setLock(true)
+    local cardSet = {}
+    local _initShift = 1.75
+    local _eachShift = 0.2
+    local pos = deck.getPosition()
+    pos.y = pos.y + _initShift + _eachShift * cardNum
+
+    -- closure to create a callback function for each card
+    local function createCallback(idx)
+        return function(spawnedObject)
+            cardSet[idx] = spawnedObject
+            spawnedObject.setLock(true)
+            if info then
+                local cardInfo = info[idx]
+                spawnedObject.setName(cardInfo.name)
+                spawnedObject.memo = cardInfo.memo
+            end
+        end
+    end
+
+    -- 生成卡牌
+    for idx = 1, cardNum do
+        deck.takeObject({
+            position = pos,
+            callback_function = createCallback(idx)  -- 传递信息而非索引
+        })
+        pos.y = pos.y - _eachShift
+    end
+
+    Wait.condition(
+    function()
+        for _, eachCard in ipairs(cardSet) do
+            eachCard.setLock(false)
+        end
+        end,
+    function()
+        return #cardSet == cardNum
+    end,
+    2,
+    function()
+        error("fatal error: card set size does not match expected number of cards: "..tostring(#cardSet))
+    end)
+end

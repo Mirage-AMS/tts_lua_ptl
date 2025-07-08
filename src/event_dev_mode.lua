@@ -1,67 +1,55 @@
 require("com/enum_const")
-require("com/deck_const")
+require("com/dev_const")
 require("com/object_type")
+require("src/card")
 
---- registerDeck: generate all deck items and register info on them
---- @param deck any: The deck to register.
---- @param info table|nil: The information about the deck.
---- @return nil
-local function registerDeck(deck, info)
-    -- quick break if not legal deck object
-    if deck == nil then
-        error("fatal error: a nil deck object was passed to register")
+-- registerDeckInfo: Register deck information for the game.
+local function registerDeckInfo()
+
+    local devZoneName = NAME_ZONE_DEVELOPMENT
+    local publicItemManager = GAME:getPublicItemManager()
+    if not publicItemManager then
+        error("fatal error: publicItemManager is nil")
     end
-    if not isCardLike(deck) then
-        error("fatal error: a non-card object was passed to register")
+    local devZone = publicItemManager:getZone(devZoneName)
+    if not devZone then
+        error("fatal error: devZone is nil")
     end
-    local cardNum = numCard(deck)
-    if info and #info ~= cardNum then
-        error("fatal error: info table length does not match card number")
+    local devZoneDisplaySlots= devZone.display_slots
+    if not devZoneDisplaySlots then
+        error("fatal error: devZoneDisplaySlots is nil")
     end
 
-    -- register the deck
-    deck.setLock(true)
-    local cardSet = {}
-    local _initShift = 1.75
-    local _eachShift = 0.2
-    local pos = deck.getPosition()
-    pos.y = pos.y + _initShift + _eachShift * cardNum
+    -- var init
+    local all_deck_list = DECK_LIST
+    local all_infos = DECK_INFO
+    local setup = DEVELOPMENT_ZONE_DISPLAY_SLOT_SETUP
 
-    -- closure to create a callback function for each card
-    local function createCallback(idx)
-        return function(spawnedObject)
-            cardSet[idx] = spawnedObject
-            spawnedObject.setLock(true)
-            if info then
-                local cardInfo = info[idx]
-                spawnedObject.setName(cardInfo.name)
-                spawnedObject.memo = cardInfo.memo
-            end
+    for _, prefix in ipairs(all_deck_list) do
+        -- deck
+        local eachSlotIdx = setup[prefix]
+        local eachSlot = devZoneDisplaySlots[eachSlotIdx]
+        if not eachSlot then
+            error("fatal error: devZoneDisplaySlots[" .. eachSlotIdx .. "] is nil")
         end
-    end
-
-    -- 生成卡牌
-    for idx = 1, cardNum do
-        deck.takeObject({
-            position = pos,
-            callback_function = createCallback(idx)  -- 传递信息而非索引
-        })
-        pos.y = pos.y - _eachShift
-    end
-
-    Wait.condition(
-    function()
-        for _, eachCard in ipairs(cardSet) do
-            eachCard.setLock(false)
+        local eachDeck = eachSlot:getCardObject()
+        if not eachDeck then
+            error("fatal error: devZoneDisplaySlots[" .. eachSlotIdx .. "]:getCardObject() is nil")
         end
-        end,
-    function()
-        return #cardSet == cardNum
-    end,
-    2,
-    function()
-        error("fatal error: card set size does not match expected number of cards: "..tostring(#cardSet))
-    end)
+
+        -- info
+        local eachInfo = {}
+        local eachDeckInfo = all_infos[prefix]
+        for idx = 1, #eachDeckInfo do
+            local eachCardInfo = {
+                name = eachDeckInfo[idx],
+                memo = prefix .. "_" .. string.format("%02d", idx)
+            }
+            table.insert(eachInfo, eachCardInfo)
+        end
+
+        registerCard(eachDeck, eachInfo)
+    end
 end
 
 --- initDevelopmentMode: Initializes the game in development mode.
@@ -79,32 +67,10 @@ local function cleanDevelopmentMode()
     -- TODO implement development mode cleanup
     broadcastToAll("Development Mode Disabled")
 
-    -- ONLY FOR FUNCTION TESTING
-    local info = {}
-    local CO_STD_MAPPING = {
-        [1] = { prefix = "CO_STD01_", data = CO_STD_01 },
-        [2] = { prefix = "CO_STD02_", data = CO_STD_02 }
-    }
+    -- register deck info
+    registerDeckInfo()
 
-    -- 循环生成信息
-    for idx = 1, 60 do
-        local idxMapped = ((idx - 1) % 30) + 1
-        local group = math.floor((idx - 1) / 30) + 1
-        local config = CO_STD_MAPPING[group]
-        if not config then
-            error("fatal error: no config found for group " .. tostring(group))
-        end
-        table.insert(info, {
-            name = config.data[idxMapped],
-            memo = config.prefix .. string.format("%02d", idxMapped)
-        })
-    end
-
-    local publicItemManager = GAME:getPublicItemManager()
-    local coventicleZone = publicItemManager:getZone(NAME_ZONE_CONVENTICLE)
-    local conventicleDeck = coventicleZone:getDeckObj()
-    registerDeck(conventicleDeck, info)
-
+    -- set mode to Guest
     GAME.public_service:setMode(GameMode.Guest)
 end
 
