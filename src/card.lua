@@ -81,7 +81,7 @@ function registerCard(deck, info)
     end
     local cardNum = numCard(deck)
     if info and #info ~= cardNum then
-        error("fatal error: info table length does not match card number")
+        error("fatal error: info table length "..#info.." does not match card number " .. cardNum)
     end
 
     -- register the deck

@@ -159,7 +159,7 @@ PARAM_DEV_BOARD_HEIGHT = 2.0
 LIST_PARAM_SCRIPTING_ROLE_PICK = {
     [NAME_ZONE_ROLE_PICK] = {
         [KEYWORD_ZONE_DECK] = {
-            position = {x=-20.0, z=15.0, y=0.0},
+            position = {x=-39.50, z=9.26, y=0.0},
         }
     },
 }
@@ -168,7 +168,7 @@ LIST_PARAM_SCRIPTING_ROLE_PICK = {
 LIST_PARAM_SCRIPTING_DEV_MODE = {
     [NAME_ZONE_DEVELOPMENT] = {
         [KEYWORD_ZONE_DISPLAY] = {
-            position    = {x=-10, z=16.8, y=PARAM_DEV_BOARD_HEIGHT},
+            position    = {x=-10, z=14.5, y=PARAM_DEV_BOARD_HEIGHT},
         },
         [KEYWORD_ZONE_DISPLAY_PATTERN] = {
             x_num=4, x_shift={x=4.9,y=0,z=0},
@@ -178,8 +178,8 @@ LIST_PARAM_SCRIPTING_DEV_MODE = {
 }
 
 -- VAR
-GUID_DEV_BOARD = ""
-GUID_ROLE_DISPLAY_BOARD_01 = ""
-GUID_ROLE_DISPLAY_BOARD_02 = ""
-GUID_ROLE_DISPLAY_BOARD_03 = ""
-GUID_ROLE_DISPLAY_BOARD_04 = ""
+GUID_DEV_BOARD = "877790"
+GUID_ROLE_DISPLAY_BOARD_01 = "b97de7"
+GUID_ROLE_DISPLAY_BOARD_02 = "fc8757"
+GUID_ROLE_DISPLAY_BOARD_03 = "159497"
+GUID_ROLE_DISPLAY_BOARD_04 = "168436"

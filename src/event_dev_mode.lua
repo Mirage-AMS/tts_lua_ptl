@@ -63,8 +63,8 @@ local function setupNormalDeck(dlc_enable)
         [NAME_ZONE_FOREST] = {PREFIX_FO_STD01, },
         [NAME_ZONE_DUNGEON] = {PREFIX_DU_STD01, },
         [NAME_ZONE_MARKET] = {PREFIX_MA_STD01, },
-        [NAME_ZONE_CONVENTICLE] = {PREFIX_CO_STD01, PREFIX_CO_STD02,},
-        [NAME_ZONE_ROLE_PICK] = {PREFIX_RO_INT01, PREFIX_RO_INT02,}
+        [NAME_ZONE_CONVENTICLE] = {PREFIX_CO_STD02, PREFIX_CO_STD01,},
+        [NAME_ZONE_ROLE_PICK] = {PREFIX_RO_INT02, PREFIX_RO_INT01,}
     }
     -- dlc enabled
     if dlc_enable then
@@ -89,7 +89,7 @@ local function setupNormalDeck(dlc_enable)
         error("fatal error: devZoneDisplaySlots is nil")
     end
 
-    for zoneName, deckList in ipairs(zoneReflect) do
+    for zoneName, deckList in pairs(zoneReflect) do
         local zone = publicItemManager:getZone(zoneName)
         if not zone then
             error("fatal error: publicItemManager:getZone(\"" .. zoneName .. "\") is nil")
@@ -156,7 +156,7 @@ local function cleanDevelopmentMode()
     registerDeckInfo()
 
     -- setup deck
-    Wait.time(setupDeck, 5.0)
+    Wait.time(setupDeck, 4.0)
 
     -- set mode to Guest
     GAME.public_service:setMode(GameMode.Guest)

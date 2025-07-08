@@ -276,8 +276,8 @@ LIST_PARAM_SCRIPING_TRIGGER_PLAYER = {
     [NAME_ZONE_DISCARD] = {
         [KEYWORD_ZONE_DECK] = nil,
         [KEYWORD_ZONE_DISCARD] = {
-            position =  {x=27.5, y=PARAM_ROLE_BOARD_HEIGHT, z=1},
-            scale =  {x=18, y=5.00, z=13}
+            position =  {x=24, y=PARAM_ROLE_BOARD_HEIGHT, z=3.35},
+            scale =  {x=10.50, y=5.00, z=9.80}
         },
         [KEYWORD_ZONE_DISPLAY] = nil,
         [KEYWORD_ZONE_DISPLAY_PATTERN] = nil,
@@ -291,7 +291,7 @@ NAME_RUBBISH_BIN = "rubbish_bin"
 NAME_BOARD_ROLE = "role_board"
 
 -- variant
-SCRIPT_VERSION = 2025070701
+SCRIPT_VERSION = 2025070803
 
 GUID_MAIN_BOARD = "5d757b"
 GUID_RUBBISH_BIN = "70b9f6"

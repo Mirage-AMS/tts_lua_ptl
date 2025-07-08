@@ -29,8 +29,8 @@ local function processZoneType(zoneData, paramTemplate, paramData, slotType, isP
         local patternKwd = slotTypePatternReflect[slotType]
         local pattern = paramData[zoneData.name][patternKwd]
         pattern = pattern or {x_num = 1, z_num = 1, x_shift = 0, z_shift = 0}
-        for idx = 1, pattern.x_num do
-            for idz = 1, pattern.z_num do
+        for idz = 1, pattern.z_num do
+            for idx = 1, pattern.x_num do
                 local template = mergeTable(deepCopy(paramTemplate), zoneConfig)
                 local shift = vectorAdd(
                   vectorScalarMultiply(pattern.x_shift, idx-1),
