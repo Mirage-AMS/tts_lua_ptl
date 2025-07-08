@@ -38,10 +38,11 @@ function dealCard(obj, location, flip)
     end
 
     -- normal
+    local isFlip = obj.is_face_down == flip
     if isDeck(obj) then
-        obj.takeObject({position=location, flip=flip})
+        obj.takeObject({position=location, flip=isFlip})
     else
-        if obj.is_face_down ~= flip then
+        if isFlip then
             obj.flip()
         end
         -- setPositionSmooth(position, collide, fast)

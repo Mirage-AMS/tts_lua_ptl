@@ -87,12 +87,12 @@ local ZoneMethods = {
         end
 
         if deck and isCardLike(deck) then
+            if deck.is_face_down ~= flip then
+                deck.flip()
+            end
             local pos = self.deck_slot:getPosition()
             deck.setPosition(pos)
             deck.shuffle()
-            if deck.is_face_down ~= flip then
-                deck.setRotation(flip and {0, 180, 180} or {0, 180, 0})
-            end
         end
 
         return deck
