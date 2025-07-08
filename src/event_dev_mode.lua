@@ -1,3 +1,4 @@
+require("com/const")
 require("com/enum_const")
 require("com/dev_const")
 require("com/object_type")
@@ -5,6 +6,7 @@ require("src/card")
 
 -- registerDeckInfo: Register deck information for the game.
 local function registerDeckInfo()
+    print("Enter registerDeckInfo")
 
     local devZoneName = NAME_ZONE_DEVELOPMENT
     local publicItemManager = GAME:getPublicItemManager()
@@ -52,6 +54,89 @@ local function registerDeckInfo()
     end
 end
 
+
+--- setupNormalDeck: Sets up the normal deck for the game.
+--- @param dlc_enable boolean: Enable or disable DLC content.
+local function setupNormalDeck(dlc_enable)
+    local zoneReflect = {
+        [NAME_ZONE_MOUNTAIN] = {PREFIX_MO_STD01, },
+        [NAME_ZONE_FOREST] = {PREFIX_FO_STD01, },
+        [NAME_ZONE_DUNGEON] = {PREFIX_DU_STD01, },
+        [NAME_ZONE_MARKET] = {PREFIX_MA_STD01, },
+        [NAME_ZONE_CONVENTICLE] = {PREFIX_CO_STD01, PREFIX_CO_STD02,},
+        [NAME_ZONE_ROLE_PICK] = {PREFIX_RO_INT01, PREFIX_RO_INT02,}
+    }
+    -- dlc enabled
+    if dlc_enable then
+        table.insert(zoneReflect[NAME_ZONE_MARKET], PREFIX_MA_DLC01)
+        table.insert(zoneReflect[NAME_ZONE_CONVENTICLE], PREFIX_CO_DLC01)
+    end
+
+    -- logic start here ----------------------------------------------------------
+    local devZoneName = NAME_ZONE_DEVELOPMENT
+    local setup = DEVELOPMENT_ZONE_DISPLAY_SLOT_SETUP
+
+    local publicItemManager = GAME:getPublicItemManager()
+    if not publicItemManager then
+        error("fatal error: publicItemManager is nil")
+    end
+    local devZone = publicItemManager:getZone(devZoneName)
+    if not devZone then
+        error("fatal error: devZone is nil")
+    end
+    local devZoneDisplaySlots = devZone.display_slots
+    if not devZoneDisplaySlots then
+        error("fatal error: devZoneDisplaySlots is nil")
+    end
+
+    for zoneName, deckList in ipairs(zoneReflect) do
+        local zone = publicItemManager:getZone(zoneName)
+        if not zone then
+            error("fatal error: publicItemManager:getZone(\"" .. zoneName .. "\") is nil")
+        end
+        local deckSlot = zone.deck_slot
+        if not deckSlot then
+            error("fatal error: "..zoneName..".deck_slot is nil")
+        end
+        local pos = deckSlot:getPosition()
+        local _initShift = 2.0
+        local _eachShift = 1.0
+        pos.y = pos.y + _initShift
+
+        for _, prefix in ipairs(deckList) do
+            local eachSlotIdx = setup[prefix]
+            local eachSlot = devZoneDisplaySlots[eachSlotIdx]
+            if not eachSlot then
+                error("fatal error: devZoneDisplaySlots[" .. eachSlotIdx .. "] is nil")
+            end
+            local eachDeck = eachSlot:getCardObject()
+            if not eachDeck then
+                error("fatal error: devZoneDisplaySlots[" .. eachSlotIdx .. "]:getCardObject() is nil")
+            end
+            eachDeck.clone({position = pos})
+            pos.y = pos.y + _eachShift
+        end
+    end
+end
+
+--- setupLegendCard: Sets up the Role cards for the game.
+--- @return nil
+local function setupRoleCard()
+    -- TODO: implement role card setup
+end
+
+--- setupDeck: Sets up the decks for the game.
+--- @return nil
+local function setupDeck()
+    print("Enter setupDeck")
+
+    -- setup normal deck
+    setupNormalDeck(false)
+    -- setup card
+    -- setupLegendCard()
+    setupRoleCard()
+end
+
 --- initDevelopmentMode: Initializes the game in development mode.
 --- @return nil
 local function initDevelopmentMode()
@@ -69,6 +154,9 @@ local function cleanDevelopmentMode()
 
     -- register deck info
     registerDeckInfo()
+
+    -- setup deck
+    Wait.time(setupDeck, 5.0)
 
     -- set mode to Guest
     GAME.public_service:setMode(GameMode.Guest)

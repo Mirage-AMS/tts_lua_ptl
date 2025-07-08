@@ -121,7 +121,15 @@ DECK_INFO = {
 }
 
 
+NAME_BOARD_DEVELOPMENT = "board_development"
+NAME_BOARD_ROLE_DISPLAY_01 = "board_role_display_01"
+NAME_BOARD_ROLE_DISPLAY_02 = "board_role_display_02"
+NAME_BOARD_ROLE_DISPLAY_03 = "board_role_display_03"
+NAME_BOARD_ROLE_DISPLAY_04 = "board_role_display_04"
+
 NAME_ZONE_DEVELOPMENT = "zone_development"
+NAME_ZONE_ROLE_PICK = "zone_role_pick"
+
 DEVELOPMENT_ZONE_DISPLAY_SLOT_SETUP = {
     -- 1st part
     [PREFIX_MO_STD01] = 1,
@@ -146,10 +154,19 @@ DEVELOPMENT_ZONE_DISPLAY_SLOT_SETUP = {
 }
 
 PARAM_DEV_BOARD_HEIGHT = 2.0
+
+-- ref to main board (for player pick the role)
+LIST_PARAM_SCRIPTING_ROLE_PICK = {
+    [NAME_ZONE_ROLE_PICK] = {
+        [KEYWORD_ZONE_DECK] = {
+            position = {x=-20.0, z=15.0, y=0.0},
+        }
+    },
+}
+
+-- ref to dev board
 LIST_PARAM_SCRIPTING_DEV_MODE = {
     [NAME_ZONE_DEVELOPMENT] = {
-        [KEYWORD_ZONE_DECK] = nil,
-        [KEYWORD_ZONE_DISCARD] = nil,
         [KEYWORD_ZONE_DISPLAY] = {
             position    = {x=-10, z=16.8, y=PARAM_DEV_BOARD_HEIGHT},
         },
@@ -157,10 +174,12 @@ LIST_PARAM_SCRIPTING_DEV_MODE = {
             x_num=4, x_shift={x=4.9,y=0,z=0},
             z_num=6, z_shift={x=0,y=0,z=-5.60},
         },
-        [KEYWORD_ZONE_TOP] = nil,
-        [KEYWORD_ZONE_TOP_PATTERN] = nil,
     }
 }
 
 -- VAR
 GUID_DEV_BOARD = ""
+GUID_ROLE_DISPLAY_BOARD_01 = ""
+GUID_ROLE_DISPLAY_BOARD_02 = ""
+GUID_ROLE_DISPLAY_BOARD_03 = ""
+GUID_ROLE_DISPLAY_BOARD_04 = ""

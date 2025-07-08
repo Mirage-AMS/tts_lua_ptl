@@ -98,16 +98,26 @@ end
 --- 构建公共区域数据
 function buildPublicZoneData()
     local data, paramTemplate, paramData, zoneNameList, refGuid
+
     data = {}
-    -- default part
     paramTemplate = PARAM_SCRIPTING_TRIGGER_DEFAULT
+
+    -- mo/fo/du/ma/co zone
     paramData = LIST_PARAM_SCRIPING_TRIGGER
     zoneNameList = PUBLIC_ZONE_NAME_LIST
     refGuid = GUID_MAIN_BOARD
     data = buildItemZoneData(data, paramTemplate, paramData, zoneNameList, refGuid)
 
-    -- dev part
-    paramTemplate = PARAM_SCRIPTING_TRIGGER_DEFAULT
+    -- role-pick zone
+    paramData = LIST_PARAM_SCRIPTING_ROLE_PICK
+    zoneNameList = {NAME_ZONE_ROLE_PICK}
+    refGuid = GUID_MAIN_BOARD
+    data = buildItemZoneData(data, paramTemplate, paramData, zoneNameList, refGuid)
+
+    -- display role part
+    -- TODO: pending...
+
+    -- development zone
     paramData = LIST_PARAM_SCRIPTING_DEV_MODE
     zoneNameList = {NAME_ZONE_DEVELOPMENT}
     refGuid = GUID_DEV_BOARD
@@ -130,7 +140,14 @@ function buildDefaultData()
             },
             item_manager = {
                 containers = { [NAME_RUBBISH_BIN] = {guid = GUID_RUBBISH_BIN }},
-                boards = { [NAME_BOARD_MAIN] = { guid = GUID_MAIN_BOARD } },
+                boards = {
+                    [NAME_BOARD_MAIN] = { guid = GUID_MAIN_BOARD },
+                    [NAME_BOARD_DEVELOPMENT] = { guid = GUID_DEV_BOARD },
+                    [NAME_BOARD_ROLE_DISPLAY_01] = { guid = GUID_ROLE_DISPLAY_BOARD_01 },
+                    [NAME_BOARD_ROLE_DISPLAY_02] = { guid = GUID_ROLE_DISPLAY_BOARD_02 },
+                    [NAME_BOARD_ROLE_DISPLAY_03] = { guid = GUID_ROLE_DISPLAY_BOARD_03 },
+                    [NAME_BOARD_ROLE_DISPLAY_04] = { guid = GUID_ROLE_DISPLAY_BOARD_04 },
+                },
                 zones = buildPublicZoneData()
             },
             mode_manager = {

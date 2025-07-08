@@ -26,15 +26,16 @@ function FactoryCreateGame()
     ---------------------------------------------------------------------
     --  Quick Access Members
     ---------------------------------------------------------------------
+    function game:getPublicService()
+        return self.public_service
+    end
+
     function game:getTurnManager()
-        return self.public_service.turn_manager
+        return self:getPublicService().turn_manager
     end
 
     function game:getPublicItemManager()
-        if self.public_service then
-            return self.public_service.item_manager
-        end
-        error("fatal error: public_service not initialized")
+        return self:getPublicService().item_manager
     end
 
     function game:getPlayerService()
