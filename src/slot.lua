@@ -152,7 +152,8 @@ local SlotMethods = {
         end
 
         -- 应用位置偏移
-        param.position = vectorAdd(param.position or {x=0, y=0, z=0}, positionShift)
+        param.position = param.position or {x=0, y=0, z=0}
+        param.position = param.position + positionShift
 
         -- 生成对象
         local object = spawnObject(param)

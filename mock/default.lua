@@ -13,6 +13,63 @@ JSON = {
     encode = function(obj) return "" end,
 }
 
+---@class Vector
+---@field x number
+---@field y number
+---@field z number
+Vector = {
+    __index = Vector,   -- if can't find a key in Vector, look for it in this table
+
+    new = function(self, x, y, z)
+        local instance = setmetatable({}, self) -- gift the empty table a metatable from self (Vector)
+
+        if type(x) == "table" then
+            instance.x = x.x or 0
+            instance.y = x.y or 0
+            instance.z = x.z or 0
+        elseif type(x) == "number" then
+            instance.x = x or 0
+            instance.y = y or 0
+            instance.z = z or 0
+        else
+            error("Invalid arguments to Vector.new")
+        end
+
+        return instance
+    end,
+
+    ---@param a Vector
+    ---@param b Vector
+    ---@return Vector result
+    __add = function(a, b)
+        return Vector:new(a.x + b.x, a.y + b.y, a.z + b.z)
+    end,
+
+    ---@param a Vector
+    ---@param b Vector
+    ---@return Vector result
+    __sub = function(a, b)
+        return Vector:new(a.x - b.x, a.y - b.y, a.z - b.z)
+    end,
+
+    ---@param a Vector|number a
+    ---@param b Vector|number b
+    ---@return Vector result
+    __mul = function(a, b)
+        if type(a) == "number" then
+            return Vector:new(b.x * a, b.y * a, b.z * a)
+        elseif type(b) == "number" then
+            return Vector:new(a.x * b, a.y * b, a.z * b)
+        else
+            error("Invalid arguments to Vector.__mul")
+        end
+    end,
+}
+
+setmetatable(Vector, {
+    __call = Vector.new
+})
+
 Wait = {
     condition = function(toRunFunc, conditionFunc, timeout, timeoutFunc)
         -- [func] toRunFunc: The function to be executed after the specified condition is met.

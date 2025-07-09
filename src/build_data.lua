@@ -32,11 +32,7 @@ local function processZoneType(zoneData, paramTemplate, paramData, slotType, isP
         for idz = 1, pattern.z_num do
             for idx = 1, pattern.x_num do
                 local template = mergeTable(deepCopy(paramTemplate), zoneConfig)
-                local shift = vectorAdd(
-                  vectorScalarMultiply(pattern.x_shift, idx-1),
-                  vectorScalarMultiply(pattern.z_shift, idz-1)
-                )
-                template.position = vectorAdd(template.position, shift)
+                template.position = getOffsetPosition(template.position, idx, idz, pattern.x_shift, pattern.z_shift)
                 table.insert(zoneData[slotType], {ref = refGuid, param = template})
             end
         end
