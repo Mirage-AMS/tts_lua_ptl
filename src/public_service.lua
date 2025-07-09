@@ -16,7 +16,45 @@ function FactoryCreatePublicService()
         end
         error("fatal error: mode_manager is nil")
     end
-    
+
+    function service:getPublicBoard(name)
+        local publicItemManager = self.item_manager
+        if not publicItemManager then
+            error("fatal error: publicItemManager is nil")
+        end
+        return publicItemManager:getBoard(name)
+    end
+
+    function service:getPublicZone(name)
+        local publicItemManager = self.item_manager
+        if not publicItemManager then
+            error("fatal error: publicItemManager is nil")
+        end
+        return publicItemManager:getZone(name)
+    end
+
+    ---@param prefix string: prefix of dev-mode deck (see ref in dev_const.lua)
+    ---@return any deck: deck of dev-mode
+    function service:getDevDeck(prefix)
+        local slotIdx = DEVELOPMENT_ZONE_DISPLAY_SLOT_SETUP[prefix]
+        if not slotIdx then
+            error("fatal error: DEVELOPMENT_ZONE_DISPLAY_SLOT_SETUP[" .. prefix .. "] is nil")
+        end
+        local devZone = self:getPublicZone(NAME_ZONE_DEVELOPMENT)
+        if not devZone then
+            error("fatal error: devZone is nil")
+        end
+        local devZoneDisplaySlots = devZone.display_slots
+        if not devZoneDisplaySlots then
+            error("fatal error: devZoneDisplaySlots is nil")
+        end
+        local slot = devZoneDisplaySlots[slotIdx]
+        if not slot then
+            error("fatal error: devZoneDisplaySlots[" .. slotIdx .. "] is nil")
+        end
+        return slot:getCardObject()
+    end
+
     -- set function
     function service:setMode(new_mode)
         if self.mode_manager ~= nil then

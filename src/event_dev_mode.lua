@@ -9,6 +9,7 @@ local function registerDeckInfo()
     print("Enter registerDeckInfo")
 
     local devZoneName = NAME_ZONE_DEVELOPMENT
+    local publicService = GAME:getPublicService()
     local publicItemManager = GAME:getPublicItemManager()
     if not publicItemManager then
         error("fatal error: publicItemManager is nil")
@@ -25,18 +26,12 @@ local function registerDeckInfo()
     -- var init
     local all_deck_list = DECK_LIST
     local all_infos = DECK_INFO
-    local setup = DEVELOPMENT_ZONE_DISPLAY_SLOT_SETUP
 
     for _, prefix in ipairs(all_deck_list) do
         -- deck
-        local eachSlotIdx = setup[prefix]
-        local eachSlot = devZoneDisplaySlots[eachSlotIdx]
-        if not eachSlot then
-            error("fatal error: devZoneDisplaySlots[" .. eachSlotIdx .. "] is nil")
-        end
-        local eachDeck = eachSlot:getCardObject()
-        if not eachDeck then
-            error("fatal error: devZoneDisplaySlots[" .. eachSlotIdx .. "]:getCardObject() is nil")
+        local eachDeck = publicService:getDevDeck(prefix)
+        if not isCardLike(eachDeck) then
+            error("fatal error: getDevDeck[" .. prefix .. "] is nil")
         end
 
         -- info
@@ -73,24 +68,11 @@ local function setupNormalDeck(dlc_enable)
     end
 
     -- logic start here ----------------------------------------------------------
-    local devZoneName = NAME_ZONE_DEVELOPMENT
-    local setup = DEVELOPMENT_ZONE_DISPLAY_SLOT_SETUP
-
-    local publicItemManager = GAME:getPublicItemManager()
-    if not publicItemManager then
-        error("fatal error: publicItemManager is nil")
-    end
-    local devZone = publicItemManager:getZone(devZoneName)
-    if not devZone then
-        error("fatal error: devZone is nil")
-    end
-    local devZoneDisplaySlots = devZone.display_slots
-    if not devZoneDisplaySlots then
-        error("fatal error: devZoneDisplaySlots is nil")
-    end
+    local publicService = GAME:getPublicService()
 
     for zoneName, deckList in pairs(zoneReflect) do
-        local zone = publicItemManager:getZone(zoneName)
+        -- get target position
+        local zone = publicService:getPublicZone(zoneName)
         if not zone then
             error("fatal error: publicItemManager:getZone(\"" .. zoneName .. "\") is nil")
         end
@@ -104,14 +86,10 @@ local function setupNormalDeck(dlc_enable)
         pos.y = pos.y + _initShift
 
         for _, prefix in ipairs(deckList) do
-            local eachSlotIdx = setup[prefix]
-            local eachSlot = devZoneDisplaySlots[eachSlotIdx]
-            if not eachSlot then
-                error("fatal error: devZoneDisplaySlots[" .. eachSlotIdx .. "] is nil")
-            end
-            local eachDeck = eachSlot:getCardObject()
-            if not eachDeck then
-                error("fatal error: devZoneDisplaySlots[" .. eachSlotIdx .. "]:getCardObject() is nil")
+            -- get origin deck
+            local eachDeck = publicService:getDevDeck(prefix)
+            if not isCardLike(eachDeck) then
+                error("fatal error: getDevDeck[" .. prefix .. "] is nil")
             end
             eachDeck.clone({position = pos})
             pos.y = pos.y + _eachShift
@@ -122,7 +100,55 @@ end
 --- setupLegendCard: Sets up the Role cards for the game.
 --- @return nil
 local function setupRoleCard()
-    -- TODO: implement role card setup
+    local boardPattern = ROLE_DISPLAY_BOARD_PATTERN
+
+    local dx, dz = boardPattern.dx, boardPattern.dz
+    local dxx, dzz = boardPattern.dxx, boardPattern.dzz
+    local dxxx, dzzz = boardPattern.dxxx, boardPattern.dzzz
+
+    print("Enter setupRoleCard")
+
+    local publicService = GAME:getPublicService()
+    local displayBoardPosList = {}
+    for idx, eachBoardName in ipairs(BOARD_ROLE_DISPLAY_LIST) do
+        local eachBoard = publicService:getPublicBoard(eachBoardName)
+        if not eachBoard then
+            error("fatal error: publicService:getPublicBoard(\"" .. eachBoardName .. "\") is nil")
+        end
+        displayBoardPosList[idx] = eachBoard:getPosition() + boardPattern.origin
+    end
+
+
+    local locDataDict = LIST_PARAM_ROLE_DISPLAY
+    for prefix, eachDeckDataList in pairs(locDataDict) do
+        local eachDeck = publicService:getDevDeck(prefix)
+        if not isCardLike(eachDeck) then
+            error("fatal error: getDevDeck[" .. prefix .. "] is nil")
+        end
+
+        -- clone deck from dev deck
+        local _clonedShift = Vector(0, 2, 0)
+        local eachDeckPos = eachDeck.getPosition()
+        local eachClonedDeck = eachDeck.clone({position = eachDeckPos + _clonedShift})
+
+        -- take object and put
+        for _, cardData in ipairs(eachDeckDataList) do
+            local offsets = {
+                [1] = { x = cardData.idx or 1, z = cardData.idz or 1, dx = dx, dz = dz },
+                [2] = { x = cardData.idxx or 1, z = cardData.idzz or 1, dx = dxx, dz = dzz },
+                [3] = { x = cardData.idxxx or 1, z = cardData.idzzz or 1, dx = dxxx, dz = dzzz }
+            }
+
+            --- 3 times pattern shift
+            local pos = displayBoardPosList[cardData.id]
+            for _, offset in ipairs(offsets) do
+                pos = getOffsetPosition(pos, offset.x, offset.z, offset.dx, offset.dz)
+            end
+
+            eachClonedDeck.takeObject({position = pos}).setLock(true)
+        end
+    end
+
 end
 
 --- setupDeck: Sets up the decks for the game.
