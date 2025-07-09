@@ -102,9 +102,9 @@ end
 local function setupRoleCard()
     local boardPattern = ROLE_DISPLAY_BOARD_PATTERN
 
-    local dx, dz = boardPattern.dx, boardPattern.dz
-    local dxx, dzz = boardPattern.dxx, boardPattern.dzz
-    local dxxx, dzzz = boardPattern.dxxx, boardPattern.dzzz
+    local dx, dy, dz = boardPattern.dx, boardPattern.dy, boardPattern.dz
+    local dxx, dyy, dzz = boardPattern.dxx, boardPattern.dyy, boardPattern.dzz
+    local dxxx, dyyy, dzzz = boardPattern.dxxx, boardPattern.dyyy, boardPattern.dzzz
 
     print("Enter setupRoleCard")
 
@@ -141,11 +141,15 @@ local function setupRoleCard()
 
             --- 3 times pattern shift
             local pos = displayBoardPosList[cardData.id]
-            for _, offset in ipairs(offsets) do
+            for index, offset in ipairs(offsets) do
                 pos = getOffsetPosition(pos, offset.x, offset.z, offset.dx, offset.dz)
+                -- special case for 3rd pattern shift, shift up a little bit
+                if index == 3 and offset.x > 1 then
+                    pos = pos + Vector(0, 0.05, 0) * (offset.x - 1)
+                end
             end
 
-            eachClonedDeck.takeObject({position = pos}).setLock(true)
+            eachClonedDeck.takeObject({position = pos, flip=true}).setLock(true)
         end
     end
 

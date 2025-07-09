@@ -178,8 +178,8 @@ LIST_PARAM_SCRIPTING_DEV_MODE = {
             position    = {x=-10, z=14.5, y=PARAM_DEV_BOARD_HEIGHT},
         },
         [KEYWORD_ZONE_DISPLAY_PATTERN] = {
-            x_num=4, x_shift={x=4.9,y=0,z=0},
-            z_num=6, z_shift={x=0,y=0,z=-5.60},
+            x_num=4, x_shift=4.9,
+            z_num=6, z_shift=-5.60,
         },
     }
 }
@@ -261,13 +261,10 @@ LIST_PARAM_ROLE_DISPLAY = {
 }
 
 ROLE_DISPLAY_BOARD_PATTERN = {
-    origin = Vector(-11.84, 0.20, -7.38),
-    dx =  15.11,
-    dz = -7.38,
-    dxx = 4.3,
-    dzz = 0.0,
-    dxxx = 1.0,
-    dzzz = 0.0,
+    origin = Vector(-11.84, 0.20, 7.38),
+    dx =  15.11, dz = -7.38,
+    dxx = 4.3, dzz = 0.0,
+    dxxx = 1.0, dzzz = 0.0,
 }
 
 -- VAR

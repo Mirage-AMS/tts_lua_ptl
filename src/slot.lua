@@ -140,7 +140,7 @@ local SlotMethods = {
         end
 
         -- 处理参考对象位置偏移
-        local positionShift = {x = 0, y = 0, z = 0}
+        local positionShift = Vector(0, 0, 0)
         local refGUID = data.ref
         if refGUID then
             local refObject = getObjectFromGUID(refGUID)
@@ -152,8 +152,8 @@ local SlotMethods = {
         end
 
         -- 应用位置偏移
-        param.position = param.position or {x=0, y=0, z=0}
-        param.position = param.position + positionShift
+        local pos = Vector(param.position or {0, 0, 0})
+        param.position = pos + positionShift
 
         -- 生成对象
         local object = spawnObject(param)

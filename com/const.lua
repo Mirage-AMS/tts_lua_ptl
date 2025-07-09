@@ -147,8 +147,8 @@ LIST_PARAM_SCRIPING_TRIGGER = {
             position    = {x=-17.40, z=9.26,   y=PARAM_MAIN_BOARD_HEIGHT},
         },
         [KEYWORD_ZONE_DISPLAY_PATTERN] = {
-            x_num=5, x_shift={x=4.9,y=0,z=0},
-            z_num=1, z_shift={x=0,y=0,z=0},
+            x_num=5, x_shift=4.9,
+            z_num=1, z_shift=0,
         },
         [KEYWORD_ZONE_TOP] = nil,
         [KEYWORD_ZONE_TOP_PATTERN] = nil,
@@ -164,8 +164,8 @@ LIST_PARAM_SCRIPING_TRIGGER = {
             position    = {x=-17.40, z=-2.94,  y=PARAM_MAIN_BOARD_HEIGHT},
         },
         [KEYWORD_ZONE_DISPLAY_PATTERN] = {
-            x_num=5, x_shift={x=4.9,y=0,z=0},
-            z_num=1, z_shift={x=0,y=0,z=0},
+            x_num=5, x_shift=4.9,
+            z_num=1, z_shift=0,
         },
         [KEYWORD_ZONE_TOP] = nil,
         [KEYWORD_ZONE_TOP_PATTERN] = nil,
@@ -181,8 +181,8 @@ LIST_PARAM_SCRIPING_TRIGGER = {
             position    = {x=-17.40, z=-15.14, y=PARAM_MAIN_BOARD_HEIGHT },
         },
         [KEYWORD_ZONE_DISPLAY_PATTERN] = {
-            x_num=5, x_shift={x=4.9,y=0,z=0},
-            z_num=1, z_shift={x=0,y=0,z=0},
+            x_num=5, x_shift=4.9,
+            z_num=1, z_shift=0,
         },
         [KEYWORD_ZONE_TOP] = nil,
         [KEYWORD_ZONE_TOP_PATTERN] = nil,
@@ -198,8 +198,8 @@ LIST_PARAM_SCRIPING_TRIGGER = {
             position    = {x=7.7, z=6.06, y=PARAM_MAIN_BOARD_HEIGHT},
         },
         [KEYWORD_ZONE_DISPLAY_PATTERN] = {
-            x_num=3, x_shift={x=4.9,y=0,z=0},
-            z_num=2, z_shift={x=0,y=0,z=-5.61},
+            x_num=3, x_shift=4.9,
+            z_num=2, z_shift=-5.60,
         },
         [KEYWORD_ZONE_TOP] = nil,
         [KEYWORD_ZONE_TOP_PATTERN] = nil,
@@ -217,8 +217,8 @@ LIST_PARAM_SCRIPING_TRIGGER = {
             position    = {x=7.7, z=-6.0, y=PARAM_MAIN_BOARD_HEIGHT},
         },
         [KEYWORD_ZONE_TOP_PATTERN] = {
-            x_num=3, x_shift={x=4.9,y=0,z=0},
-            z_num=1, z_shift={x=0,y=0,z=0},
+            x_num=3, x_shift=4.9,
+            z_num=1, z_shift=0,
         },
     },
 }
@@ -291,7 +291,7 @@ NAME_RUBBISH_BIN = "rubbish_bin"
 NAME_BOARD_ROLE = "role_board"
 
 -- variant
-SCRIPT_VERSION = 2025070803
+SCRIPT_VERSION = 2025070903
 
 GUID_MAIN_BOARD = "5d757b"
 GUID_RUBBISH_BIN = "70b9f6"

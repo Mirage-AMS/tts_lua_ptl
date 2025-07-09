@@ -10,5 +10,5 @@ function getOffsetPosition(p0, idx, idz, dx, dz)
     if dx == 1 and dz == 1 then
         return p0
     end
-    return p0 + Vector(idx * (dx - 1), 0, idz * (dz - 1))
+    return p0 + Vector((idx - 1) * dx, 0, (idz - 1) * dz)
 end
