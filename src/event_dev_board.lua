@@ -1,6 +1,6 @@
 require("com/const")
 require("com/enum_const")
-require("com/dev_const")
+require("com/const_dev_board")
 require("com/object_type")
 require("src/card")
 

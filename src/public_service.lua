@@ -33,7 +33,7 @@ function FactoryCreatePublicService()
         return publicItemManager:getZone(name)
     end
 
-    ---@param prefix string: prefix of dev-mode deck (see ref in dev_const.lua)
+    ---@param prefix string: prefix of dev-mode deck (see ref in const_dev_board.lua)
     ---@return any deck: deck of dev-mode
     function service:getDevDeck(prefix)
         local slotIdx = DEVELOPMENT_ZONE_DISPLAY_SLOT_SETUP[prefix]

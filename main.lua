@@ -1,7 +1,6 @@
 require("mock/default")
 require("com/const")
 require("src/game")
-require("src/event_button")
 
 function onLoad(saved_data)
     -- check saved data version and decide to use saved data or not

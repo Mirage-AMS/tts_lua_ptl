@@ -1,10 +1,13 @@
 require("mock/default")
 require("com/const")
+require("com/const_main_board")
 require("com/basic")
 require("src/public_service")
 require("src/player_service")
 require("src/build_data")
-require("src/event_dev_mode")
+require("src/event_dev_board")
+require("src/event_game_board")
+require("src/event_main_board")
 
 local function clearScriptingZones()
     local objTbl = self.getObjects()
@@ -108,15 +111,23 @@ function FactoryCreateGame()
         -- init development mode settings
         addContextMenuItem("switch dev mode", SwitchDevMode, false)
 
+        -- init game board buttons
+        local publicService = self:getPublicService()
+        local gameBoard = publicService:getPublicBoard(NAME_GAME_BOARD)
+        if gameBoard then
+            -- TODO: init game board buttons
+        else
+            error("fatal error: game board not found")
+        end
+
         -- init main board buttons
-        local itemManager = self:getPublicItemManager()
-        local mainBoard = itemManager:getBoard(NAME_BOARD_MAIN)
+        local mainBoard = publicService:getPublicBoard(NAME_GAME_BOARD)
         if mainBoard then
             for _, param in ipairs(LIST_PARAM_ONLOAD_BUTTONS) do
                 mainBoard:createButton(param)
             end
         else
-            print("error: main board not found")
+            error("fatal error: main board not found")
         end
     end
 
