@@ -134,6 +134,13 @@ function updateGameMode(data, forceUpdate)
     local gameModeManager = publicService:getGameModeManager()
     local gameBoard = publicService:getPublicBoard(NAME_BOARD_GAME)
 
+    if publicService:isGameModeSet() then
+        for idx = 1, #LIST_PARAM_GAME_BOARD_BUTTONS do
+            gameBoard:editButton({index=idx-1, color={0.5, 0.5, 0.5, 0.8}})
+        end
+        return
+    end
+
     -- 定义设置项与处理函数的映射，同时指定在paramDictAll中的索引位置
     local settingsMap = {
         { key = "game_goal",    handler = updateGameGoal },
@@ -184,6 +191,19 @@ end
 ---@param getCurrentValue function: callable func to get current value
 local function onButtonClickToggle(valueType, valueList, getCurrentValue)
     return function()
+        -- quick break if in Dev-Mode
+        if GAME:getPublicService():isDevMode() then
+            broadcastToAll("Dev-Mode is enabled, please disable it first")
+            return
+        end
+
+
+        -- quick break if game mode is already set
+        if GAME:getPublicService():isGameModeSet() then
+            broadcastToAll("Game mode is already set")
+            return
+        end
+
         local currentValue = getCurrentValue()
         local newValue = getNextValInValList(currentValue, valueList)
         updateGameMode({[valueType] = newValue}, false) -- 传递类型和新值
@@ -218,13 +238,21 @@ function onButtonClickSetGameModeFinished(_, _, _)
     local publicService = GAME:getPublicService()
     local gameModeManager = publicService:getGameModeManager()
 
+    -- quick break if in Dev-Mode
+    if publicService:isDevMode() then
+        broadcastToAll("Dev-Mode is enabled, please disable it first")
+        return
+    end
+
     -- quick break if game mode is already set
     if publicService:isGameModeSet() then
+        broadcastToAll("Game mode is already set")
         return
     end
 
     -- set game mode finished
     publicService:getGameModeManager():setIsSet(true)
+    updateGameMode({}, true)
 
     -- trigger game mode set event
     local enable_role = gameModeManager.enable_role
