@@ -21,10 +21,13 @@ end
 ---@return Game
 function FactoryCreateGame()
     ---@class Game
+    ---@field version number
+    ---@field public_service PublicService
+    ---@field player_service PlayerService
     local game = {
         version = 0,
-        public_service = {},
-        player_service = {},
+        public_service = nil,
+        player_service = nil,
     }
 
     ---------------------------------------------------------------------
@@ -57,6 +60,8 @@ function FactoryCreateGame()
     ---------------------------------------------------------------------
     --  Save and Load
     ---------------------------------------------------------------------
+    --- Onload Game
+    ---@param savedData string
     ---@return Game
     function game:onLoad(savedData)
         -- 默认数据构建函数
@@ -100,6 +105,8 @@ function FactoryCreateGame()
         return self
     end
 
+    --- OnSave Game
+    ---@return string
     function game:onSave()
         local savedData = {
             version = self.version,
@@ -116,7 +123,7 @@ function FactoryCreateGame()
         -- init game board buttons
         local publicService = self:getPublicService()
         local gameBoard = publicService:getPublicBoard(NAME_BOARD_GAME)
-        if gameBoard then
+        if gameBoard ~= nil then
             -- TODO: init game board buttons
         else
             error("fatal error: game board not found")
@@ -124,7 +131,7 @@ function FactoryCreateGame()
 
         -- init main board buttons
         local mainBoard = publicService:getPublicBoard(NAME_BOARD_MAIN)
-        if mainBoard then
+        if mainBoard ~= nil then
             for _, param in ipairs(LIST_PARAM_ONLOAD_BUTTONS) do
                 mainBoard:createButton(param)
             end

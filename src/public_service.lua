@@ -2,14 +2,39 @@ require("src/turn_manager")
 require("src/item_manager")
 require("src/mode_manager")
 
+---@return PublicService
 function FactoryCreatePublicService()
+    ---@class PublicService
+    ---@field turn_manager TurnManager
+    ---@field item_manager ItemManager
+    ---@field mode_manager ModeManager
     local service = {
-        turn_manager = {},
-        item_manager = {},
-        mode_manager = {},
+        turn_manager = nil,
+        item_manager = nil,
+        mode_manager = nil,
     }
 
     -- get function
+
+    --- get game mode manager
+    ---@return GameModeManager
+    function service:getGameModeManager()
+        if self.mode_manager ~= nil then
+            return self.mode_manager:getGameModeManager()
+        end
+        error("fatal error: mode_manager is nil")
+    end
+
+    ---@return boolean
+    function service:isGameModeSet()
+        local gameModeManager = self:getGameModeManager()
+        if gameModeManager ~= nil then
+            return gameModeManager.is_set
+        end
+        error("fatal error: game_mode_manager is nil")
+    end
+
+    ---@return boolean
     function service:isDevMode()
         if self.mode_manager ~= nil then
             return self.mode_manager:isDevMode()
@@ -17,13 +42,8 @@ function FactoryCreatePublicService()
         error("fatal error: mode_manager is nil")
     end
 
-    function service:isGameModeSet()
-        if self.mode_manager ~= nil then
-            return self.mode_manager:isGameModeSet()
-        end
-        error("fatal error: mode_manager is nil")
-    end
-
+    ---@param name string: name of board
+    ---@return Board
     function service:getPublicBoard(name)
         local publicItemManager = self.item_manager
         if not publicItemManager then
@@ -32,6 +52,8 @@ function FactoryCreatePublicService()
         return publicItemManager:getBoard(name)
     end
 
+    ---@param name string: name of zone
+    ---@return Zone
     function service:getPublicZone(name)
         local publicItemManager = self.item_manager
         if not publicItemManager then
@@ -73,7 +95,10 @@ function FactoryCreatePublicService()
         error("fatal error: mode_manager is nil")
     end
 
-    -- Save and Load
+    -- Save and Load ----------------------------------------------------------------------------
+
+    --- public service onSave
+    ---@return table
     function service:onSave()
         return {
             turn_manager = self.turn_manager:onSave(),
@@ -82,6 +107,9 @@ function FactoryCreatePublicService()
         }
     end
 
+    --- public service onLoad
+    ---@param data table
+    ---@return PublicService
     function service:onLoad(data)
         self.turn_manager = FactoryCreateTurnManager():onLoad(data.turn_manager or {})
         self.item_manager = FactoryCreateItemManager():onLoad(data.item_manager or {})
