@@ -1,4 +1,6 @@
+---@return Board
 function FactoryCreateBoard()
+    ---@class Board
     local board = {
         guid = nil,
         object = nil

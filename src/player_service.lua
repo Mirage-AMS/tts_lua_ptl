@@ -1,6 +1,8 @@
 require("src/private_service")
 
+---@return PlayerService
 function FactoryCreatePlayerService()
+    ---@class PlayerService
     local service = {
         players = {}
     }
@@ -9,6 +11,7 @@ function FactoryCreatePlayerService()
         return isValInValList(player_color, DEFAULT_PLAYER_COLOR_LIST)
     end
 
+    ---@return PrivateService | nil
     function service:getPlayer(player_color)
         if player_color and self.players[player_color] then
             return self.players[player_color]
@@ -16,6 +19,7 @@ function FactoryCreatePlayerService()
         return nil
     end
 
+    ---@return table
     function service:getPlayerObjectList()
         return Player.getPlayers()
     end
@@ -54,6 +58,7 @@ function FactoryCreatePlayerService()
     end
 
     -- Save and Load
+    ---@return table
     function service:onSave()
         local data = {
             players = {}
@@ -64,6 +69,8 @@ function FactoryCreatePlayerService()
         return data
     end
 
+    ---@param data table
+    ---@return PlayerService
     function service:onLoad(data)
         local players = data.players or {}
         for k, v in pairs(players) do

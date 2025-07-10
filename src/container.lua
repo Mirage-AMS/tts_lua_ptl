@@ -1,4 +1,6 @@
+---@return Container
 function FactoryCreateContainer()
+    ---@class Container
     local container = {
         guid = nil,
         object = nil

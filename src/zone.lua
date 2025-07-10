@@ -263,7 +263,9 @@ local ZoneMethods = {
 
 }
 
+---@return Zone
 function FactoryCreateZone()
+    ---@class Zone
     local zone = {
         name = nil,
         deck_slot = nil,

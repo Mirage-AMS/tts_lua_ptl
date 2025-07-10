@@ -2,10 +2,12 @@ require("src/container")
 require("src/board")
 require("src/zone")
 
+---@return ItemManager
 function FactoryCreateItemManager()
     --[[
         item manager is a abstract class to manage actual item in the game
     ]]--
+    ---@class ItemManager
     local manager = {
         containers = {},
         boards = {},
@@ -13,19 +15,26 @@ function FactoryCreateItemManager()
     }
 
     -- Getters
+    ---@param name string
+    ---@return Container
     function manager:getContainer(name)
         return self.containers[name]
     end
 
+    ---@param name string
+    ---@return Board
     function manager:getBoard(name)
         return self.boards[name]
     end
 
+    ---@param name string
+    ---@return Zone
     function manager:getZone(name)
         return self.zones[name]
     end
 
-    -- Save and Load
+    -- Save and Load ---------------------------------------------------------------------
+    ---@return table
     function manager:onSave()
         local config = {
             { name = "containers", factory = FactoryCreateContainer },
@@ -49,6 +58,8 @@ function FactoryCreateItemManager()
         return savedData
     end
 
+    ---@param data table
+    ---@return ItemManager
     function manager:onLoad(data)
         local config = {
             { name = "containers", factory = FactoryCreateContainer },

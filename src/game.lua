@@ -18,8 +18,9 @@ local function clearScriptingZones()
     end
 end
 
-
+---@return Game
 function FactoryCreateGame()
+    ---@class Game
     local game = {
         version = 0,
         public_service = {},
@@ -29,18 +30,22 @@ function FactoryCreateGame()
     ---------------------------------------------------------------------
     --  Quick Access Members
     ---------------------------------------------------------------------
+    ---@return PublicService
     function game:getPublicService()
         return self.public_service
     end
 
+    ---@return TurnManager
     function game:getTurnManager()
         return self:getPublicService().turn_manager
     end
 
+    ---@return ItemManager
     function game:getPublicItemManager()
         return self:getPublicService().item_manager
     end
 
+    ---@return PlayerService
     function game:getPlayerService()
         return self.player_service
     end
@@ -52,6 +57,7 @@ function FactoryCreateGame()
     ---------------------------------------------------------------------
     --  Save and Load
     ---------------------------------------------------------------------
+    ---@return Game
     function game:onLoad(savedData)
         -- 默认数据构建函数
         local data

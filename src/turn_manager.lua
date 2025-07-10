@@ -2,7 +2,9 @@ require("mock/default")
 require("com/const")
 require("com/basic")
 
+---@return TurnManager
 function FactoryCreateTurnManager()
+    ---@class TurnManager
     local manager = {
         first_player = nil,
         current_player = nil,
@@ -96,6 +98,8 @@ function FactoryCreateTurnManager()
         }
     end
 
+    ---@param data table
+    ---@return TurnManager
     function manager:onLoad(data)
         self.first_player = data.first_player
         self.current_player = data.current_player

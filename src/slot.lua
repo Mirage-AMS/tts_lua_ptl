@@ -168,7 +168,9 @@ local SlotMethods = {
     end,
 }
 
+---@return Slot
 function FactoryCreateSlot()
+    ---@class Slot
     local slot = {
         guid = nil,
         object = nil
