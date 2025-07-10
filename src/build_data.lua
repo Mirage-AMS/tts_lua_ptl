@@ -108,7 +108,7 @@ function buildPublicZoneData()
     -- role-pick zone
     paramData = LIST_PARAM_SCRIPTING_ROLE_PICK
     zoneNameList = {NAME_ZONE_ROLE_PICK}
-    refGuid = GUID_MAIN_BOARD
+    refGuid = GUID_GAME_BOARD
     data = buildItemZoneData(data, paramTemplate, paramData, zoneNameList, refGuid)
 
     -- display role part

@@ -215,7 +215,7 @@ function onButtonClickChangeState(obj, player_clicker_color, alt_click, target_s
     -- quick break if state drawback
     local currState = turnManager:getState()
     if currState == nil then
-        print("unexpected state")
+        error("unexpected state")
         return
     end
     if target_state < currState then
@@ -248,9 +248,12 @@ function onButtonClickInitGame(_, player_clicker_color, alt_click)
         end
 
         -- ping table to hint
-        local pingPos = gameBoard:getPosition()
+
         local playerService = GAME:getPlayerService()
-        playerService:letPlayerPingTable(player_clicker_color, pingPos)
+        for idx = 1, 3 do
+            local pingPos = gameBoard:getPosition() + Vector(5 + idx, 0, 5)
+            playerService:letPlayerPingTable(player_clicker_color, pingPos)
+        end
         return
     end
 

@@ -166,7 +166,7 @@ PARAM_DEV_BOARD_HEIGHT = 2.0
 LIST_PARAM_SCRIPTING_ROLE_PICK = {
     [NAME_ZONE_ROLE_PICK] = {
         [KEYWORD_ZONE_DECK] = {
-            position = {x=-39.50, z=9.26, y=0.0},
+            position = {x=12.5, y=0.0, z=5.0,},
         }
     },
 }

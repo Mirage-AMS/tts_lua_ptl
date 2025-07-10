@@ -70,7 +70,7 @@ local function updateGameGoal(gameGoal)
         error("fatal error: not recognize gameGoal: " .. tostring(gameGoal))
     end
     for _, locData in ipairs(dataList) do
-        if locData == nil then
+        if locData.idx == nil or locData.idz == nil then
             clonedDeck.takeObject().destruct()
         else
             local idx, idz = locData.idx, locData.idz
