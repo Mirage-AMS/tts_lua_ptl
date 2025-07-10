@@ -102,9 +102,9 @@ end
 local function setupRoleCard()
     local boardPattern = ROLE_DISPLAY_BOARD_PATTERN
 
-    local dx, dy, dz = boardPattern.dx, boardPattern.dy, boardPattern.dz
-    local dxx, dyy, dzz = boardPattern.dxx, boardPattern.dyy, boardPattern.dzz
-    local dxxx, dyyy, dzzz = boardPattern.dxxx, boardPattern.dyyy, boardPattern.dzzz
+    local dx, dz = boardPattern.dx, boardPattern.dz
+    local dxx, dzz = boardPattern.dxx, boardPattern.dzz
+    local dxxx, dzzz = boardPattern.dxxx, boardPattern.dzzz
 
     print("Enter setupRoleCard")
 
