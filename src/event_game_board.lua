@@ -40,6 +40,45 @@ end
 --- update game goal
 ---@param gameGoal number
 local function updateGameGoal(gameGoal)
+    local publicService = GAME:getPublicService()
+    local gameBoard = publicService:getPublicBoard(NAME_BOARD_GAME)
+    if not gameBoard then
+        error("fatal error: publicService:getPublicBoard(\"" .. gameBoard .. "\") is nil")
+    end
+
+    -- clean up
+    -- TODO: clean up legend card
+
+    -- setup legend card
+    local prefix = PREFIX_LG_STD01
+    local boardPattern = GAME_BOARD_PATTERN
+    local dx, dz = GAME_BOARD_PATTERN.dx, GAME_BOARD_PATTERN.dz
+    local pos = gameBoard:getPosition() + boardPattern.origin
+
+    local deck = publicService:getDevDeck(prefix)
+    if not isCardLike(deck) then
+        error("fatal error: getDevDeck[" .. prefix .. "] is nil")
+    end
+    local _clonedShift = Vector(0, 2, 0)
+    local clonedDeck = deck.clone({position = deck.getPosition() + _clonedShift})
+    if not clonedDeck then
+        error("fatal error: failed to clone deck with prefix " .. prefix)
+    end
+
+    local dataList = LIST_PARAM_LEGEND_DISPLAY[gameGoal]
+    if dataList == nil then
+        error("fatal error: not recognize gameGoal: " .. tostring(gameGoal))
+    end
+    for _, locData in ipairs(dataList) do
+        if locData == nil then
+            clonedDeck.takeObject().destruct()
+        else
+            local idx, idz = locData.idx, locData.idz
+            local eachPos = getOffsetPosition(pos, idx, idz, dx, dz)
+            clonedDeck.takeObject({position = eachPos, flip=true}).setLock(true)
+        end
+    end
+
 end
 
 --- update game deck set
