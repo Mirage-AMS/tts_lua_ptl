@@ -238,6 +238,23 @@ function onButtonClickInitGame(_, player_clicker_color, alt_click)
     -- quick break
     if alt_click then return end
 
+    -- quick break if game mode is not set yet
+    local publicService = GAME:getPublicService()
+    if not publicService:isGameModeSet() then
+        broadcastToColor("请先在游戏面板确认游戏模式", player_clicker_color)
+
+        local gameBoard = publicService:getPublicBoard(NAME_BOARD_GAME)
+        if not gameBoard then
+            error("fatal error: could not find game board")
+        end
+
+        -- ping table to hint
+        local pingPos = gameBoard:getPosition()
+        local playerService = GAME:getPlayerService()
+        playerService:letPlayerPingTable(player_clicker_color, pingPos)
+        return
+    end
+
     -- quick break if game has started
     local turnManager = GAME:getTurnManager()
     local currState = turnManager:getState()

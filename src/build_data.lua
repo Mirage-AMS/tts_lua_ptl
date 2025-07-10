@@ -139,7 +139,7 @@ function buildDefaultData()
                 containers = { [NAME_RUBBISH_BIN] = {guid = GUID_RUBBISH_BIN }},
                 boards = {
                     [NAME_BOARD_MAIN] = { guid = GUID_MAIN_BOARD },
-                    [NAME_GAME_BOARD] = { guid = GUID_GAME_BOARD },
+                    [NAME_BOARD_GAME] = { guid = GUID_GAME_BOARD },
                     [NAME_BOARD_DEVELOPMENT] = { guid = GUID_DEV_BOARD },
                     [NAME_BOARD_ROLE_DISPLAY_01] = { guid = GUID_ROLE_DISPLAY_BOARD_01 },
                     [NAME_BOARD_ROLE_DISPLAY_02] = { guid = GUID_ROLE_DISPLAY_BOARD_02 },

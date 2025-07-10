@@ -13,6 +13,11 @@ function FactoryCreateModeManager()
         return self.dev_mode == DevMode.Development
     end
 
+    function mode_manager:isGameModeSet()
+        -- TODO: Implement this function
+        return true
+    end
+
     --- Set DevMode
     ---@param new_mode number
     ---@return nil

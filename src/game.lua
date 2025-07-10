@@ -109,7 +109,7 @@ function FactoryCreateGame()
 
         -- init game board buttons
         local publicService = self:getPublicService()
-        local gameBoard = publicService:getPublicBoard(NAME_GAME_BOARD)
+        local gameBoard = publicService:getPublicBoard(NAME_BOARD_GAME)
         if gameBoard then
             -- TODO: init game board buttons
         else
@@ -117,7 +117,7 @@ function FactoryCreateGame()
         end
 
         -- init main board buttons
-        local mainBoard = publicService:getPublicBoard(NAME_GAME_BOARD)
+        local mainBoard = publicService:getPublicBoard(NAME_BOARD_MAIN)
         if mainBoard then
             for _, param in ipairs(LIST_PARAM_ONLOAD_BUTTONS) do
                 mainBoard:createButton(param)

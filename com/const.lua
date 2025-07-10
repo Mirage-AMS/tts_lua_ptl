@@ -201,7 +201,7 @@ LIST_PARAM_SCRIPING_TRIGGER_PLAYER = {
 }
 -- board
 NAME_BOARD_MAIN = "main_board"
-NAME_GAME_BOARD = "game_board"
+NAME_BOARD_GAME = "game_board"
 NAME_RUBBISH_BIN = "rubbish_bin"
 NAME_BOARD_ROLE = "role_board"
 

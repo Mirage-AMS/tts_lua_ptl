@@ -38,6 +38,21 @@ function FactoryCreatePlayerService()
         return #self:getSeatedPlayerColorList()
     end
 
+    --- Let a player ping the table.
+    ---@param player_color string
+    ---@param position Vector
+    function service:letPlayerPingTable(player_color, position)
+        if not position then
+            error("Position is required")
+        end
+
+        local player = self:getPlayerObject(player_color)
+        if not player then
+            error("Player not found for color: " .. tostring(player_color))
+        end
+        player.pingTable(position)
+    end
+
     -- Save and Load
     function service:onSave()
         local data = {

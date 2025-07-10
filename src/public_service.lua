@@ -17,6 +17,13 @@ function FactoryCreatePublicService()
         error("fatal error: mode_manager is nil")
     end
 
+    function service:isGameModeSet()
+        if self.mode_manager ~= nil then
+            return self.mode_manager:isGameModeSet()
+        end
+        error("fatal error: mode_manager is nil")
+    end
+
     function service:getPublicBoard(name)
         local publicItemManager = self.item_manager
         if not publicItemManager then
