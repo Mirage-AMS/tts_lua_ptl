@@ -69,3 +69,26 @@ LIST_PARAM_GAME_BOARD_BUTTONS = {
     PARAM_GAME_BOARD_BUTTON_SWITCH_ROLE,
     PARAM_GAME_BOARD_BUTTON_SWITCH_BP_STRATEGY
 }
+
+
+LIST_PARAM_LEGEND_DISPLAY = {
+    [EnumGameGoal.QUICK] = {
+        [1] = {idx = 2, idz = 1},
+        [2] = {idx = 3, idz = 1},
+        [3] = {idx = 1, idz = 1},
+        [4] = nil, [5] = nil, [6] = nil, [7] = nil,
+    },
+    [EnumGameGoal.STANDARD] = {
+        [1] = nil, [2] = nil,
+        [3] = {idx = 1, idz = 1},
+        [4] = {idx = 2, idz = 1},
+        [5] = {idx = 3, idz = 1},
+        [6] = {idx = 1, idz = 2},
+        [7] = {idx = 2, idz = 2},
+    }
+}
+
+GAME_BOARD_PATTERN = {
+    origin = Vector(0, 0.2, 0),
+    dx =  4.90, dz = -5.50,
+}

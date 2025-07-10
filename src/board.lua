@@ -7,6 +7,7 @@ function FactoryCreateBoard()
     }
 
     -- get Method
+    ---@return Vector
     function board:getPosition()
         if not self.object then
             error("fatal error: Board object is nil")

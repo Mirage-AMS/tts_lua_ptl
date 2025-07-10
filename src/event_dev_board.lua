@@ -56,8 +56,6 @@ function setupRoleCard()
     local dxx, dzz = boardPattern.dxx, boardPattern.dzz
     local dxxx, dzzz = boardPattern.dxxx, boardPattern.dzzz
 
-    print("Enter setupRoleCard")
-
     local publicService = GAME:getPublicService()
     local displayBoardPosList = {}
     for idx, eachBoardName in ipairs(BOARD_ROLE_DISPLAY_LIST) do
