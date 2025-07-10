@@ -11,12 +11,12 @@ function FactoryCreatePlayerService()
         return isValInValList(player_color, DEFAULT_PLAYER_COLOR_LIST)
     end
 
-    ---@return PrivateService | nil
+    ---@return PrivateService
     function service:getPlayer(player_color)
         if player_color and self.players[player_color] then
             return self.players[player_color]
         end
-        return nil
+        error("Player not found for color: " .. tostring(player_color))
     end
 
     ---@return table

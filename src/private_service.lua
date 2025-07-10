@@ -3,8 +3,9 @@ require("src/item_manager")
 ---@return PrivateService
 function FactoryCreatePrivateService()
     ---@class PrivateService
+    ---@field item_manager ItemManager
     local service = {
-        item_manager = {},
+        item_manager = nil,
     }
 
     -- Save and Load

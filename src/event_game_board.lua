@@ -1,2 +1,191 @@
+require("mock/default")
+require("com/const")
+require("com/basic")
 require("com/const_game_board")
+require("src/event_dev_board")
 
+--- setDeckPosition: Set the position of each deck in the game.
+--- @param zoneReflect table<string, string[]>
+local function setDeckPosition(zoneReflect)
+    local publicService = GAME:getPublicService()
+
+    for zoneName, deckList in pairs(zoneReflect) do
+        -- get target position
+        local zone = publicService:getPublicZone(zoneName)
+        if not zone then
+            error("fatal error: publicItemManager:getZone(\"" .. zoneName .. "\") is nil")
+        end
+        local deckSlot = zone.deck_slot
+        if not deckSlot then
+            error("fatal error: "..zoneName..".deck_slot is nil")
+        end
+        local pos = deckSlot:getPosition()
+        local _initShift = 2.0
+        local _eachShift = 1.0
+        pos.y = pos.y + _initShift
+
+        for _, prefix in ipairs(deckList) do
+            -- get origin deck
+            local eachDeck = publicService:getDevDeck(prefix)
+            if not isCardLike(eachDeck) then
+                error("fatal error: getDevDeck[" .. prefix .. "] is nil")
+            end
+            eachDeck.clone({position = pos})
+            pos.y = pos.y + _eachShift
+        end
+    end
+end
+
+
+--- update game goal
+---@param gameGoal number
+local function updateGameGoal(gameGoal)
+end
+
+--- update game deck set
+---@param deckSet number
+local function updateDeckSet(deckSet)
+    -- clean up
+    local publicService = GAME:getPublicService()
+    for _, zoneName in ipairs(PUBLIC_ZONE_NAME_LIST) do
+        publicService:getPublicZone(zoneName):destructDeck()
+    end
+
+    -- set new deck set
+    if not EnumDeckSet(deckSet) then
+        error("fatal error: not recognize deckSet: " .. tostring(deckSet))
+    end
+    local zoneReflect = {
+        [NAME_ZONE_MOUNTAIN] = {PREFIX_MO_STD01, },
+        [NAME_ZONE_FOREST] = {PREFIX_FO_STD01, },
+        [NAME_ZONE_DUNGEON] = {PREFIX_DU_STD01, },
+    }
+    if deckSet == EnumDeckSet.STD then
+        zoneReflect[NAME_ZONE_CONVENTICLE] = {PREFIX_CO_STD02, PREFIX_CO_STD01,}
+        zoneReflect[NAME_ZONE_MARKET] = {PREFIX_MA_STD01,}
+    elseif deckSet == EnumDeckSet.DLC01 then
+        zoneReflect[NAME_ZONE_CONVENTICLE] = {PREFIX_CO_DLC01, PREFIX_CO_STD02, PREFIX_CO_STD01,}
+        zoneReflect[NAME_ZONE_MARKET] = {PREFIX_MA_DLC01, PREFIX_MA_STD01,}
+    end
+
+    setDeckPosition(zoneReflect)
+end
+
+-- update enable role
+---@param enableRole boolean
+local function updateEnableRole(enableRole)
+    -- clean up
+    local zoneName = NAME_ZONE_ROLE_PICK
+    GAME:getPublicService():getPublicZone(zoneName):destructDeck()
+    -- set new deck set
+    if enableRole then
+        local zoneReflect = {
+            [NAME_ZONE_ROLE_PICK] = {PREFIX_RO_INT02, PREFIX_RO_INT01}
+        }
+        setDeckPosition(zoneReflect)
+    end
+end
+
+--- update game mode
+---@param data table<string, any>: data to update
+---@param forceUpdate boolean: force update all fields
+function updateGameMode(data, forceUpdate)
+    local paramDictAll = PARAM_SWITCH_BUTTON_CHANGE
+    local publicService = GAME:getPublicService()
+    local gameModeManager = publicService:getGameModeManager()
+    local gameBoard = publicService:getPublicBoard(NAME_BOARD_GAME)
+
+    -- 定义设置项与处理函数的映射，同时指定在paramDictAll中的索引位置
+    local settingsMap = {
+        { key = "game_goal",    handler = updateGameGoal },
+        { key = "deck_set",     handler = updateDeckSet },
+        { key = "enable_role",  handler = updateEnableRole },
+        { key = "bp_strategy",  handler = nil },
+    }
+
+    for index, setting in ipairs(settingsMap) do
+        local key = setting.key
+        local toRunFunc = setting.handler
+
+        local currValue = gameModeManager[key]
+        local newValue = data[key]
+        if forceUpdate then newValue = currValue end
+
+        if newValue ~= nil and (forceUpdate or currValue ~= newValue) then
+            toRunFunc(newValue)
+        end
+
+        if paramDictAll[index] == nil then
+            error("Missing paramDict for setting: " .. key)
+        end
+
+        -- update switch button
+        local paramDict = paramDictAll[index]
+        if type(paramDict) ~= "table" then
+            error("paramDict is not a table")
+        end
+        local param = paramDict[newValue]
+        if type(param) ~= "table" then
+            error("param is not a table")
+        end
+        param.index = index
+        gameBoard:editButton(param)
+
+    end
+end
+
+--- a wrapper function to toggle between values
+---@param valueType string: type of value to switch
+---@param valueList table: value to switch between
+---@param getCurrentValue function: callable func to get current value
+local function onButtonClickToggle(valueType, valueList, getCurrentValue)
+    return function()
+        local currentValue = getCurrentValue()
+        local newValue = getNextValInValList(currentValue, valueList)
+        updateGameMode({[valueType] = newValue}) -- 传递类型和新值
+    end
+end
+
+onButtonClickSwitchGameGoal = onButtonClickToggle(
+    "game_goal",
+    {EnumGameGoal.QUICK, EnumGameGoal.STANDARD},
+    function() return GAME:getPublicService():getGameModeManager().game_goal end
+)
+
+onButtonClickSwitchDeckSet = onButtonClickToggle(
+    "deck_set",
+    {EnumDeckSet.STD, EnumDeckSet.DLC01},
+    function() return GAME:getPublicService():getGameModeManager().deck_set end
+)
+
+onButtonClickSwitchRole = onButtonClickToggle(
+    "enable_role",
+    {false, true},
+    function() return GAME:getPublicService():getGameModeManager().enable_role end
+)
+
+onButtonClickSwitchBpStrategy = onButtonClickToggle(
+    "bp_strategy",
+    { EnumBPStrategy.STANDARD, EnumBPStrategy.RANDOM},
+    function() return GAME:getPublicService():getGameModeManager().bp_strategy end
+)
+
+function onButtonClickSetGameModeFinished(_, _, _)
+    local publicService = GAME:getPublicService()
+    local gameModeManager = publicService:getGameModeManager()
+
+    -- quick break if game mode is already set
+    if publicService:isGameModeSet() then
+        return
+    end
+
+    -- set game mode finished
+    publicService:getGameModeManager():setIsSet(true)
+
+    -- trigger game mode set event
+    local enable_role = gameModeManager.enable_role
+    local bp_strategy = gameModeManager.bp_strategy
+    if enable_role and bp_strategy == EnumBPStrategy.STANDARD then
+        broadcastToAll("Deal Role Cards Not Implemented Yet")
+    end
+end

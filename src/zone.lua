@@ -6,6 +6,8 @@ require("src/card")
 
 local ZoneMethods = {
     -- Get Object
+    ---@param self Zone
+    ---@return any
     getDeckObj = function(self)
         if self.deck_slot == nil then
             return nil
@@ -39,33 +41,11 @@ local ZoneMethods = {
         self.deck_slot:setFlipped(flip)
     end,
 
-    -- @Deprecated
-    shuffleDiscardIntoDeck = function(self, flip)
-        -- this function does not work as expected
-        -- try use self:getRebuildDeckObj(flip) instead
-        if flip == nil then
-            flip = true
+    destructDeck = function(self)
+        local deck = self:getDeckObj()
+        if deck then
+            deck.destruct()
         end
-
-        local pos = self.deck_slot:getPosition()
-        if pos == nil then
-            print("fatal error: deck slot position is not valid position")
-            return
-        end
-
-        local deck = mergeCard(self:getDeckObj(), self:getDiscardObj())
-        if isCardLike(deck) then
-            deck.setPosition(pos)
-        end
-
-        -- not sure if needed to wait a frame
-        Wait.frames(
-            function()
-                self:shuffleDeck(flip)
-            end,
-            5
-        )
-
     end,
 
     getRebuildDeckObj = function(self, flip)
@@ -266,6 +246,15 @@ local ZoneMethods = {
 ---@return Zone
 function FactoryCreateZone()
     ---@class Zone
+    ---field name string
+    ---@field deck_slot Slot
+    ---@field discard_slot Slot
+    ---@field display_slots Slot[]
+    ---@field top_slots Slot[]
+    ---@field getDeckObj fun(self: Zone): any
+    ---@field destructDeck fun(self: Zone): nil
+    ---@field onSave fun(self: Zone): table
+    ---@field onLoad fun(self: Zone, data: table): Zone
     local zone = {
         name = nil,
         deck_slot = nil,

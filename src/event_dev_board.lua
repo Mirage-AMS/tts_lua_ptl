@@ -5,8 +5,7 @@ require("com/object_type")
 require("src/card")
 
 -- registerDeckInfo: Register deck information for the game.
-local function registerDeckInfo()
-    print("Enter registerDeckInfo")
+function registerDeckInfo()
 
     local devZoneName = NAME_ZONE_DEVELOPMENT
     local publicService = GAME:getPublicService()
@@ -49,63 +48,8 @@ local function registerDeckInfo()
     end
 end
 
-
---- setupNormalDeck: Sets up the normal deck for the game.
---- @param dlc_enable boolean: Enable or disable DLC content.
-local function setupNormalDeck(dlc_enable)
-    local zoneReflect = {
-        [NAME_ZONE_MOUNTAIN] = {PREFIX_MO_STD01, },
-        [NAME_ZONE_FOREST] = {PREFIX_FO_STD01, },
-        [NAME_ZONE_DUNGEON] = {PREFIX_DU_STD01, },
-        [NAME_ZONE_MARKET] = {PREFIX_MA_STD01, },
-        [NAME_ZONE_CONVENTICLE] = {PREFIX_CO_STD02, PREFIX_CO_STD01,},
-        [NAME_ZONE_ROLE_PICK] = {PREFIX_RO_INT02, PREFIX_RO_INT01,}
-    }
-    -- dlc enabled
-    if dlc_enable then
-        table.insert(zoneReflect[NAME_ZONE_MARKET], PREFIX_MA_DLC01)
-        table.insert(zoneReflect[NAME_ZONE_CONVENTICLE], PREFIX_CO_DLC01)
-    end
-
-    -- logic start here ----------------------------------------------------------
-    local publicService = GAME:getPublicService()
-
-    for zoneName, deckList in pairs(zoneReflect) do
-        -- get target position
-        local zone = publicService:getPublicZone(zoneName)
-        if not zone then
-            error("fatal error: publicItemManager:getZone(\"" .. zoneName .. "\") is nil")
-        end
-        local deckSlot = zone.deck_slot
-        if not deckSlot then
-            error("fatal error: "..zoneName..".deck_slot is nil")
-        end
-        local pos = deckSlot:getPosition()
-        local _initShift = 2.0
-        local _eachShift = 1.0
-        pos.y = pos.y + _initShift
-
-        for _, prefix in ipairs(deckList) do
-            -- get origin deck
-            local eachDeck = publicService:getDevDeck(prefix)
-            if not isCardLike(eachDeck) then
-                error("fatal error: getDevDeck[" .. prefix .. "] is nil")
-            end
-            eachDeck.clone({position = pos})
-            pos.y = pos.y + _eachShift
-        end
-    end
-end
-
-
-local function setupLegendCard()
-    -- TODO implement this function
-end
-
-
---- setupLegendCard: Sets up the Role cards for the game.
---- @return nil
-local function setupRoleCard()
+--- setupRoleCard: Set up the role cards in the game.
+function setupRoleCard()
     local boardPattern = ROLE_DISPLAY_BOARD_PATTERN
 
     local dx, dz = boardPattern.dx, boardPattern.dz
@@ -159,43 +103,4 @@ local function setupRoleCard()
         end
     end
 
-end
-
---- setupDeck: Sets up the decks for the game.
---- @return nil
-local function setupDeck()
-    print("Enter setupDeck")
-
-    -- setup normal deck
-    setupNormalDeck(false)
-    -- setup card
-    setupLegendCard()
-    setupRoleCard()
-end
-
---- cleanDevelopmentMode: Cleans up the game when switching out of development mode.
---- @return nil
-local function cleanDevelopmentMode()
-    -- TODO implement development mode cleanup
-    broadcastToAll("Development Mode Disabled")
-
-    -- register deck info
-    registerDeckInfo()
-
-    -- setup deck
-    Wait.time(setupDeck, 4.0)
-
-    -- set mode to Guest
-    GAME:getPublicService():setDevMode(DevMode.GUEST)
-end
-
---- SwitchDevMode: for ContextMenu switching development mode on and off.
----@return nil
-function SwitchDevMode()
-    if GAME:getPublicService():isDevMode() then
-        cleanDevelopmentMode()
-        return
-    end
-
-    broadcastToAll("DevMode has been Disabled, do not use this in Game")
 end

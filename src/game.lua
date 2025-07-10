@@ -5,9 +5,9 @@ require("com/basic")
 require("src/public_service")
 require("src/player_service")
 require("src/build_data")
-require("src/event_dev_board")
 require("src/event_game_board")
 require("src/event_main_board")
+require("src/event_context_menu")
 
 local function clearScriptingZones()
     local objTbl = self.getObjects()
@@ -118,7 +118,8 @@ function FactoryCreateGame()
 
     function game:init()
         -- init development mode settings
-        addContextMenuItem("switch dev mode", SwitchDevMode, false)
+        addContextMenuItem("Quit Dev-Mode", QuitDevMode, false)
+        addContextMenuItem("Setup Guest-Mode", SetupGuestMode, false)
 
         -- init game board buttons
         local publicService = self:getPublicService()

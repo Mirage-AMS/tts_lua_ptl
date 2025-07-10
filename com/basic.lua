@@ -26,6 +26,23 @@ function getValIdxInValList(value, list)
     return nil
 end
 
+--- Returns the next value in a list, or nil if there is no such value.
+---@param value any The value to find the next one for.
+---@param list table The list to search in.
+function getNextValInValList(value, list)
+    local currentIdx = getValIdxInValList(value, list)
+    if currentIdx == nil then
+        return nil
+    end
+
+    local nextIdx = currentIdx + 1
+    if nextIdx > #list then
+        nextIdx = 1
+    end
+
+    return list[nextIdx]
+end
+
 function mergeList(l1, l2)
     if not l1 then return l2 end
     if not l2 then return l1 end
