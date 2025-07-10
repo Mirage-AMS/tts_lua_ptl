@@ -8,10 +8,7 @@ function FactoryCreateModeManager()
     ---@class ModeManager
     ---@field dev_mode number
     ---@field game_mode GameModeManager
-    local mode_manager = {
-        dev_mode = nil,
-        game_mode = nil
-    }
+    local mode_manager = {}
 
     -- game mode -------------------------------------------------------------------
     --- Get GameModeManager
@@ -24,10 +21,10 @@ function FactoryCreateModeManager()
     end
 
     -- dev mode -------------------------------------------------------------------
-    --- Get if DevMode is Development
+    --- Get if DevMode is DEV
     ---@return boolean
     function mode_manager:isDevMode()
-        return self.dev_mode == DevMode.Development
+        return self.dev_mode == DevMode.DEV
     end
 
     --- Set DevMode
@@ -58,7 +55,7 @@ function FactoryCreateModeManager()
     ---@param data table
     ---@return ModeManager
     function mode_manager:onLoad(data)
-        self.dev_mode = data.dev_mode or DevMode.Development
+        self.dev_mode = data.dev_mode or DevMode.DEV
         self.game_mode = FactoryCreateGameModeManager():onLoad(data.game_mode)
         return self
     end

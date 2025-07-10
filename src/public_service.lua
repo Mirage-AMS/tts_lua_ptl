@@ -8,11 +8,7 @@ function FactoryCreatePublicService()
     ---@field turn_manager TurnManager
     ---@field item_manager ItemManager
     ---@field mode_manager ModeManager
-    local service = {
-        turn_manager = nil,
-        item_manager = nil,
-        mode_manager = nil,
-    }
+    local service = {}
 
     -- get function
 
@@ -85,7 +81,7 @@ function FactoryCreatePublicService()
     end
 
     -- set function
-    ---@param new_mode number: DevMode.Development | DevMode.Guest
+    ---@param new_mode number: DevMode.DEV | DevMode.GUEST
     ---@return nil
     function service:setDevMode(new_mode)
         if self.mode_manager ~= nil then

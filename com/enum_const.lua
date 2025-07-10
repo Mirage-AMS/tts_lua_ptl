@@ -1,10 +1,10 @@
 require("com/enum")
 
 ---@class DevMode
----@field Development number
----@field Guest number
+---@field DEV number
+---@field GUEST number
 ---@operator call(number):boolean
-DevMode = Enum({ Development = 1, Guest = 2, })
+DevMode = Enum({ DEV = 1, GUEST = 2, })
 
 ---@class EnumDeckSet
 ---@field STD number

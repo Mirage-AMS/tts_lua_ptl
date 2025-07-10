@@ -186,7 +186,7 @@ local function cleanDevelopmentMode()
     Wait.time(setupDeck, 4.0)
 
     -- set mode to Guest
-    GAME:getPublicService():setDevMode(DevMode.Guest)
+    GAME:getPublicService():setDevMode(DevMode.GUEST)
 end
 
 --- SwitchDevMode: for ContextMenu switching development mode on and off.
