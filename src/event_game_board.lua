@@ -151,24 +151,29 @@ function updateGameMode(data, forceUpdate)
         if forceUpdate then newValue = currValue end
 
         if newValue ~= nil and (forceUpdate or currValue ~= newValue) then
-            toRunFunc(newValue)
-        end
+            -- update game mode manager
+            gameModeManager[key] = newValue
 
-        if paramDictAll[index] == nil then
-            error("Missing paramDict for setting: " .. key)
-        end
+            if toRunFunc ~= nil then
+                toRunFunc(newValue)
+            end
 
-        -- update switch button
-        local paramDict = paramDictAll[index]
-        if type(paramDict) ~= "table" then
-            error("paramDict is not a table")
+            if paramDictAll[index] == nil then
+                error("Missing paramDict for setting: " .. key)
+            end
+
+            -- update switch button
+            local paramDict = paramDictAll[index]
+            if type(paramDict) ~= "table" then
+                error("paramDict is not a table")
+            end
+            local param = paramDict[newValue]
+            if type(param) ~= "table" then
+                error("param is not a table")
+            end
+            param.index = index
+            gameBoard:editButton(param)
         end
-        local param = paramDict[newValue]
-        if type(param) ~= "table" then
-            error("param is not a table")
-        end
-        param.index = index
-        gameBoard:editButton(param)
 
     end
 end
@@ -181,7 +186,7 @@ local function onButtonClickToggle(valueType, valueList, getCurrentValue)
     return function()
         local currentValue = getCurrentValue()
         local newValue = getNextValInValList(currentValue, valueList)
-        updateGameMode({[valueType] = newValue}) -- 传递类型和新值
+        updateGameMode({[valueType] = newValue}, false) -- 传递类型和新值
     end
 end
 

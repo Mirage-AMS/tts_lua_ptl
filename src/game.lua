@@ -125,7 +125,9 @@ function FactoryCreateGame()
         local publicService = self:getPublicService()
         local gameBoard = publicService:getPublicBoard(NAME_BOARD_GAME)
         if gameBoard ~= nil then
-            -- TODO: init game board buttons
+            for _, param in ipairs(LIST_PARAM_GAME_BOARD_BUTTONS) do
+                gameBoard:createButton(param)
+            end
         else
             error("fatal error: game board not found")
         end

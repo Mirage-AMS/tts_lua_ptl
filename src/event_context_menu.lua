@@ -12,11 +12,11 @@ function QuitDevMode()
         registerDeckInfo()
 
         Wait.time(
-            3,
-            function()
+        function()
                 GAME:getPublicService():setDevMode(DevMode.GUEST)
                 broadcastToAll("Dev-Mode Disabled")
-            end
+            end,
+            3
         )
         return
     end

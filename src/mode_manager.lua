@@ -33,6 +33,7 @@ function FactoryCreateModeManager()
     function mode_manager:setDevMode(new_mode)
         if DevMode(new_mode) then
             self.dev_mode = new_mode
+            return
         end
         error("Invalid dev mode: " .. tostring(new_mode))
     end
