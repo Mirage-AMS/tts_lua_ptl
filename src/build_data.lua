@@ -149,7 +149,7 @@ function buildDefaultData()
                 zones = buildPublicZoneData()
             },
             mode_manager = {
-                mode = GameMode.Development, -- 默认模式为开发模式
+                dev_mode = DevMode.Development, -- 默认模式为开发模式
             }
         },
         player_service = {

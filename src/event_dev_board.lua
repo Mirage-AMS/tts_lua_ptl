@@ -97,6 +97,12 @@ local function setupNormalDeck(dlc_enable)
     end
 end
 
+
+local function setupLegendCard()
+    -- TODO implement this function
+end
+
+
 --- setupLegendCard: Sets up the Role cards for the game.
 --- @return nil
 local function setupRoleCard()
@@ -163,18 +169,9 @@ local function setupDeck()
     -- setup normal deck
     setupNormalDeck(false)
     -- setup card
-    -- setupLegendCard()
+    setupLegendCard()
     setupRoleCard()
 end
-
---- initDevelopmentMode: Initializes the game in development mode.
---- @return nil
-local function initDevelopmentMode()
-    -- TODO implement development mode initialization
-    broadcastToAll("Development Mode Enabled")
-    GAME.public_service:setMode(GameMode.Development)
-end
-
 
 --- cleanDevelopmentMode: Cleans up the game when switching out of development mode.
 --- @return nil
@@ -189,15 +186,16 @@ local function cleanDevelopmentMode()
     Wait.time(setupDeck, 4.0)
 
     -- set mode to Guest
-    GAME.public_service:setMode(GameMode.Guest)
+    GAME:getPublicService():setDevMode(DevMode.Guest)
 end
 
 --- SwitchDevMode: for ContextMenu switching development mode on and off.
 ---@return nil
 function SwitchDevMode()
-    if GAME:isDevelopmentMode() then
+    if GAME:getPublicService():isDevMode() then
         cleanDevelopmentMode()
-    else
-        initDevelopmentMode()
+        return
     end
+
+    broadcastToAll("DevMode has been Disabled, do not use this in Game")
 end

@@ -49,10 +49,6 @@ function FactoryCreateGame()
         return self:getPlayerService():getPlayer(player_color).item_manager
     end
 
-    function game:isDevelopmentMode()
-        return self.public_service:isDevelopmentMode()
-    end
-
     ---------------------------------------------------------------------
     --  Save and Load
     ---------------------------------------------------------------------

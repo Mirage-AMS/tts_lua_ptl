@@ -4,28 +4,33 @@ function FactoryCreateModeManager()
     -- Mode Manager
     -- This module manages the game mode, which can be used to switch between different game modes
     local mode_manager = {
-        mode = GameMode.Development, -- Default mode is Development
+        dev_mode = DevMode.Development, -- Default mode is Development
     }
 
-    function mode_manager:setMode(new_mode)
-        if new_mode == GameMode.Development or new_mode == GameMode.Guest then
-            self.mode = new_mode
-        else
-            error("Invalid game mode: " .. tostring(new_mode))
-        end
+    --- Get if DevMode is Development
+    ---@return boolean
+    function mode_manager:isDevMode()
+        return self.dev_mode == DevMode.Development
     end
 
-    function mode_manager:isDevelopmentMode()
-        return self.mode == GameMode.Development
+    --- Set DevMode
+    ---@param new_mode number
+    ---@return nil
+    function mode_manager:setDevMode(new_mode)
+        if new_mode == DevMode.Development or new_mode == DevMode.Guest then
+            self.dev_mode = new_mode
+        else
+            error("Invalid dev mode: " .. tostring(new_mode))
+        end
     end
 
     -- Save and Load
     function mode_manager:onSave()
-        return { mode = self.mode }
+        return { dev_mode = self.dev_mode }
     end
 
     function mode_manager:onLoad(data)
-        self.mode = data.mode or GameMode.Development
+        self.dev_mode = data.dev_mode or DevMode.Development
         return self
     end
 

@@ -10,9 +10,9 @@ function FactoryCreatePublicService()
     }
 
     -- get function
-    function service:isDevelopmentMode()
-        if self.mode_manager then
-            return self.mode_manager:isDevelopmentMode()
+    function service:isDevMode()
+        if self.mode_manager ~= nil then
+            return self.mode_manager:isDevMode()
         end
         error("fatal error: mode_manager is nil")
     end
@@ -56,9 +56,11 @@ function FactoryCreatePublicService()
     end
 
     -- set function
-    function service:setMode(new_mode)
+    ---@param new_mode number: DevMode.Development | DevMode.Guest
+    ---@return nil
+    function service:setDevMode(new_mode)
         if self.mode_manager ~= nil then
-            self.mode_manager:setMode(new_mode)
+            self.mode_manager:setDevMode(new_mode)
             return
         end
         error("fatal error: mode_manager is nil")
