@@ -171,11 +171,12 @@ local SlotMethods = {
 ---@return Slot
 function FactoryCreateSlot()
     ---@class Slot
-    ---@field guid string
-    ---@field object any
-    ---@field getPosition fun(self: Slot): Vector
-    ---@field getCardObjects fun(self: Slot): any[]
-    ---@field getCardObject fun(self: Slot, isFirst: boolean): any
+    ---@field guid string?
+    ---@field object Object?
+    ---@field getObjects fun(self: Slot): Object[]?
+    ---@field getPosition fun(self: Slot): Vector?
+    ---@field getCardObjects fun(self: Slot): Object[]?
+    ---@field getCardObject fun(self: Slot, isFirst?: boolean): Object?
     local slot = {
         guid = nil,
         object = nil

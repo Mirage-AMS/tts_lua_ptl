@@ -16,6 +16,8 @@ local ZoneMethods = {
         return self.deck_slot:getCardObject()
     end,
 
+    ---@param self Zone
+    ---@return any
     getDiscardObj = function(self)
         if self.discard_slot == nil then
             return nil

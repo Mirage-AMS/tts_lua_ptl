@@ -1,103 +1,65 @@
+---@class JSON
+---@field decode fun(str: string): table
+---@field encode fun(obj: table): string
+JSON = {}
+
+---@class Object
+---@field __call fun(self: Object, param?: table<string, any>): Object
+---@field new fun(self: Object, param?: table<string, any>): Object
+---@field getData fun(self: Object): table
+---@field getGUID fun(self: Object): string
+---@field getName fun(self: Object): string
+---@field getObjects fun(self: Object): table<string, any>
+---@field getPosition fun(self: Object): Vector
+---@field clone fun(self: Object): Object
+---@field takeObject fun(self: Object, param: table<string, any>): Object
+Object = {}
+
+---@class Player
+---@field getAvailableColors fun(self: Player): string[]
+---@field getColors fun(self: Player): string[]
+---@field getPlayers fun(self: Player): PlayerInstance[]
+Player = {}
+
+---@class PlayerInstance
+---@field admin boolean if the player is an admin
+---@field blindfolded boolean if the player is blindfolded
+---@field color string Read-only; the player's color
+---@field host boolean Read-only; if the player is the host
+---@field lift_height number The lift height for the player. This is how far an object is raised when held in a player's hand. Value is ranged 0 to 1.
+---@field promoted boolean if the player is promoted
+---@field seated boolean Read-only; if the player is seated
+---@field steam_id string Read-only; the player's Steam ID
+---@field steam_name string Read-only; the player's Steam Account name
+---@field team string The Team of the player. Options: "None", "Clubs", "Diamonds", "Hearts", "Spades", "Jokers".
+---@field changeColor fun(self: PlayerInstance, color: string): boolean Changes player to this Player Color.
+---@field getHandCount fun(self: PlayerInstance): number Number of hand zones owned by this color.
+PlayerInstance = {}
+
+---@class Turns
 Turns = {
     order = {},
     turn_color = "",
     enable = false
 }
 
-Player = {
-    getPlayers = function() return {} end,
-}
-
-JSON = {
-    decode = function(str) return {} end,
-    encode = function(obj) return "" end,
-}
-
 ---@class Vector
 ---@field x number
 ---@field y number
 ---@field z number
-Vector = {
-    __index = Vector,   -- if can't find a key in Vector, look for it in this table
+---@field __call fun(self: Vector, x?: number|table, y?: number, z?: number): Vector
+---@field new fun(self: Vector, x?: number|table, y?: number, z?: number): Vector
+---@field __add fun(self: Vector, a: Vector): Vector
+---@field __sub fun(self: Vector, a: Vector): Vector
+---@field __mul fun(self: Vector, a: number|Vector): Vector
+Vector = {}
 
-    new = function(self, x, y, z)
-        local instance = setmetatable({}, self) -- gift the empty table a metatable from self (Vector)
-
-        if type(x) == "table" then
-            instance.x = x.x or 0
-            instance.y = x.y or 0
-            instance.z = x.z or 0
-        elseif type(x) == "number" then
-            instance.x = x or 0
-            instance.y = y or 0
-            instance.z = z or 0
-        else
-            error("Invalid arguments to Vector.new")
-        end
-
-        return instance
-    end,
-
-    ---@param a Vector
-    ---@param b Vector
-    ---@return Vector result
-    __add = function(a, b)
-        return Vector:new(a.x + b.x, a.y + b.y, a.z + b.z)
-    end,
-
-    ---@param a Vector
-    ---@param b Vector
-    ---@return Vector result
-    __sub = function(a, b)
-        return Vector:new(a.x - b.x, a.y - b.y, a.z - b.z)
-    end,
-
-    ---@param a Vector|number a
-    ---@param b Vector|number b
-    ---@return Vector result
-    __mul = function(a, b)
-        if type(a) == "number" then
-            return Vector:new(b.x * a, b.y * a, b.z * a)
-        elseif type(b) == "number" then
-            return Vector:new(a.x * b, a.y * b, a.z * b)
-        else
-            error("Invalid arguments to Vector.__mul")
-        end
-    end,
-}
-
-setmetatable(Vector, {
-    __call = Vector.new
-})
-
-Wait = {
-    condition = function(toRunFunc, conditionFunc, timeout, timeoutFunc)
-        -- [func] toRunFunc: The function to be executed after the specified condition is met.
-        -- [func] conditionFunc: The function that will be executed repeatedly, until it returns true (or the timeout is reached).
-        -- [float] timeout: The amount of time (in seconds) that may elapse before the scheduled function is cancelled.
-        -- /* Optional, defaults to never timing out. */
-        -- [func] timeoutFunc: The function that will be executed if the timeout is reached.
-        -- /* Optional */
-        -- Returns: The ID of the scheduled function.
-    end,
-    frames = function(toRunFunc, numberFrames)
-        -- [func] toRunFunc: The function to be executed after the specified number of frames.
-        -- [int] numberFrames: The number of frames that must elapse before toRunFunc is executed.
-        -- /* Optional, defaults to 1 frame. */
-        -- Returns: The ID of the scheduled function.
-    end,
-    time = function(toRunFunc, seconds, repetitions)
-        -- [func] toRunFunc: The function to be executed after the specified number of seconds.
-        -- [float] seconds: The number of seconds to wait before executing the function.
-        -- [int] repetitions: Number of times toRunFunc will be (re)scheduled. -1 is infinite repetitions.
-        -- /* Optional, defaults to 1 repetition. */
-        -- Returns: The ID of the scheduled function.
-    end,
-    stop = function(id)
-        -- [int] id: A wait ID (returned from Wait scheduling functions).
-        -- Returns: true if the function was stopped, false otherwise.
-    end
-}
+---@class Wait
+---@field condition fun(toRunFunc: function, conditionFunc: function, timeout?: number, timeoutFunc?: function): any
+---@field frames fun(toRunFunc: function, numberFrames?: number): any
+---@field time fun(toRunFunc: function, seconds?: number, repetitions?: number): any
+---@field stop fun(id: any): boolean
+Wait = {}
 
 self = {}
 Global = {}
@@ -113,37 +75,34 @@ coroutine = {
 --- @param callback function: Execute if menu item is selected. Called as callback(player_color, object_position, object)
 --- @param keep_open boolean: Keep context menu open after menu item was selected (default: false)
 --- @return boolean result
-addContextMenuItem = function(label, callback, keep_open)
-    return true
-end
+addContextMenuItem = function(label, callback, keep_open) return true end
+
+--- Clears all menu items added by function addContextMenuItem(...).
+---@return boolean result
+clearContextMenu = function() return true end
 
 --- Starts a Lua coroutine.
 ---@param function_owner any: The Object that the function being called is on. Global is a valid target.
 ---@param function_name string: Name of the function being called as a coroutine.
-function startLuaCoroutine(function_owner, function_name)
-end
+function startLuaCoroutine(function_owner, function_name) end
 
-function getSeatedPlayers()
-    -- Returns a Table of the Player Colors strings of seated players.
-    return {"Red", "Purple", "Yellow", "Blue"}
-end
+--- Returns a table of the Player Colors strings of seated players.
+---@return string[]? result: The Player Colors strings of seated players.
+function getSeatedPlayers() return {} end
 
-function broadcastToAll(message, message_tint)
-    -- [string] message: The message to broadcast.
-    -- [string] message_tint: The tint of the broadcasted message.
-end
+---@param message string: The message to broadcast.
+---@param message_tint string?: The tint of the broadcasted message.
+function broadcastToAll(message, message_tint) end
 
-function broadcastToColor(message, player_color, message_tint)
-    -- [string] message: The message to broadcast.
-    -- [string] player_color: The color of the players to broadcast to.
-    -- [string] message_tint: The tint of the broadcasted message.
-end
+---@param message string: The message to broadcast.
+---@param player_color string: The color of the players to broadcast to.
+---@param message_tint string: The tint of the broadcasted message.
+function broadcastToColor(message, player_color, message_tint) end
 
-function getObjectFromGUID(guid)
-    -- [string] guid: The GUID of the object to get.
-    return {}
-end
+---@param guid string: The GUID of the object to get.
+---@return Object result: The object with the given GUID.
+function getObjectFromGUID(guid) return Object() end
 
-function spawnObject(param)
-    return {}
-end
+---@param param table<string, any>: The parameters for the object to spawn.
+---@return Object? result: The spawned object.
+function spawnObject(param) return Object() end
