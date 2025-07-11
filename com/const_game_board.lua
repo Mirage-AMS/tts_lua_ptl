@@ -16,7 +16,7 @@ PARAM_GAME_BOARD_BUTTON_FINISH = {
     width = 400, height = 400,
     scale=GAME_BOARD_BUTTON_SCALE, font_size=120,
     position = Vector(0.80, 1.0, -0.65),
-    label = "完成", tooltip = "点击以完成模式设置",
+    label = "确认", tooltip = "点击以确认游玩模式设置",
 }
 
 PARAM_GAME_BOARD_BUTTON_SWITCH_GAME_GOAL = {
@@ -51,22 +51,26 @@ PARAM_GAME_BOARD_BUTTON_SWITCH_BP_STRATEGY = {
     position = Vector(0.05, 1.0, -0.53),
 }
 
+__BUTTON_COLOR_WHITE = {1, 1, 1}
+__BUTTON_COLOR_GREEN = {0.5, 1, 0.5}
+__BUTTON_COLOR_YELLOW = {1, 1, 0.5}
+__BUTTON_COLOR_PURPLE = {1, 0.5, 1}
 PARAM_SWITCH_BUTTON_CHANGE = {
     [1] = {
-        [EnumGameGoal.QUICK] = {label = "传奇-快速", tooltip = "点击切换至传奇-标准"},
-        [EnumGameGoal.STANDARD] = {label = "传奇-标准", tooltip = "点击切换至传奇-快速"},
+        [EnumGameGoal.QUICK] = {label = "传奇-快速", tooltip = "点击切换至传奇-标准", color = __BUTTON_COLOR_WHITE},
+        [EnumGameGoal.STANDARD] = {label = "传奇-标准", tooltip = "点击切换至传奇-快速", color = __BUTTON_COLOR_YELLOW},
     },
     [2] = {
-        [EnumDeckSet.STD] = {label = "牌堆-标准", tooltip = "点击切换至牌堆-Dlc01"},
-        [EnumDeckSet.DLC01] = {label ="牌堆-Dlc01", tooltip = "点击切换至牌堆-标准"},
+        [EnumDeckSet.STD] = {label = "牌堆-标准", tooltip = "点击切换至牌堆-Dlc01", color = __BUTTON_COLOR_WHITE},
+        [EnumDeckSet.DLC01] = {label ="牌堆-Dlc01", tooltip = "点击切换至牌堆-标准", color = __BUTTON_COLOR_YELLOW},
     },
     [3] = {
-        [false] = {label = "角色-禁用", tooltip = "点击启用角色"},
-        [true] = {label = "角色-启用", tooltip = "点击禁用角色"},
+        [false] = {label = "角色-禁用", tooltip = "点击启用角色", color = __BUTTON_COLOR_WHITE},
+        [true] = {label = "角色-启用", tooltip = "点击禁用角色", color = __BUTTON_COLOR_GREEN},
     },
     [4] = {
-        [EnumBPStrategy.FREE] = {label ="BP-自由", tooltip = "点击切换至标准BP"},
-        [EnumBPStrategy.STANDARD] = {label ="BP-标准", tooltip = "点击切换至自由BP"},
+        [EnumBPStrategy.FREE] = {label ="BP-自由", tooltip = "点击切换至标准BP", color = __BUTTON_COLOR_PURPLE},
+        [EnumBPStrategy.STANDARD] = {label ="BP-标准", tooltip = "点击切换至自由BP", color = __BUTTON_COLOR_YELLOW},
     },
 }
 

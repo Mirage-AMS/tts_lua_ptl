@@ -8,6 +8,9 @@ function FactoryCreateItemManager()
         item manager is a abstract class to manage actual item in the game
     ]]--
     ---@class ItemManager
+    ---@field containers table<string, Container>
+    ---@field boards table<string, Board>
+    ---@field zones table<string, Zone>
     local manager = {
         containers = {},
         boards = {},

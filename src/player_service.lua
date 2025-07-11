@@ -34,6 +34,7 @@ function FactoryCreatePlayerService()
         return nil
     end
 
+    ---@return string[]
     function service:getSeatedPlayerColorList()
         return getSeatedPlayers()
     end

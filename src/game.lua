@@ -38,12 +38,12 @@ function FactoryCreateGame()
         return self.public_service
     end
 
-    ---@return TurnManager
+    ---@return TurnManager?
     function game:getTurnManager()
         return self:getPublicService().turn_manager
     end
 
-    ---@return ItemManager
+    ---@return ItemManager?
     function game:getPublicItemManager()
         return self:getPublicService().item_manager
     end
