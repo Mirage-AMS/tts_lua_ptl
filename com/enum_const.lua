@@ -20,7 +20,7 @@ EnumDeckSet = Enum({ STD = 1, DLC01 = 2, DLC02 = 3,})
 EnumGameGoal = Enum({QUICK = 1, STANDARD = 2,})
 
 ---@class EnumBPStrategy
+---@field FREE number
 ---@field STANDARD number
----@field RANDOM number
 ---@operator call(number):boolean
-EnumBPStrategy = Enum({STANDARD = 1, RANDOM = 2,})
+EnumBPStrategy = Enum({FREE = 1, STANDARD = 2})

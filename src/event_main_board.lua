@@ -5,6 +5,7 @@ In One's turn, the player press each phase button to pull the phase.
 require("mock/default")
 require("com/const")
 require("com/basic")
+require("com/object_type")
 
 function getButtonIdx(name)
     return getValIdxInValList(name, DEFAULT_BUTTON_LIST)

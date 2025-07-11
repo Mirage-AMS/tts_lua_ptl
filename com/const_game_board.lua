@@ -61,8 +61,8 @@ PARAM_SWITCH_BUTTON_CHANGE = {
         [true] = {label = "角色-启用", tooltip = "点击禁用角色"},
     },
     [4] = {
+        [EnumBPStrategy.FREE] = {label ="BP-自由", tooltip = "点击切换至标准BP"},
         [EnumBPStrategy.STANDARD] = {label ="BP-标准", tooltip = "点击切换至自由BP"},
-        [EnumBPStrategy.RANDOM] = {label ="BP-自由", tooltip = "点击切换至标准BP"}
     },
 }
 

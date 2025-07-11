@@ -4,6 +4,27 @@ require("com/basic")
 require("com/const_game_board")
 require("src/event_dev_board")
 
+--- isGameModeSetable: Check if player can set game mode
+--- @return boolean
+local function isGameModeSetable()
+    local publicService = GAME:getPublicService()
+
+    -- game-mode can't be set in dev-mode
+    if publicService:isDevMode() then
+        broadcastToAll("Dev-Mode is enabled, please disable it first")
+        return false
+    end
+
+    -- game-mode can't be set if it is already set
+    if publicService:isGameModeSet() then
+        broadcastToAll("Game mode is already set")
+        return false
+    end
+
+    return true
+end
+
+
 --- setDeckPosition: Set the position of each deck in the game.
 --- @param zoneReflect table<string, string[]>
 local function setDeckPosition(zoneReflect)
@@ -191,18 +212,8 @@ end
 ---@param getCurrentValue function: callable func to get current value
 local function onButtonClickToggle(valueType, valueList, getCurrentValue)
     return function()
-        -- quick break if in Dev-Mode
-        if GAME:getPublicService():isDevMode() then
-            broadcastToAll("Dev-Mode is enabled, please disable it first")
-            return
-        end
-
-
-        -- quick break if game mode is already set
-        if GAME:getPublicService():isGameModeSet() then
-            broadcastToAll("Game mode is already set")
-            return
-        end
+        -- quick break if game mode is not setable
+        if not isGameModeSetable() then return end
 
         local currentValue = getCurrentValue()
         local newValue = getNextValInValList(currentValue, valueList)
@@ -230,7 +241,7 @@ onButtonClickSwitchRole = onButtonClickToggle(
 
 onButtonClickSwitchBpStrategy = onButtonClickToggle(
     "bp_strategy",
-    { EnumBPStrategy.STANDARD, EnumBPStrategy.RANDOM},
+    { EnumBPStrategy.FREE, EnumBPStrategy.STANDARD},
     function() return GAME:getPublicService():getGameModeManager().bp_strategy end
 )
 
@@ -238,17 +249,8 @@ function onButtonClickSetGameModeFinished(_, _, _)
     local publicService = GAME:getPublicService()
     local gameModeManager = publicService:getGameModeManager()
 
-    -- quick break if in Dev-Mode
-    if publicService:isDevMode() then
-        broadcastToAll("Dev-Mode is enabled, please disable it first")
-        return
-    end
-
-    -- quick break if game mode is already set
-    if publicService:isGameModeSet() then
-        broadcastToAll("Game mode is already set")
-        return
-    end
+    -- quick break if game mode is not setable
+    if not isGameModeSetable() then return end
 
     -- set game mode finished
     publicService:getGameModeManager():setIsSet(true)
@@ -258,6 +260,7 @@ function onButtonClickSetGameModeFinished(_, _, _)
     local enable_role = gameModeManager.enable_role
     local bp_strategy = gameModeManager.bp_strategy
     if enable_role and bp_strategy == EnumBPStrategy.STANDARD then
+        -- TODO: deal role cards
         broadcastToAll("Deal Role Cards Not Implemented Yet")
     end
 end
