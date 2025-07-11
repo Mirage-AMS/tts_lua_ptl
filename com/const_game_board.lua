@@ -1,6 +1,10 @@
 require("mock/default")
 require("com/enum_const")
 
+--Boards ----------------------------------------------------------------------------------
+NAME_BOARD_GAME = "game_board"
+
+-- Buttons ----------------------------------------------------------------------------
 GAME_BOARD_BUTTON_SCALE = {x=0.6,z=0.6,y=1}
 GAME_BOARD_BUTTON_WIDTH = 400
 GAME_BOARD_BUTTON_HEIGHT = 200
@@ -74,7 +78,7 @@ LIST_PARAM_GAME_BOARD_BUTTONS = {
     PARAM_GAME_BOARD_BUTTON_SWITCH_BP_STRATEGY
 }
 
-
+-- Decks --------------------------------------------------------------------------------
 LIST_PARAM_LEGEND_DISPLAY = {
     [EnumGameGoal.QUICK] = {
         [1] = {idx = 2, idz = 1},
@@ -96,3 +100,33 @@ GAME_BOARD_PATTERN = {
     origin = Vector(-5, 0.2, 0.2),
     dx =  4.90, dz = -5.50,
 }
+
+--Zones ------------------------------------------------------------------------------------
+NAME_ZONE_LEGEND_DISPLAY = "zone_legend_display"
+NAME_ZONE_ROLE_PICK = "zone_role_pick"
+
+PARAM_SCRIPTING_TRIGGER_LEGEND = {
+    type        = DEFAULT_SPAWN_TYPE_SCRIPTING_TRIGGER,
+    rotation    = {0, 0, 0},
+}
+-- ref to game board (for legend display)
+LIST_PARAM_SCRIPTING_LEGEND_DISPLAY = {
+    [NAME_ZONE_LEGEND_DISPLAY] = {
+        [KEYWORD_ZONE_DECK] = {
+            position = {x=0, y=0.0, z=0},
+            scale =  {x=17.50, y=5.00, z=16.60}
+        }
+    }
+}
+
+-- ref to game board (for player pick the role)
+LIST_PARAM_SCRIPTING_ROLE_PICK = {
+    [NAME_ZONE_ROLE_PICK] = {
+        [KEYWORD_ZONE_DECK] = {
+            position = {x=12.5, y=0.0, z=5.0,},
+        }
+    },
+}
+
+-- variant
+GUID_GAME_BOARD = "ef690b"

@@ -135,7 +135,6 @@ BOARD_ROLE_DISPLAY_LIST = {
 }
 
 NAME_ZONE_DEVELOPMENT = "zone_development"
-NAME_ZONE_ROLE_PICK = "zone_role_pick"
 
 DEVELOPMENT_ZONE_DISPLAY_SLOT_SETUP = {
     -- 1st part
@@ -161,15 +160,6 @@ DEVELOPMENT_ZONE_DISPLAY_SLOT_SETUP = {
 }
 
 PARAM_DEV_BOARD_HEIGHT = 2.0
-
--- ref to main board (for player pick the role)
-LIST_PARAM_SCRIPTING_ROLE_PICK = {
-    [NAME_ZONE_ROLE_PICK] = {
-        [KEYWORD_ZONE_DECK] = {
-            position = {x=12.5, y=0.0, z=5.0,},
-        }
-    },
-}
 
 -- ref to dev board
 LIST_PARAM_SCRIPTING_DEV_MODE = {
