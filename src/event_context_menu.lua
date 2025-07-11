@@ -30,13 +30,13 @@ end
 function QuitDevMode()
     if GAME:getPublicService():isDevMode() then
         broadcastToAll("Prepare to quit Dev-Mode")
+        -- set all board not interactable
+        setAllBoardNotInteractable()
 
         -- register deck info
         registerDeckInfo()
 
         local toRunFunc = function()
-            -- set all board not interactable
-            setAllBoardNotInteractable()
             -- set dev-board hidden
             setDevBoardHidden()
             -- setup role card

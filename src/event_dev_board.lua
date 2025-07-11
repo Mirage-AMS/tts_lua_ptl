@@ -107,7 +107,6 @@ end
 function setDevBoardHidden()
     local hideId = "DevBoardHider"
     local publicService = GAME:getPublicService()
-    local playerList = DEFAULT_ALL_COLOR_LIST
 
     --- hide dev board
     local devBoardName = NAME_BOARD_DEVELOPMENT
@@ -115,7 +114,7 @@ function setDevBoardHidden()
     if not devBoard.object then
         error("fatal error: devBoard.object is nil")
     end
-    devBoard.object.attachInvisibleHider(hideId, true, playerList)
+    devBoard.object.attachInvisibleHider(hideId, true, DEFAULT_ALL_COLOR_LIST)
 
     --- hide dev zone's cards
     local devZoneName = NAME_ZONE_DEVELOPMENT
@@ -134,6 +133,6 @@ function setDevBoardHidden()
         if not eachDeck then
             error("fatal error: getDevDeck[" .. prefix .. "] is nil")
         end
-        eachDeck.attachInvisibleHider(hideId, true, playerList)
+        eachDeck.attachInvisibleHider(hideId, true, DEFAULT_ALL_COLOR_LIST)
     end
 end

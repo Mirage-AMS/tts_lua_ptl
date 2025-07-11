@@ -81,10 +81,16 @@ local function buildPlayerData()
     local playerData = {}
     for _, playerColor in ipairs(playerList) do
         local roleBoardGuid = GUID_ROLE_BOARD_LIST[playerColor]
+        local roleDiscardBoardGuid = GUID_ROLE_DISCARD_BOARD_LIST[playerColor]
+        local roleHandBoardGuid = GUID_ROLE_HAND_BOARD_LIST[playerColor]
         playerData[playerColor] = {
             item_manager = {
                 containers = {},
-                boards = { [NAME_BOARD_ROLE] = { guid = roleBoardGuid } },
+                boards = {
+                    [NAME_BOARD_ROLE] = { guid = roleBoardGuid },
+                    [NAME_BOARD_ROLE_DISCARD] = {guid = roleDiscardBoardGuid},
+                    [NAME_BOARD_ROLE_HAND] = {guid = roleHandBoardGuid},
+                },
                 zones = buildItemZoneData({}, paramTemplate, paramData, zoneNameList,roleBoardGuid)
             }
         }
