@@ -12,6 +12,8 @@ function QuitDevMode()
         registerDeckInfo()
 
         toRunFunc = function()
+            -- set dev-board hidden
+            setDevBoardHidden()
             -- setup role card
             setupRoleCard()
             -- setup game board

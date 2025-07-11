@@ -4,21 +4,25 @@
 JSON = {}
 
 ---@class Object
----@field __call fun(self: Object, param?: table<string, any>): Object
----@field new fun(self: Object, param?: table<string, any>): Object
----@field getData fun(self: Object): table
----@field getGUID fun(self: Object): string
----@field getName fun(self: Object): string
----@field getObjects fun(self: Object): table<string, any>
----@field getPosition fun(self: Object): Vector
----@field clone fun(self: Object): Object
----@field takeObject fun(self: Object, param: table<string, any>): Object
+---@field __call fun(param?: table<string, any>): Object
+---@field new fun(param?: table<string, any>): Object
+---@field getData fun(): table
+---@field getGUID fun(): string
+---@field getName fun(): string
+---@field getObjects fun(): table<string, any>
+---@field getPosition fun(): Vector
+---@field attachInvisibleHider fun(id: string, hidden: boolean, players: string[]?)
+---@field clone fun(): Object
+---@field createButton fun(param: table<string, any>): boolean
+---@field editButton fun(param: table<string, any>): boolean
+---@field setLock fun(lock: boolean): boolean
+---@field takeObject fun(param: table<string, any>): Object
 Object = {}
 
 ---@class Player
----@field getAvailableColors fun(self: Player): string[]
----@field getColors fun(self: Player): string[]
----@field getPlayers fun(self: Player): PlayerInstance[]
+---@field getAvailableColors fun(): string[]
+---@field getColors fun(): string[]
+---@field getPlayers fun(): PlayerInstance[]
 Player = {}
 
 ---@class PlayerInstance
@@ -32,8 +36,8 @@ Player = {}
 ---@field steam_id string Read-only; the player's Steam ID
 ---@field steam_name string Read-only; the player's Steam Account name
 ---@field team string The Team of the player. Options: "None", "Clubs", "Diamonds", "Hearts", "Spades", "Jokers".
----@field changeColor fun(self: PlayerInstance, color: string): boolean Changes player to this Player Color.
----@field getHandCount fun(self: PlayerInstance): number Number of hand zones owned by this color.
+---@field changeColor fun(color: string): boolean Changes player to this Player Color.
+---@field getHandCount fun(): number Number of hand zones owned by this color.
 PlayerInstance = {}
 
 ---@class Turns

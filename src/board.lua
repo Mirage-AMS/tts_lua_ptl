@@ -1,6 +1,10 @@
+require("mock/default")
+
 ---@return Board
 function FactoryCreateBoard()
     ---@class Board
+    ---@field guid string?
+    ---@field object Object?
     local board = {
         guid = nil,
         object = nil

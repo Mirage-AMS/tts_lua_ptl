@@ -102,3 +102,38 @@ function setupRoleCard()
     end
 
 end
+
+--- setDevBoardHidden: Hide the development board and all its components.
+function setDevBoardHidden()
+    local hideId = "DevBoardHider"
+    local publicService = GAME:getPublicService()
+
+    --- hide dev board
+    local devBoardName = NAME_BOARD_DEVELOPMENT
+    local devBoard = publicService:getPublicBoard(devBoardName)
+    if not devBoard.object then
+        error("fatal error: devBoard.object is nil")
+    end
+    devBoard.object.attachInvisibleHider(hideId, true, {})
+
+    --- hide dev zone's cards
+    local devZoneName = NAME_ZONE_DEVELOPMENT
+    local devZone = publicService:getPublicZone(devZoneName)
+    if not devZone then
+        error("fatal error: devZone is nil")
+    end
+    local devZoneDisplaySlots= devZone.display_slots
+    if not devZoneDisplaySlots then
+        error("fatal error: devZoneDisplaySlots is nil")
+    end
+    local all_deck_list = DECK_LIST
+    for _, prefix in ipairs(all_deck_list) do
+        -- deck
+        local eachDeck = publicService:getDevDeck(prefix)
+        if not eachDeck then
+            error("fatal error: getDevDeck[" .. prefix .. "] is nil")
+        end
+        eachDeck.setLock(true)
+        eachDeck.attachInvisibleHider(hideId, true, {})
+    end
+end

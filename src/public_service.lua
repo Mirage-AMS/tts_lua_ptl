@@ -1,3 +1,4 @@
+require("mock/default")
 require("src/turn_manager")
 require("src/item_manager")
 require("src/mode_manager")
@@ -59,7 +60,7 @@ function FactoryCreatePublicService()
     end
 
     ---@param prefix string: prefix of dev-mode deck (see ref in const_dev_board.lua)
-    ---@return any deck: deck of dev-mode
+    ---@return Object? deck: deck of dev-mode
     function service:getDevDeck(prefix)
         local slotIdx = DEVELOPMENT_ZONE_DISPLAY_SLOT_SETUP[prefix]
         if not slotIdx then
