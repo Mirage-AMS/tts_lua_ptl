@@ -11,29 +11,19 @@ function QuitDevMode()
         -- register deck info
         registerDeckInfo()
 
-        Wait.time(
-        function()
-                GAME:getPublicService():setDevMode(DevMode.GUEST)
-                broadcastToAll("Dev-Mode Disabled")
-            end,
-            3
-        )
-        return
+        toRunFunc = function()
+            -- setup role card
+            setupRoleCard()
+            -- setup game board
+            updateGameMode({}, true)
+            -- disable dev mode
+            GAME:getPublicService():setDevMode(DevMode.GUEST)
+            broadcastToAll("Dev-Mode Disabled")
+            clearContextMenu()
+        end
+
+        Wait.time(toRunFunc,4)
+    else
+        broadcastToAll("Dev-Mode has been Disabled, do not use this in Game")
     end
-    broadcastToAll("Dev-Mode has been Disabled, do not use this in Game")
-end
-
---- GuestSetup
----@return nil
-function SetupGuestMode()
-    if GAME:getPublicService():isDevMode() then
-        broadcastToAll("Setup can only be run in Guest Mode")
-    end
-
-    -- setup role card
-    setupRoleCard()
-
-    -- setup game board
-    updateGameMode({}, true)
-
 end

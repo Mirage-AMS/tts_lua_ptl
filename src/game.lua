@@ -119,7 +119,6 @@ function FactoryCreateGame()
     function game:init()
         -- init development mode settings
         addContextMenuItem("Quit Dev-Mode", QuitDevMode, false)
-        addContextMenuItem("Setup Guest-Mode", SetupGuestMode, false)
 
         -- init game board buttons
         local publicService = self:getPublicService()
