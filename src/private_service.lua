@@ -3,7 +3,7 @@ require("src/item_manager")
 ---@return PrivateService
 function FactoryCreatePrivateService()
     ---@class PrivateService
-    ---@field item_manager ItemManager
+    ---@field item_manager ItemManager?
     local service = {
         item_manager = nil,
     }
@@ -11,6 +11,9 @@ function FactoryCreatePrivateService()
     -- Save and Load
     ---@return table
     function service:onSave()
+        if not self.item_manager then
+            error("fatal error: item_manager is nil")
+        end
         return {
             item_manager = self.item_manager:onSave(),
         }

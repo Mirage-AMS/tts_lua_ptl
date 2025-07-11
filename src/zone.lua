@@ -248,11 +248,11 @@ local ZoneMethods = {
 ---@return Zone
 function FactoryCreateZone()
     ---@class Zone
-    ---@field name string
-    ---@field deck_slot Slot
-    ---@field discard_slot Slot
-    ---@field display_slots Slot[]
-    ---@field top_slots Slot[]
+    ---@field name string?
+    ---@field deck_slot Slot?
+    ---@field discard_slot Slot?
+    ---@field display_slots Slot[]?
+    ---@field top_slots Slot[]?
     ---@field getDeckObj fun(self: Zone): any
     ---@field shuffleDeck fun(self: Zone): nil
     ---@field destructDeck fun(self: Zone): nil

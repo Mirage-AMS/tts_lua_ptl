@@ -1,9 +1,11 @@
 ---@return Container
 function FactoryCreateContainer()
     ---@class Container
+    ---@field guid string?
+    ---@field object Object?
     local container = {
         guid = nil,
-        object = nil
+        object = nil,
     }
 
     --------------------------------------------------------

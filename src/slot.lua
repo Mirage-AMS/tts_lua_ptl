@@ -144,7 +144,7 @@ local SlotMethods = {
         local refGUID = data.ref
         if refGUID then
             local refObject = getObjectFromGUID(refGUID)
-            if refObject then
+            if refObject ~= nil then
                 positionShift = refObject.getPosition()
             else
                 print("warning: reference GUID " .. refGUID .. " not exists")

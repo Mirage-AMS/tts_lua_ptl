@@ -49,7 +49,7 @@ function tryObjectEnterContainer(container, object)
     -- The below is the standard tag interaction rule:
     -- If the 'feature' does not have any tags, or if the
     -- feature and object share a tag.
-    allow_interaction = not container.hasAnyTag() or container.hasMatchingTag(object)
+    local allow_interaction = not container.hasAnyTag() or container.hasMatchingTag(object)
     return allow_interaction
 end
 

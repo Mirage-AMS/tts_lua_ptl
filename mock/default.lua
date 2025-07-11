@@ -6,15 +6,19 @@ JSON = {}
 ---@class Object
 ---@field __call fun(param?: table<string, any>): Object
 ---@field new fun(param?: table<string, any>): Object
+---@field getButtons fun(): table<string, any>[] indexes start at 0
 ---@field getData fun(): table
 ---@field getGUID fun(): string
+---@field getInputs fun(): table<string, any>[] indexes start at 0
 ---@field getName fun(): string
 ---@field getObjects fun(): table<string, any>
 ---@field getPosition fun(): Vector
 ---@field attachInvisibleHider fun(id: string, hidden: boolean, players: string[]?)
+---@field call fun(func_name: string, func_param?: any): any Used to call a Lua function on another entity.
 ---@field clone fun(): Object
 ---@field createButton fun(param: table<string, any>): boolean
 ---@field editButton fun(param: table<string, any>): boolean
+---@field putObject fun(obj: Object): Object
 ---@field setLock fun(lock: boolean): boolean
 ---@field takeObject fun(param: table<string, any>): Object
 Object = {}
@@ -41,11 +45,17 @@ Player = {}
 PlayerInstance = {}
 
 ---@class Turns
-Turns = {
-    order = {},
-    turn_color = "",
-    enable = false
-}
+---@field enable boolean
+---@field type number
+---@field order string[]
+---@field reverse_order boolean
+---@field skip_empty_hands boolean
+---@field disable_interactations boolean
+---@field pass_turns boolean
+---@field turn_color string
+---@field getNextTurnColor fun(): string
+---@field getPreviousTurnColor fun(): string[]
+Turns = {}
 
 ---@class Vector
 ---@field x number
@@ -100,7 +110,7 @@ function broadcastToAll(message, message_tint) end
 
 ---@param message string: The message to broadcast.
 ---@param player_color string: The color of the players to broadcast to.
----@param message_tint string: The tint of the broadcasted message.
+---@param message_tint? string: The tint of the broadcasted message.
 function broadcastToColor(message, player_color, message_tint) end
 
 ---@param guid string: The GUID of the object to get.

@@ -6,10 +6,14 @@ require("src/mode_manager")
 ---@return PublicService
 function FactoryCreatePublicService()
     ---@class PublicService
-    ---@field turn_manager TurnManager
-    ---@field item_manager ItemManager
-    ---@field mode_manager ModeManager
-    local service = {}
+    ---@field turn_manager TurnManager?
+    ---@field item_manager ItemManager?
+    ---@field mode_manager ModeManager?
+    local service = {
+        turn_manager = nil,
+        item_manager = nil,
+        mode_manager = nil,
+    }
 
     -- get function
 
@@ -97,6 +101,9 @@ function FactoryCreatePublicService()
     --- public service onSave
     ---@return table
     function service:onSave()
+        if not self.turn_manager or not self.item_manager or not self.mode_manager then
+            error("fatal error: turn_manager or item_manager or mode_manager is nil")
+        end
         return {
             turn_manager = self.turn_manager:onSave(),
             item_manager = self.item_manager:onSave(),

@@ -5,11 +5,16 @@ require("com/basic")
 ---@return TurnManager
 function FactoryCreateTurnManager()
     ---@class TurnManager
-    ---@field first_player string
-    ---@field current_player string
+    ---@field first_player string?
+    ---@field current_player string?
     ---@field round number
     ---@field state number
-    local manager = {}
+    local manager = {
+        first_player = nil,
+        current_player = nil,
+        round = 0,
+        state = 0,
+    }
 
     -- state getter and setter methods
     function manager:getFirstPlayer()
