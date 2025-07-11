@@ -8,13 +8,13 @@ function FactoryCreateGameModeManager()
     ---@field deck_set number: default as EnumDeckSet.STD
     ---@field game_goal number: default as EnumGameGoal.QUICK
     ---@field enable_role boolean: default as false
-    ---@field bp_strategy number: default as EnumBPStrategy.STANDARD
+    ---@field bp_strategy number: default as EnumBPStrategy.FREE
     local game_mode_manager = {
         is_set = false,
         enable_role = false,
         deck_set = EnumDeckSet.STD,
         game_goal = EnumGameGoal.QUICK,
-        bp_strategy = EnumBPStrategy.STANDARD
+        bp_strategy = EnumBPStrategy.FREE
     }
 
     -- set functions

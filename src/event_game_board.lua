@@ -266,6 +266,12 @@ local function applyBPStrategyStandard()
     for _, player_color in ipairs(playerList) do
         rolePickZone:dealDeckCardIntoHand(dealNum, player_color)
     end
+    Wait.time(
+        function()
+            rolePickZone:destructDeck()
+        end,
+        1
+    )
 end
 
 function onButtonClickSetGameModeFinished(_, _, _)

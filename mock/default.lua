@@ -4,6 +4,7 @@
 JSON = {}
 
 ---@class Object
+---@field interactable boolean If player can interact with this object
 ---@field __call fun(param?: table<string, any>): Object
 ---@field new fun(param?: table<string, any>): Object
 ---@field getButtons fun(): table<string, any>[] indexes start at 0
@@ -101,7 +102,7 @@ clearContextMenu = function() return true end
 function startLuaCoroutine(function_owner, function_name) end
 
 --- Returns a table of the Player Colors strings of seated players.
----@return string[]? result: The Player Colors strings of seated players.
+---@return string[] result: The Player Colors strings of seated players.
 function getSeatedPlayers() return {} end
 
 ---@param message string: The message to broadcast.

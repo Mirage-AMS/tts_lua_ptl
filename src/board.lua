@@ -43,6 +43,13 @@ function FactoryCreateBoard()
         self.object.editButton(param)
     end
 
+    ---@param interactable boolean if false, the board will not be interactable (button still interactable)
+    function board:setInteractable(interactable)
+        if not self.object then
+            error("fatal error: Board object is nil")
+        end
+        self.object.interactable = interactable
+    end
     -- --------------------------------------------------
     -- Function Below only applies to Role Board
     -- --------------------------------------------------

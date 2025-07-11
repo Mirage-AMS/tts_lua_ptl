@@ -272,6 +272,13 @@ function onButtonClickInitGame(_, player_clicker_color, alt_click)
     turnManager:setState(1)
     updateButtonState()
 
+    --- clear all discard zones
+    local playerService = GAME:getPlayerService()
+    local playerList = playerService:getSeatedPlayerColorList()
+    for _, player_color in ipairs(playerList) do
+        clearPlayerDiscardZone(player_color)
+    end
+
     ---- shuffle all decks
     local itemManager = GAME:getPublicItemManager()
     for _, zoneName in ipairs(PUBLIC_ZONE_NAME_LIST) do
@@ -285,8 +292,6 @@ function onButtonClickInitGame(_, player_clicker_color, alt_click)
 
     ---- deal initial hand
     local dealNum = 5
-    local playerService = GAME:getPlayerService()
-    local playerList = playerService:getSeatedPlayerColorList()
     local conventicleZone = itemManager:getZone(NAME_ZONE_CONVENTICLE)
     for _, player_color in ipairs(playerList) do
         conventicleZone:dealDeckCardIntoHand(dealNum, player_color)

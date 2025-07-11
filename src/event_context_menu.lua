@@ -2,6 +2,29 @@ require("mock/default")
 require("src/event_dev_board")
 require("src/event_game_board")
 
+local function setAllBoardNotInteractable()
+    -- set all public board interactable = false
+    local publicItemManager = GAME:getPublicItemManager()
+    if not publicItemManager then
+        error("fatal error: public item manager not found")
+    end
+    for _, v in pairs(publicItemManager.boards) do
+        v:setInteractable(false)
+    end
+
+    -- set all player board interactable = false
+    for _, player in ipairs(DEFAULT_PLAYER_COLOR_LIST) do
+        local playerItemManager = GAME:getPrivateItemManager(player)
+        if not playerItemManager then
+            error("fatal error: public item manager not found")
+        end
+        for _, v in pairs(playerItemManager.boards) do
+            v:setInteractable(false)
+        end
+    end
+end
+
+
 --- QuitDevMode: for ContextMenu switching development mode on and off.
 ---@return nil
 function QuitDevMode()
@@ -12,6 +35,8 @@ function QuitDevMode()
         registerDeckInfo()
 
         local toRunFunc = function()
+            -- set all board not interactable
+            setAllBoardNotInteractable()
             -- set dev-board hidden
             setDevBoardHidden()
             -- setup role card
