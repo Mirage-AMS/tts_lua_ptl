@@ -1,5 +1,6 @@
 require("com/const")
 require("com/const_dev_board")
+require("com/const_game_board")
 require("com/basic")
 require("com/vector")
 require("com/enum_const")
@@ -105,19 +106,23 @@ function buildPublicZoneData()
     refGuid = GUID_MAIN_BOARD
     data = buildItemZoneData(data, paramTemplate, paramData, zoneNameList, refGuid)
 
+    -- development zone
+    paramData = LIST_PARAM_SCRIPTING_DEV_MODE
+    zoneNameList = {NAME_ZONE_DEVELOPMENT}
+    refGuid = GUID_DEV_BOARD
+    data = buildItemZoneData(data, paramTemplate, paramData, zoneNameList, refGuid)
+
     -- role-pick zone
     paramData = LIST_PARAM_SCRIPTING_ROLE_PICK
     zoneNameList = {NAME_ZONE_ROLE_PICK}
     refGuid = GUID_GAME_BOARD
     data = buildItemZoneData(data, paramTemplate, paramData, zoneNameList, refGuid)
 
-    -- display role part
-    -- TODO: pending...
-
-    -- development zone
-    paramData = LIST_PARAM_SCRIPTING_DEV_MODE
-    zoneNameList = {NAME_ZONE_DEVELOPMENT}
-    refGuid = GUID_DEV_BOARD
+    -- legendary card zone
+    paramTemplate = PARAM_SCRIPTING_TRIGGER_LEGEND
+    paramData = LIST_PARAM_SCRIPTING_LEGEND_DISPLAY
+    zoneNameList = {NAME_ZONE_LEGEND_DISPLAY}
+    refGuid = GUID_GAME_BOARD
     data = buildItemZoneData(data, paramTemplate, paramData, zoneNameList, refGuid)
 
     return data

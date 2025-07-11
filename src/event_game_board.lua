@@ -68,7 +68,13 @@ local function updateGameGoal(gameGoal)
     end
 
     -- clean up
-    -- TODO: clean up legend card
+    local legendZone = publicService:getPublicZone(NAME_ZONE_LEGEND_DISPLAY)
+    if not legendZone then
+        error("fatal error: publicService:getPublicZone(\"" .. legendZone .. "\") is nil")
+    end
+    for _, card in ipairs(legendZone.deck_slot:getCardObjects()) do
+        card.destruct()
+    end
 
     -- setup legend card
     local prefix = PREFIX_LG_STD01
@@ -245,6 +251,23 @@ onButtonClickSwitchBpStrategy = onButtonClickToggle(
     function() return GAME:getPublicService():getGameModeManager().bp_strategy end
 )
 
+local function applyBPStrategyStandard()
+    local rolePickZone = GAME:getPublicService():getPublicZone(NAME_ZONE_ROLE_PICK)
+    if not rolePickZone then
+        error("fatal error: could not find role pick zone")
+    end
+    -- shuffle role pick deck
+    rolePickZone:shuffleDeck()
+
+    -- deal role pick cards
+    local dealNum = 5
+    local playerService = GAME:getPlayerService()
+    local playerList = playerService:getSeatedPlayerColorList()
+    for _, player_color in ipairs(playerList) do
+        rolePickZone:dealDeckCardIntoHand(dealNum, player_color)
+    end
+end
+
 function onButtonClickSetGameModeFinished(_, _, _)
     local publicService = GAME:getPublicService()
     local gameModeManager = publicService:getGameModeManager()
@@ -260,7 +283,6 @@ function onButtonClickSetGameModeFinished(_, _, _)
     local enable_role = gameModeManager.enable_role
     local bp_strategy = gameModeManager.bp_strategy
     if enable_role and bp_strategy == EnumBPStrategy.STANDARD then
-        -- TODO: deal role cards
-        broadcastToAll("Deal Role Cards Not Implemented Yet")
+        applyBPStrategyStandard()
     end
 end

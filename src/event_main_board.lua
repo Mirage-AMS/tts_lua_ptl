@@ -4,6 +4,7 @@ In One's turn, the player press each phase button to pull the phase.
 ]]--
 require("mock/default")
 require("com/const")
+require("com/const_game_board")
 require("com/basic")
 require("com/object_type")
 
@@ -287,10 +288,8 @@ function onButtonClickInitGame(_, player_clicker_color, alt_click)
     local playerService = GAME:getPlayerService()
     local playerList = playerService:getSeatedPlayerColorList()
     local conventicleZone = itemManager:getZone(NAME_ZONE_CONVENTICLE)
-    if conventicleZone then
-        for _, player_color in ipairs(playerList) do
-            conventicleZone:dealDeckCardIntoHand(dealNum, player_color)
-        end
+    for _, player_color in ipairs(playerList) do
+        conventicleZone:dealDeckCardIntoHand(dealNum, player_color)
     end
 end
 
