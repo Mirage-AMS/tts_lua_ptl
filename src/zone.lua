@@ -246,22 +246,19 @@ local ZoneMethods = {
 ---@return Zone
 function FactoryCreateZone()
     ---@class Zone
-    ---field name string
+    ---@field name string
     ---@field deck_slot Slot
     ---@field discard_slot Slot
     ---@field display_slots Slot[]
     ---@field top_slots Slot[]
     ---@field getDeckObj fun(self: Zone): any
+    ---@field shuffleDeck fun(self: Zone): nil
     ---@field destructDeck fun(self: Zone): nil
+    ---@field dealDeckCardIntoHand fun(self: Zone, count: number, player_color: string, deckFlip: boolean | nil): nil
+    ---@field dealDeckCardIntoPosition fun(self: Zone, positionTable: Vector[], deckFlip: boolean | nil, cardFlip: boolean | nil): nil
     ---@field onSave fun(self: Zone): table
     ---@field onLoad fun(self: Zone, data: table): Zone
-    local zone = {
-        name = nil,
-        deck_slot = nil,
-        discard_slot = nil,
-        display_slots = nil,
-        top_slots = nil
-    }
+    local zone = {}
 
     setmetatable(zone, { __index = ZoneMethods })
     

@@ -9,12 +9,7 @@ function FactoryCreateTurnManager()
     ---@field current_player string
     ---@field round number
     ---@field state number
-    local manager = {
-        first_player = nil,
-        current_player = nil,
-        round = 0,
-        state = 0,
-    }
+    local manager = {}
 
     -- state getter and setter methods
     function manager:getFirstPlayer()
@@ -64,18 +59,24 @@ function FactoryCreateTurnManager()
     end
 
     -- BASIC Function
+    ---Get if turn is enable or not
+    ---@return boolean
     function manager:isTurnEnable()
         return Turns.enable
     end
 
+    ---Get current turn color
+    ---@return string
     function manager:getTurnColor()
         return Turns.turn_color
     end
 
+    ---@param enable boolean
     function manager:setTurnEnable(enable)
         Turns.enable = enable
     end
 
+    ---@param color string
     function manager:setTurnColor(color)
         Turns.turn_color = color
     end
