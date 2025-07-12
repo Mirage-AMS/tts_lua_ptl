@@ -29,7 +29,7 @@ local function discardCardLikeObject(obj)
     for _, tag in ipairs(tags) do
         if isValInValList(tag, PUBLIC_ZONE_NAME_LIST) then
             local zone = itemManager:getZone(tag)
-            if zone then
+            if zone ~= nil then
                 zone:setObjDiscard(obj)
                 return true
             end
@@ -116,7 +116,7 @@ local function trigBeggingPhaseEffect(player_clicker_color,_)
     local publicItemManager = GAME:getPublicItemManager()
     for _, zoneName in ipairs(PUBLIC_ZONE_NAME_LIST) do
         local zone = publicItemManager:getZone(zoneName)
-        if zone then
+        if zone ~= nil then
             if zoneName == NAME_ZONE_MARKET then
                 zone:fillDisplaySlots(nil, true)
             else
@@ -145,7 +145,7 @@ local function trigBeggingPhaseEffect(player_clicker_color,_)
     end
     ---- reset all wounds
     local roleBoard = playerItemManager:getBoard(NAME_BOARD_ROLE)
-    if roleBoard then
+    if roleBoard ~= nil then
         local idxHp = 1
         local idxWound = 5
         local valueHp = roleBoard:getValueByIndex(idxHp)
@@ -162,7 +162,7 @@ local function trigDrawPhaseEffect(player_clicker_color, alt)
     -- deal 1 card to hand
     local itemManager = GAME:getPublicItemManager()
     local conventicleZone = itemManager:getZone(NAME_ZONE_CONVENTICLE)
-    if conventicleZone then
+    if conventicleZone ~= nil then
         conventicleZone:dealDeckCardIntoHand(1, player_clicker_color)
     end
 end
@@ -190,13 +190,13 @@ function trigButtonStateEffect(alt_click)
     local turnManager = GAME:getTurnManager()
     local currState = turnManager:getState()
     local trigReflect = {
-        nil,                        -- 1 = init game
-        nil,                        -- 2 = claim first
-        trigBeggingPhaseEffect,     -- 3 = begin phase
-        trigDrawPhaseEffect,        -- 4 = draw phase
-        nil,                        -- 5 = standby phase
-        nil,                        -- 6 = action phase
-        trigEndPhaseEffect,         -- 7 = end phase
+        [1] = nil,                        -- 1 = init game
+        [2] = nil,                        -- 2 = claim first
+        [3] = trigBeggingPhaseEffect,     -- 3 = begin phase
+        [4] = trigDrawPhaseEffect,        -- 4 = draw phase
+        [5] = nil,                        -- 5 = standby phase
+        [6] = nil,                        -- 6 = action phase
+        [7] = trigEndPhaseEffect,         -- 7 = end phase
     }
 
     if trigReflect[currState] then
@@ -241,6 +241,8 @@ function onButtonClickInitGame(_, player_clicker_color, alt_click)
 
     -- quick break if game mode is not set yet
     local publicService = GAME:getPublicService()
+    local playerService = GAME:getPlayerService()
+
     if not publicService:isGameModeSet() then
         broadcastToColor("请先在游戏面板确认游戏模式", player_clicker_color)
 
@@ -250,10 +252,8 @@ function onButtonClickInitGame(_, player_clicker_color, alt_click)
         end
 
         -- ping table to hint
-
-        local playerService = GAME:getPlayerService()
-        for idx = 1, 3 do
-            local pingPos = gameBoard:getPosition() + Vector(5 + idx, 0, 5)
+        for idx = 1, 5 do
+            local pingPos = gameBoard:getPosition() + Vector(4 + idx, 0, 5.5)
             playerService:letPlayerPingTable(player_clicker_color, pingPos)
         end
         return
@@ -273,9 +273,7 @@ function onButtonClickInitGame(_, player_clicker_color, alt_click)
     updateButtonState()
 
     --- clear all discard zones
-    local playerService = GAME:getPlayerService()
-    local playerList = playerService:getSeatedPlayerColorList()
-    for _, player_color in ipairs(playerList) do
+    for _, player_color in ipairs(DEFAULT_PLAYER_COLOR_LIST) do
         clearPlayerDiscardZone(player_color)
     end
 
@@ -283,15 +281,16 @@ function onButtonClickInitGame(_, player_clicker_color, alt_click)
     local itemManager = GAME:getPublicItemManager()
     for _, zoneName in ipairs(PUBLIC_ZONE_NAME_LIST) do
         local zone = itemManager:getZone(zoneName)
-        if zone then
+        if zone ~= nil then
             zone:shuffleDeck()
         else
-            print("error: could not find zone " .. zoneName)
+            error("fatal error: could not find zone " .. zoneName)
         end
     end
 
     ---- deal initial hand
     local dealNum = 5
+    local playerList = playerService:getSeatedPlayerColorList()
     local conventicleZone = itemManager:getZone(NAME_ZONE_CONVENTICLE)
     for _, player_color in ipairs(playerList) do
         conventicleZone:dealDeckCardIntoHand(dealNum, player_color)
@@ -333,7 +332,7 @@ function onButtonClickClaimFirst(_, player_clicker_color, alt_click)
     ---- shuffle all conventicle cards back
     local itemManager = GAME:getPublicItemManager()
     local conventicleZone = itemManager:getZone(NAME_ZONE_CONVENTICLE)
-    if conventicleZone then
+    if conventicleZone ~= nil then
         conventicleZone:getRebuildDeckObj()
     end
 end
