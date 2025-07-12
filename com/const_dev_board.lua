@@ -165,7 +165,7 @@ PARAM_DEV_BOARD_HEIGHT = 2.0
 LIST_PARAM_SCRIPTING_DEV_MODE = {
     [NAME_ZONE_DEVELOPMENT] = {
         [KEYWORD_ZONE_DISPLAY] = {
-            position    = {x=-10, z=14.5, y=PARAM_DEV_BOARD_HEIGHT},
+            position    = {x=-7.3, z=14.5, y=PARAM_DEV_BOARD_HEIGHT},
         },
         [KEYWORD_ZONE_DISPLAY_PATTERN] = {
             x_num=4, x_shift=4.9,
