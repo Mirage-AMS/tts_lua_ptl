@@ -175,7 +175,7 @@ function FactoryCreateSlot()
     ---@field object Object?
     ---@field getObjects fun(self: Slot): Object[]?
     ---@field getPosition fun(self: Slot): Vector?
-    ---@field getCardObjects fun(self: Slot): Object[]?
+    ---@field getCardObjects fun(self: Slot): Object?[]
     ---@field getCardObject fun(self: Slot, isFirst?: boolean): Object?
     local slot = {
         guid = nil,

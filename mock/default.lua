@@ -16,12 +16,13 @@ JSON = {}
 ---@field getPosition fun(): Vector
 ---@field attachInvisibleHider fun(id: string, hidden: boolean, players: string[]?)
 ---@field call fun(func_name: string, func_param?: any): any Used to call a Lua function on another entity.
----@field clone fun(): Object
+---@field clone fun(param: table): Object
 ---@field createButton fun(param: table<string, any>): boolean
+---@field destruct fun(): boolean
 ---@field editButton fun(param: table<string, any>): boolean
 ---@field putObject fun(obj: Object): Object
 ---@field setLock fun(lock: boolean): boolean
----@field takeObject fun(param: table<string, any>): Object
+---@field takeObject fun(param?: table<string, any>): Object
 Object = {}
 
 ---@class Player
