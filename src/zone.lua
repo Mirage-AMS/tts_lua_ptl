@@ -253,11 +253,14 @@ function FactoryCreateZone()
     ---@field discard_slot Slot?
     ---@field display_slots Slot[]?
     ---@field top_slots Slot[]?
-    ---@field getDeckObj fun(self: Zone): any
+    ---@field getDeckObj fun(self: Zone): Object?
+    ---@field getRebuildDeckObj fun(self: Zone, flip?: boolean): Object? This function Async Rebuild Deck
     ---@field shuffleDeck fun(self: Zone): nil
     ---@field destructDeck fun(self: Zone): nil
-    ---@field dealDeckCardIntoHand fun(self: Zone, count: number, player_color: string, deckFlip: boolean | nil): nil
-    ---@field dealDeckCardIntoPosition fun(self: Zone, positionTable: Vector[], deckFlip: boolean | nil, cardFlip: boolean | nil): nil
+    ---@field dealDeckCardIntoHand fun(self: Zone, count: number, player_color: string, deckFlip?: boolean): nil
+    ---@field dealDeckCardIntoPosition fun(self: Zone, positionTable: Vector[], deckFlip?: boolean, cardFlip?: boolean): nil
+    ---@field fillDisplaySlots fun(self: Zone, deckFlip?: boolean, cardFlip?: boolean): nil
+    ---@field fillTopSlots fun(self: Zone, deckFlip?: boolean, cardFlip?: boolean): nil
     ---@field onSave fun(self: Zone): table
     ---@field onLoad fun(self: Zone, data: table): Zone
     local zone = {}

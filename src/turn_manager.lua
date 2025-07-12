@@ -81,7 +81,7 @@ function FactoryCreateTurnManager()
         Turns.enable = enable
     end
 
-    ---@param color string
+    ---@param color string?
     function manager:setTurnColor(color)
         Turns.turn_color = color
     end
