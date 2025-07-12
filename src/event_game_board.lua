@@ -161,13 +161,6 @@ function updateGameMode(data, forceUpdate)
     local gameModeManager = publicService:getGameModeManager()
     local gameBoard = publicService:getPublicBoard(NAME_BOARD_GAME)
 
-    if publicService:isGameModeSet() then
-        for idx = 1, #LIST_PARAM_GAME_BOARD_BUTTONS do
-            gameBoard:editButton({index=idx-1, color={0.5, 0.5, 0.5, 0.8}})
-        end
-        return
-    end
-
     -- 定义设置项与处理函数的映射，同时指定在paramDictAll中的索引位置
     local settingsMap = {
         { key = "game_goal",    handler = updateGameGoal },
@@ -175,6 +168,7 @@ function updateGameMode(data, forceUpdate)
         { key = "enable_role",  handler = updateEnableRole },
         { key = "bp_strategy",  handler = nil },
     }
+    local isSet = publicService:isGameModeSet()
 
     for index, setting in ipairs(settingsMap) do
         local key = setting.key
@@ -188,15 +182,15 @@ function updateGameMode(data, forceUpdate)
             -- update game mode manager
             gameModeManager[key] = newValue
 
-            if toRunFunc ~= nil then
+            --- this will result update
+            if not isSet and toRunFunc ~= nil then
                 toRunFunc(newValue)
             end
 
+            -- update button info
             if paramDictAll[index] == nil then
                 error("Missing paramDict for setting: " .. key)
             end
-
-            -- update switch button
             local paramDict = paramDictAll[index]
             if type(paramDict) ~= "table" then
                 error("paramDict is not a table")
@@ -206,9 +200,9 @@ function updateGameMode(data, forceUpdate)
                 error("param is not a table")
             end
             param.index = index
+            param.color = isSet and __BUTTON_COLOR_DISABLE or param.color
             gameBoard:editButton(param)
         end
-
     end
 end
 

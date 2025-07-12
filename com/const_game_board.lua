@@ -55,6 +55,7 @@ __BUTTON_COLOR_WHITE = {1, 1, 1}
 __BUTTON_COLOR_GREEN = {0.5, 1, 0.5}
 __BUTTON_COLOR_YELLOW = {1, 1, 0.5}
 __BUTTON_COLOR_PURPLE = {1, 0.5, 1}
+__BUTTON_COLOR_DISABLE = {0.5, 0.5, 0.5, 0.8}
 PARAM_SWITCH_BUTTON_CHANGE = {
     [1] = {
         [EnumGameGoal.QUICK] = {label = "传奇-快速", tooltip = "点击切换至传奇-标准", color = __BUTTON_COLOR_WHITE},
