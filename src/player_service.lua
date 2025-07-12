@@ -24,6 +24,8 @@ function FactoryCreatePlayerService()
         return Player.getPlayers()
     end
 
+    ---@param player_color string
+    ---@return PlayerInstance?
     function service:getPlayerObject(player_color)
         local playerTbl = self:getPlayerObjectList()
         for _, player in ipairs(playerTbl) do

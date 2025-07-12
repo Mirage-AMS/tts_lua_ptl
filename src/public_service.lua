@@ -16,6 +16,24 @@ function FactoryCreatePublicService()
     }
 
     -- get function
+    --- check and get turn manager
+    ---@return TurnManager
+    function service:getTurnManager()
+        if self.turn_manager ~= nil then
+            return self.turn_manager
+        end
+        error("fatal error: turn_manager is nil")
+    end
+
+    --- get item manager
+    --- check and get item manager
+    ---@return ItemManager
+    function service:getItemManager()
+        if self.item_manager ~= nil then
+            return self.item_manager
+        end
+        error("fatal error: item_manager is nil")
+    end
 
     --- get game mode manager
     ---@return GameModeManager
