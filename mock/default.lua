@@ -20,8 +20,10 @@ JSON = {}
 ---@field createButton fun(param: table<string, any>): boolean
 ---@field destruct fun(): boolean
 ---@field editButton fun(param: table<string, any>): boolean
+---@field flip fun(): boolean
 ---@field putObject fun(obj: Object): Object
 ---@field setLock fun(lock: boolean): boolean
+---@field setRotation fun(vector: Vector): bool
 ---@field takeObject fun(param?: table<string, any>): Object
 Object = {}
 

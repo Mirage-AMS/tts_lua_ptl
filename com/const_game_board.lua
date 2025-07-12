@@ -119,7 +119,7 @@ LIST_PARAM_SCRIPTING_LEGEND_DISPLAY = {
     [NAME_ZONE_LEGEND_DISPLAY] = {
         [KEYWORD_ZONE_DECK] = {
             position = {x=0, y=0.0, z=0},
-            scale =  {x=17.50, y=5.00, z=16.60}
+            scale =  {x=17.50, y=1.00, z=16.60}
         }
     }
 }

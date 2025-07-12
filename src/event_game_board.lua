@@ -41,6 +41,9 @@ local function setDeckPosition(zoneReflect)
             error("fatal error: "..zoneName..".deck_slot is nil")
         end
         local pos = deckSlot:getPosition()
+        if not pos then
+            error("fatal error: "..zoneName..".deck_slot.getPosition() is nil")
+        end
         local _initShift = 2.0
         local _eachShift = 1.0
         pos.y = pos.y + _initShift
@@ -48,7 +51,7 @@ local function setDeckPosition(zoneReflect)
         for _, prefix in ipairs(deckList) do
             -- get origin deck
             local eachDeck = publicService:getDevDeck(prefix)
-            if not isCardLike(eachDeck) then
+            if not eachDeck or not isCardLike(eachDeck) then
                 error("fatal error: getDevDeck[" .. prefix .. "] is nil")
             end
             eachDeck.clone({position = pos})
@@ -72,7 +75,11 @@ local function updateGameGoal(gameGoal)
     if not legendZone then
         error("fatal error: publicService:getPublicZone(\"" .. legendZone .. "\") is nil")
     end
-    for _, card in ipairs(legendZone.deck_slot:getCardObjects()) do
+    local legendDeckSlot = legendZone.deck_slot
+    if not legendDeckSlot then
+        error("fatal error: "..legendZone.name..".deck_slot is nil")
+    end
+    for _, card in ipairs(legendDeckSlot:getCardObjects()) do
         card.destruct()
     end
 
@@ -83,11 +90,11 @@ local function updateGameGoal(gameGoal)
     local pos = gameBoard:getPosition() + boardPattern.origin
 
     local deck = publicService:getDevDeck(prefix)
-    if not isCardLike(deck) then
+    if not deck or not isCardLike(deck) then
         error("fatal error: getDevDeck[" .. prefix .. "] is nil")
     end
     local _clonedShift = Vector(0, 2, 0)
-    local clonedDeck = deck.clone({position = deck.getPosition() + _clonedShift})
+    local clonedDeck = deck.clone({position = gameBoard:getPosition() + _clonedShift})
     if not clonedDeck then
         error("fatal error: failed to clone deck with prefix " .. prefix)
     end
