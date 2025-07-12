@@ -357,12 +357,17 @@ function onButtonClickEndPhase(obj, player_clicker_color, alt_click)
     onButtonClickChangeState(obj, player_clicker_color, alt_click, getButtonIdx(NAME_BUTTON_END_PHASE))
 end
 
-function onButtonClickShowThreeCard()
+function onButtonClickShowThreeCard(_, _, alt_click)
     local itemManager = GAME:getPublicItemManager()
     local conventicleZone = itemManager:getZone(NAME_ZONE_CONVENTICLE)
     if not conventicleZone then
-        print("fatal error: could not find zone " .. NAME_ZONE_CONVENTICLE)
+        error("fatal error: could not find zone " .. NAME_ZONE_CONVENTICLE)
         return
     end
-    conventicleZone:fillTopSlots(nil, true)
+
+    if alt_click then
+        conventicleZone:getRebuildDeckObjFromSlots({conventicleZone.deck_slot, table.unpack(conventicleZone.top_slots)})
+    else
+        conventicleZone:fillTopSlots(nil, true)
+    end
 end

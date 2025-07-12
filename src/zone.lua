@@ -50,25 +50,19 @@ local ZoneMethods = {
         end
     end,
 
-    getRebuildDeckObj = function(self, flip)
-        -- mock old function reBuildDeckFromZonesByTag(tag)
-        -- this function is used to rebuild deck from discard slot and deck slot
-        if flip == nil then
-            flip = true
-        end
+    getRebuildDeckObjFromSlots = function(self, slots, flip)
+        if flip == nil then flip = true end
 
-        if not self.deck_slot or not self.discard_slot then
-            print("fatal error: deck slot not found")
-            return
-        end
+        -- quick break if slots is empty
+        if slots == nil or #slots == 0 then return nil end
 
         -- merge card from deck and discard slot
         local deck = nil
-        for _, slot in pairs({self.deck_slot, self.discard_slot}) do
+        for _, slot in pairs(slots) do
             deck = mergeCard(deck, slot:getMergedCardObject(self.name), self.name)
         end
 
-        if deck and isCardLike(deck) then
+        if deck ~= nil and isCardLike(deck) then
             if deck.is_face_down ~= flip then
                 deck.flip()
             end
@@ -78,6 +72,12 @@ local ZoneMethods = {
         end
 
         return deck
+
+    end,
+
+    -- mock old function reBuildDeckFromZonesByTag(tag), this function is used to rebuild deck from discard slot and deck slot
+    getRebuildDeckObj = function(self, flip)
+        return self:getRebuildDeckObjFromSlots({self.deck_slot, self.discard_slot}, flip)
     end,
 
     dealDeckCard = function(self, count, deckFlip, dealFunc)
@@ -254,6 +254,7 @@ function FactoryCreateZone()
     ---@field display_slots Slot[]?
     ---@field top_slots Slot[]?
     ---@field getDeckObj fun(self: Zone): Object?
+    ---@field getRebuildDeckObjFromSlots fun(self: Zone, slots: Slot[]?, flip?: boolean): Object? This function Sync Rebuild Deck
     ---@field getRebuildDeckObj fun(self: Zone, flip?: boolean): Object? This function Async Rebuild Deck
     ---@field shuffleDeck fun(self: Zone): nil
     ---@field destructDeck fun(self: Zone): nil

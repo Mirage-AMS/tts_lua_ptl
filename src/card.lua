@@ -1,10 +1,10 @@
 require("com/object_type")
 
 ---mergeCard: merge two cards together
----@param obj1 any object to merge into
----@param obj2 any object to merge
----@param tag string optional tag to use for merging
----@return any result merged object
+---@param obj1 Object? object to merge into
+---@param obj2 Object? object to merge
+---@param tag? string optional tag to use for merging
+---@return Object? result merged object
 function mergeCard(obj1, obj2, tag)
     if not isCardLegal(obj1, tag) and not isCardLegal(obj2, tag) then
         return nil
