@@ -61,7 +61,7 @@ LIST_PARAM_SCRIPING_TRIGGER = {
             position    = {x=2.2, z=15.2, y=PARAM_MAIN_BOARD_HEIGHT},
         },
         [KEYWORD_ZONE_DISPLAY] =     {
-            position    = {x=-17.40, z=9.26,   y=PARAM_MAIN_BOARD_HEIGHT},
+            position    = {x=-17.40, z=9.30,   y=PARAM_MAIN_BOARD_HEIGHT},
         },
         [KEYWORD_ZONE_DISPLAY_PATTERN] = {
             x_num=5, x_shift=4.9,
@@ -78,7 +78,7 @@ LIST_PARAM_SCRIPING_TRIGGER = {
             position    = {x=2.2, z=3.0, y=PARAM_MAIN_BOARD_HEIGHT},
         },
         [KEYWORD_ZONE_DISPLAY] = {
-            position    = {x=-17.40, z=-2.94,  y=PARAM_MAIN_BOARD_HEIGHT},
+            position    = {x=-17.40, z=-2.8,  y=PARAM_MAIN_BOARD_HEIGHT},
         },
         [KEYWORD_ZONE_DISPLAY_PATTERN] = {
             x_num=5, x_shift=4.9,
@@ -95,7 +95,7 @@ LIST_PARAM_SCRIPING_TRIGGER = {
             position    = {x=2.2, z=-9.2, y=PARAM_MAIN_BOARD_HEIGHT},
         },
         [KEYWORD_ZONE_DISPLAY] = {
-            position    = {x=-17.40, z=-15.14, y=PARAM_MAIN_BOARD_HEIGHT },
+            position    = {x=-17.40, z=-15, y=PARAM_MAIN_BOARD_HEIGHT },
         },
         [KEYWORD_ZONE_DISPLAY_PATTERN] = {
             x_num=5, x_shift=4.9,
@@ -210,7 +210,7 @@ NAME_BOARD_ROLE_DISCARD = "discard_board"
 NAME_BOARD_ROLE_HAND = "hand_board"
 
 -- variant
-SCRIPT_VERSION = 2025071204
+SCRIPT_VERSION = 2025071205
 
 GUID_MAIN_BOARD = "5d757b"
 GUID_RUBBISH_BIN = "70b9f6"
