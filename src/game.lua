@@ -57,6 +57,29 @@ function FactoryCreateGame()
         return self:getPlayerService():getPlayer(player_color).item_manager
     end
 
+    --- set all board interactable = false
+    function game:setAllBoardNotInteractable()
+        -- set all public board interactable = false
+        local publicItemManager = self:getPublicItemManager()
+        if not publicItemManager then
+            error("fatal error: public item manager not found")
+        end
+        for _, v in pairs(publicItemManager.boards) do
+            v:setInteractable(false)
+        end
+
+        -- set all player board interactable = false
+        for _, player in ipairs(DEFAULT_PLAYER_COLOR_LIST) do
+            local playerItemManager = self:getPrivateItemManager(player)
+            if not playerItemManager then
+                error("fatal error: public item manager not found")
+            end
+            for _, v in pairs(playerItemManager.boards) do
+                v:setInteractable(false)
+            end
+        end
+    end
+
     ---------------------------------------------------------------------
     --  Save and Load
     ---------------------------------------------------------------------
@@ -99,9 +122,6 @@ function FactoryCreateGame()
         self.public_service = FactoryCreatePublicService():onLoad(data.public_service or {})
         self.player_service = FactoryCreatePlayerService():onLoad(data.player_service or {})
 
-        -- 初始化游戏
-        self:init()
-
         return self
     end
 
@@ -116,10 +136,9 @@ function FactoryCreateGame()
         return JSON.encode(savedData)
     end
 
+    --- Init game
+    ---@return Game
     function game:init()
-        -- init development mode settings
-        addContextMenuItem("Quit Dev-Mode", QuitDevMode, false)
-
         -- init game board buttons
         local publicService = self:getPublicService()
         local gameBoard = publicService:getPublicBoard(NAME_BOARD_GAME)
@@ -140,6 +159,22 @@ function FactoryCreateGame()
         else
             error("fatal error: main board not found")
         end
+
+        -- init development mode settings
+        if publicService:isDevMode() then
+            addContextMenuItem("Quit Dev-Mode", QuitDevMode, false)
+        else
+            Wait.frames(
+                function()
+                    self:setAllBoardNotInteractable()
+                    setDevBoardHidden()
+                    updateGameMode({}, true)
+                end,
+                1
+            )
+        end
+
+        return self
     end
 
     return game

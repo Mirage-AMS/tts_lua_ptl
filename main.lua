@@ -4,7 +4,7 @@ require("src/game")
 
 function onLoad(saved_data)
     -- check saved data version and decide to use saved data or not
-    GAME = FactoryCreateGame():onLoad(saved_data)
+    GAME = FactoryCreateGame():onLoad(saved_data):init()
 end
 
 function onSave()
