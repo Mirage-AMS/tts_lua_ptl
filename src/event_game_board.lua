@@ -169,6 +169,9 @@ function updateGameMode(data, forceUpdate)
         { key = "bp_strategy",  handler = nil },
     }
     local isSet = publicService:isGameModeSet()
+    if isSet then
+        gameBoard:editButton({index=0, color=__BUTTON_COLOR_DISABLE})
+    end
 
     for index, setting in ipairs(settingsMap) do
         local key = setting.key

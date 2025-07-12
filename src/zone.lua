@@ -64,7 +64,7 @@ local ZoneMethods = {
 
         if deck ~= nil and isCardLike(deck) then
             if deck.is_face_down ~= flip then
-                deck.flip()
+                deck.SetRotation({0, 180, 180})
             end
             local pos = self.deck_slot:getPosition()
             deck.setPosition(pos)
