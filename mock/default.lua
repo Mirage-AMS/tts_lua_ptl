@@ -61,6 +61,12 @@ PlayerInstance = {}
 ---@field getPreviousTurnColor fun(): string[]
 Turns = {}
 
+---@class Time a static global class which provides access to Unity's time information.
+---@field time number The current time. Works like os.time() but is more accurate. Read only.
+---@field delta_time number The amount of time since the last frame. Read only.
+---@field fixed_delta_time number The interval (in seconds) between physics updates. Read only.
+Time = {}
+
 ---@class Vector
 ---@field x number
 ---@field y number
