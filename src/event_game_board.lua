@@ -220,8 +220,20 @@ end
 ---@param valueType string: type of value to switch
 ---@param valueList table: value to switch between
 ---@param getCurrentValue function: callable func to get current value
-local function onButtonClickToggle(valueType, valueList, getCurrentValue)
+---@param debounceTime? number: time to wait before allowing another click (in milliseconds)
+local function onButtonClickToggle(valueType, valueList, getCurrentValue, debounceTime)
+    -- use a closure to realize debounce
+    debounceTime = debounceTime or 200 -- default debounce time is 200ms
+    local lastClickTime = 0.0
+
     return function()
+        local currentTime = Time.time * 1000 -- convert to milliseconds
+
+        -- quick break if debounce time is not passed
+        if currentTime - lastClickTime < debounceTime then return end
+
+        lastClickTime = currentTime
+
         -- quick break if game mode is not setable
         if not isGameModeSetable() then return end
 
