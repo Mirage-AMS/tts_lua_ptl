@@ -36,7 +36,7 @@ ROLE_REGISTER_DICT = {
     [KWORD_ROLE_DAVIAN] = {
         [KWORD_ORDER]       = 1,
         [KWORD_DIFFICULTY]  = EnumRoleDifficulty.NORMAL,
-        [KWORD_PREFERENCE]  = EnumRolePreference.CREATURE_HUNTING,
+        [KWORD_PREFERENCE]  = EnumRolePreference.HUNTING,
         [KWORD_NICKNAME]    = {"达维安", "巨杀"},
         [KWORD_ITEM]        = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT01, index = 1, loc_idx = 1},
@@ -47,7 +47,7 @@ ROLE_REGISTER_DICT = {
     [KWORD_ROLE_GELMAN] = {
         [KWORD_ORDER]       = 2,
         [KWORD_DIFFICULTY]  = EnumRoleDifficulty.EASY,
-        [KWORD_PREFERENCE]  = EnumRolePreference.CREATURE_HUNTING,
+        [KWORD_PREFERENCE]  = EnumRolePreference.HUNTING,
         [KWORD_NICKNAME]    = {"盖尔曼"},
         [KWORD_ITEM]        = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT01, index = 2, loc_idx = 1},
@@ -58,7 +58,7 @@ ROLE_REGISTER_DICT = {
     [KWORD_ROLE_Ell] = {
         [KWORD_ORDER]       = 3,
         [KWORD_DIFFICULTY]  = EnumRoleDifficulty.EASY,
-        [KWORD_PREFERENCE]  = EnumRolePreference.MINERAL_GATHERING,
+        [KWORD_PREFERENCE]  = EnumRolePreference.GATHERING,
         [KWORD_NICKNAME]    = {"埃尔", "铁与火", "火老头"},
         [KWORD_ITEM]        = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT01, index = 3, loc_idx = 1},
@@ -69,7 +69,7 @@ ROLE_REGISTER_DICT = {
     [KWORD_ROLE_ZERIEL] = {
         [KWORD_ORDER]       = 4,
         [KWORD_DIFFICULTY]  = EnumRoleDifficulty.EASY,
-        [KWORD_PREFERENCE]  = EnumRolePreference.PLANT_GATHERING,
+        [KWORD_PREFERENCE]  = EnumRolePreference.GATHERING,
         [KWORD_NICKNAME]    = {"泽丽尔", "树屋", "精灵"},
         [KWORD_ITEM]        = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT01, index = 4, loc_idx = 1},
@@ -102,7 +102,7 @@ ROLE_REGISTER_DICT = {
     [KWORD_ROLE_SIMA] = {
         [KWORD_ORDER]       = 7,
         [KWORD_DIFFICULTY]  = EnumRoleDifficulty.NORMAL,
-        [KWORD_PREFERENCE]  = EnumRolePreference.CREATURE_HUNTING,
+        [KWORD_PREFERENCE]  = EnumRolePreference.HUNTING,
         [KWORD_NICKNAME]    = {"希玛", "牢玛", "牢马", "老马"},
         [KWORD_ITEM]        = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT01, index = 7, loc_idx = 1},
@@ -146,7 +146,7 @@ ROLE_REGISTER_DICT = {
     [KWORD_ROLE_SOLAN] = {
         [KWORD_ORDER]       = 11,
         [KWORD_DIFFICULTY]  = EnumRoleDifficulty.NORMAL,
-        [KWORD_PREFERENCE]  = EnumRolePreference.MINERAL_GATHERING,
+        [KWORD_PREFERENCE]  = EnumRolePreference.GATHERING,
         [KWORD_NICKNAME]    = {"索兰", "高山", "爆破"},
         [KWORD_ITEM]        = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT01, index = 11, loc_idx = 1},
@@ -169,7 +169,7 @@ ROLE_REGISTER_DICT = {
     [KWORD_ROLE_SOURCER] = {
         [KWORD_ORDER]       = 13,
         [KWORD_DIFFICULTY]  = EnumRoleDifficulty.EASY,
-        [KWORD_PREFERENCE]  = EnumRolePreference.CREATURE_HUNTING,
+        [KWORD_PREFERENCE]  = EnumRolePreference.HUNTING,
         [KWORD_NICKNAME]    = {"法师", "光头", "伏地魔"},
         [KWORD_ITEM]        = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT02, index = 1, loc_idx = 1},
@@ -204,7 +204,7 @@ ROLE_REGISTER_DICT = {
     [KWORD_ROLE_LEILANA] = {
         [KWORD_ORDER]       = 16,
         [KWORD_DIFFICULTY]  = EnumRoleDifficulty.NORMAL,
-        [KWORD_PREFERENCE]  = EnumRolePreference.PLANT_GATHERING,
+        [KWORD_PREFERENCE]  = EnumRolePreference.GATHERING,
         [KWORD_NICKNAME]    = {"莱拉娜"},
         [KWORD_ITEM]        = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT02, index = 4, loc_idx = 1},
@@ -226,7 +226,7 @@ ROLE_REGISTER_DICT = {
     [KWORD_ROLE_FLINT] = {
         [KWORD_ORDER]       = 18,
         [KWORD_DIFFICULTY]  = EnumRoleDifficulty.EASY,
-        [KWORD_PREFERENCE]  = EnumRolePreference.PLANT_GATHERING,
+        [KWORD_PREFERENCE]  = EnumRolePreference.GATHERING,
         [KWORD_NICKNAME]    = {"弗林特", "砍树", "烂草"},
         [KWORD_ITEM]        = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT02, index = 6, loc_idx = 1},
@@ -237,7 +237,7 @@ ROLE_REGISTER_DICT = {
     [KWORD_ROLE_ARYA] = {
         [KWORD_ORDER]       = 19,
         [KWORD_DIFFICULTY]  = EnumRoleDifficulty.NORMAL,
-        [KWORD_PREFERENCE]  = EnumRolePreference.CREATURE_HUNTING,
+        [KWORD_PREFERENCE]  = EnumRolePreference.HUNTING,
         [KWORD_NICKNAME]    = {"艾丽娅", "驯鹰", "双鹰", "牢艾", "牢鹰"},
         [KWORD_ITEM]        = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT02, index = 7, loc_idx = 1},
@@ -281,3 +281,7 @@ ROLE_REGISTER_DICT = {
         }
     }
 }
+
+-- var
+NAME_BOARD_DISPLAY = "board_display"
+GUID_DISPLAY_BOARD = "b97de7"

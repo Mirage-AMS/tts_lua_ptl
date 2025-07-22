@@ -32,11 +32,16 @@ EnumBPStrategy = Enum({FREE = 1, STANDARD = 2})
 EnumRoleDifficulty = Enum({EASY = 1, NORMAL = 2, HARD = 3})
 
 ---@class EnumRolePreference
----@field NO_PREFERENCE number
----@field PLANT_GATHERING number
----@field MINERAL_GATHERING number
----@field CREATURE_HUNTING number
-EnumRolePreference = Enum{NO_PREFERENCE=1, PLANT_GATHERING=2, MINERAL_GATHERING=3, CREATURE_HUNTING=4}
+---@field NONE number show all roles
+---@field NO_PREFERENCE number show no-preference roles
+---@field GATHERING number show plant gathering roles
+---@field HUNTING number show creature hunting roles
+EnumRolePreference = Enum({NONE = 1, NO_PREFERENCE = 2, GATHERING = 3, HUNTING = 4})
+
+---@class EnumDisplayBoardSort
+---@field TIME number sort by time
+---@field DIFFICULTY number sort by difficulty
+EnumDisplayBoardSort = Enum({TIME = 1, DIFFICULTY = 2})
 
 ---@class EnumItemOrigin
 ---@field DEV_DECK number
