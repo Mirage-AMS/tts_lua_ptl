@@ -7,6 +7,8 @@ require("mock/default")
 ---@field createButton fun(self: Board, param: table)
 ---@field getButtons fun(self: Board): table<string, any>
 ---@field editButton fun(self: Board, param: table)
+---@field createInput fun(self: Board, param: table)
+---@field editInput fun(self: Board, param: table)
 ---@field setInteractable fun(self: Board, interactable: boolean)
 ---@field getValueByIndex fun(self: Board, index: number): number?
 ---@field tiltValueByIndex fun(self: Board, index: number, value: number)
@@ -15,6 +17,7 @@ require("mock/default")
 
 ---@return Board
 function FactoryCreateBoard()
+    ---@type Board
     local board = {
         guid = nil,
         object = nil
@@ -51,6 +54,20 @@ function FactoryCreateBoard()
             error("fatal error: Board object is nil")
         end
         self.object.editButton(param)
+    end
+
+    function board:createInput(param)
+        if not self.object then
+            error("fatal error: Board object is nil")
+        end
+        self.object.createInput(param)
+    end
+
+    function board:editInput(param)
+        if not self.object then
+            error("fatal error: Board object is nil")
+        end
+        self.object.editInput(param)
     end
 
     ---@param interactable boolean if false, the board will not be interactable (button still interactable)

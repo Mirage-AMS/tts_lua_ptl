@@ -18,8 +18,10 @@ JSON = {}
 ---@field call fun(func_name: string, func_param?: any): any Used to call a Lua function on another entity.
 ---@field clone fun(param: table): Object
 ---@field createButton fun(param: table<string, any>): boolean
+---@field createInput fun(param: table<string, any>): boolean
 ---@field destruct fun(): boolean
 ---@field editButton fun(param: table<string, any>): boolean
+---@field editInput fun(param: table<string, any>): boolean
 ---@field flip fun(): boolean
 ---@field putObject fun(obj: Object): Object
 ---@field setLock fun(lock: boolean): boolean
