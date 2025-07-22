@@ -67,6 +67,9 @@ function FactoryCreateGame()
         for _, v in pairs(publicItemManager.boards) do
             v:setInteractable(false)
         end
+        for _, v in pairs(publicItemManager.displayBoards) do
+            v:setInteractable(false)
+        end
 
         -- set all player board interactable = false
         for _, player in ipairs(DEFAULT_PLAYER_COLOR_LIST) do

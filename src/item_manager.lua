@@ -1,84 +1,82 @@
 require("src/container")
 require("src/board")
+require("src/board_display")
 require("src/zone")
+
+--- ItemManager is a class to manage certian types of items in the game.
+---@class ItemManager
+---@field containers table<string, Container>
+---@field boards table<string, Board>
+---@field displayBoards table<string, BoardDisplay>
+---@field zones table<string, Zone>
+---@field getContainer fun(self: ItemManager, name: string): Container
+---@field getBoard fun(self: ItemManager, name: string): Board
+---@field getBoardDisplay fun(self: ItemManager, name: string): BoardDisplay
+---@field getZone fun(self: ItemManager, name: string): Zone
+---@field onSave fun(self: ItemManager): table
+---@field onLoad fun(self: ItemManager, data: table): ItemManager
 
 ---@return ItemManager
 function FactoryCreateItemManager()
-    --[[
-        item manager is a abstract class to manage actual item in the game
-    ]]--
-    ---@class ItemManager
-    ---@field containers table<string, Container>
-    ---@field boards table<string, Board>
-    ---@field zones table<string, Zone>
-    local manager = {
-        containers = {},
-        boards = {},
-        zones = {},
+    local config = {
+        { name = "containers", factory = FactoryCreateContainer },
+        { name = "boards", factory = FactoryCreateBoard },
+        { name = "displayBoards", factory = FactoryCreateBoardDisplay },
+        { name = "zones", factory = FactoryCreateZone },
     }
 
-    -- Getters
-    ---@param name string
-    ---@return Container
-    function manager:getContainer(name)
-        return self.containers[name]
-    end
+    ---@type ItemManager
+    local manager = {
+        -- 显式初始化所有存储表
+        containers = {},
+        boards = {},
+        displayBoards = {},
+        zones = {},
 
-    ---@param name string
-    ---@return Board
-    function manager:getBoard(name)
-        return self.boards[name]
-    end
+        getContainer = function(self, name)
+            return self.containers[name]
+        end,
 
-    ---@param name string
-    ---@return Zone
-    function manager:getZone(name)
-        return self.zones[name]
-    end
+        getBoard = function(self, name)
+            return self.boards[name]
+        end,
 
-    -- Save and Load ---------------------------------------------------------------------
-    ---@return table
-    function manager:onSave()
-        local config = {
-            { name = "containers", factory = FactoryCreateContainer },
-            { name = "boards", factory = FactoryCreateBoard },
-            { name = "zones", factory = FactoryCreateZone },
-        }
+        getBoardDisplay = function(self, name)
+            return self.displayBoards[name]
+        end,
 
-        local savedData = {}
+        getZone = function(self, name)
+            return self.zones[name]
+        end,
 
-        for _, entry in ipairs(config) do
-            local savedItems = {}
-            local items = self[entry.name] or {}
+        onSave = function(self)
+            local savedData = {}
 
-            for k, v in pairs(items) do
-                savedItems[k] = v:onSave()
+            for _, entry in ipairs(config) do
+                local savedItems = {}
+                local items = self[entry.name] or {}
+
+                for k, v in pairs(items) do
+                    savedItems[k] = v:onSave()
+                end
+
+                savedData[entry.name] = savedItems
             end
 
-            savedData[entry.name] = savedItems
-        end
+            return savedData
+        end,
 
-        return savedData
-    end
-
-    ---@param data table
-    ---@return ItemManager
-    function manager:onLoad(data)
-        local config = {
-            { name = "containers", factory = FactoryCreateContainer },
-            { name = "boards", factory = FactoryCreateBoard },
-            { name = "zones", factory = FactoryCreateZone },
-        }
-
-        for _, entry in ipairs(config) do
-            local items = data[entry.name] or {}
-            for k, v in pairs(items) do
-                self[entry.name][k] = entry.factory():onLoad(v or {})
+        onLoad = function(self, data)
+            for _, entry in ipairs(config) do
+                local items = data[entry.name] or {}
+                for k, v in pairs(items) do
+                    self[entry.name][k] = entry.factory():onLoad(v or {})
+                end
             end
-        end
 
-        return self
-    end
+            return self
+        end
+    }
 
     return manager
 end

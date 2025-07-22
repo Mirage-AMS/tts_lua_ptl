@@ -157,6 +157,9 @@ function buildDefaultData()
                     [NAME_BOARD_ROLE_DISPLAY_03] = { guid = GUID_ROLE_DISPLAY_BOARD_03 },
                     [NAME_BOARD_ROLE_DISPLAY_04] = { guid = GUID_ROLE_DISPLAY_BOARD_04 },
                 },
+                displayBoards = {
+                    [NAME_BOARD_DISPLAY] = { guid = GUID_DISPLAY_BOARD}
+                },
                 zones = buildPublicZoneData()
             },
             mode_manager = {

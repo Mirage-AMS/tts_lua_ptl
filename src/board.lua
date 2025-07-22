@@ -1,10 +1,20 @@
 require("mock/default")
 
+---@class Board
+---@field guid string?
+---@field object Object?
+---@field getPosition fun(self: Board): Vector
+---@field createButton fun(self: Board, param: table)
+---@field getButtons fun(self: Board): table<string, any>
+---@field editButton fun(self: Board, param: table)
+---@field setInteractable fun(self: Board, interactable: boolean)
+---@field getValueByIndex fun(self: Board, index: number): number?
+---@field tiltValueByIndex fun(self: Board, index: number, value: number)
+---@field onSave fun(self: Board): table
+---@field onLoad fun(self: Board, data: table): Board
+
 ---@return Board
 function FactoryCreateBoard()
-    ---@class Board
-    ---@field guid string?
-    ---@field object Object?
     local board = {
         guid = nil,
         object = nil
