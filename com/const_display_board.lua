@@ -17,18 +17,18 @@ DISPLAY_BOARD_BUTTON_FONT_SIZE = 80
 PARAM_DISPLAY_BOARD_BUTTON_REFRESH = {
     click_function="onChangeDisplayBoardRefersh",
     function_owner = self,
-    width = DISPLAY_BOARD_BUTTON_WIDTH, height = DISPLAY_BOARD_BUTTON_HEIGHT,
+    width = 100, height = 100,
     scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=DISPLAY_BOARD_BUTTON_FONT_SIZE,
-    position = Vector(0.05, 1.0, -0.53),
+    position = Vector(0.9, 1.0, 0.9),
     label = "○", tooltip = "重置当前页面"
 }
 
 PARAM_DISPLAY_BOARD_BUTTON_SWITCH_PREV_PAGE = {
     click_function="onChangeDisplayBoardSettingPrevPage",
     function_owner = self,
-    width = DISPLAY_BOARD_BUTTON_WIDTH, height = DISPLAY_BOARD_BUTTON_HEIGHT,
+    width = 100, height = 150,
     scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=DISPLAY_BOARD_BUTTON_FONT_SIZE,
-    position = Vector(0.05, 1.0, -0.53),
+    position = Vector(-0.20, 1.0, -0.90),
     label = "<", tooltip = "上一页",
 }
 
@@ -37,7 +37,7 @@ PARAM_DISPLAY_BOARD_BUTTON_SWITCH_NEXT_PAGE = {
     function_owner = self,
     width = DISPLAY_BOARD_BUTTON_WIDTH, height = DISPLAY_BOARD_BUTTON_HEIGHT,
     scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=DISPLAY_BOARD_BUTTON_FONT_SIZE,
-    position = Vector(0.05, 1.0, -0.53),
+    position = Vector(0.20, 1.0, -0.90),
     label = ">", tooltip = "下一页",
 }
 
@@ -46,7 +46,7 @@ PARAM_DISPLAY_BOARD_BUTTON_SWITCH_PREFERENCE = {
     function_owner = self,
     width = DISPLAY_BOARD_BUTTON_WIDTH, height = DISPLAY_BOARD_BUTTON_HEIGHT,
     scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=DISPLAY_BOARD_BUTTON_FONT_SIZE,
-    position = Vector(-0.65, 1.0, -0.78),
+    position = Vector(-0.85, 1.0, 0.78),
 }
 
 PARAM_DISPLAY_BOARD_BUTTON_SWITCH_SORT_BY = {
@@ -54,15 +54,15 @@ PARAM_DISPLAY_BOARD_BUTTON_SWITCH_SORT_BY = {
     function_owner = self,
     width = DISPLAY_BOARD_BUTTON_WIDTH, height = DISPLAY_BOARD_BUTTON_HEIGHT,
     scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=DISPLAY_BOARD_BUTTON_FONT_SIZE,
-    position = Vector(0.05, 1.0, -0.78),
+    position = Vector(0.55, 1.0, 0.78),
 }
 
 PARAM_DISPLAY_BOARD_BUTTON_SWITCH_IS_REVERSE = {
     click_function="onChangeDisplayBoardSettingIsReverse",
     function_owner = self,
-    width = DISPLAY_BOARD_BUTTON_WIDTH, height = DISPLAY_BOARD_BUTTON_HEIGHT,
+    width = 100, height = 100,
     scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=DISPLAY_BOARD_BUTTON_FONT_SIZE,
-    position = Vector(-0.65, 1.0, -0.53),
+    position = Vector(0.7, 1.0, 0.9),
 }
 
 LIST_PARAM_DISPLAY_BOARD_BUTTONS = {
@@ -97,7 +97,7 @@ PARAM_DISPLAY_BOARD_INPUT_PAGE_NUM = {
     function_owner = self,
     width = DISPLAY_BOARD_BUTTON_WIDTH, height = DISPLAY_BOARD_BUTTON_HEIGHT,
     scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=DISPLAY_BOARD_BUTTON_FONT_SIZE,
-    position = Vector(0.05, 1.0, -0.78),
+    position = Vector(0.00, 1.0, -0.9),
     alignment = 5, -- Justified
     validation = 2, -- Integer validation
 }
@@ -106,7 +106,7 @@ PARAM_DISPLAY_BOARD_INPUT_SEARCH_TEXT = {
     function_owner = self,
     width = DISPLAY_BOARD_BUTTON_WIDTH, height = DISPLAY_BOARD_BUTTON_HEIGHT,
     scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=DISPLAY_BOARD_BUTTON_FONT_SIZE,
-    position = Vector(-0.65, 1.0, -0.78),
+    position = Vector(0.00, 1.0, 0.78),
     alignment = 2,
 }
 
