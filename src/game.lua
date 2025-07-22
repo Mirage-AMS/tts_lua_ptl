@@ -1,5 +1,7 @@
 require("mock/default")
 require("com/const")
+require("com/const_game_board")
+require("com/const_display_board")
 require("com/const_main_board")
 require("com/basic")
 require("src/public_service")
@@ -151,6 +153,21 @@ function FactoryCreateGame()
             end
         else
             error("fatal error: game board not found")
+        end
+
+        -- init display board buttons && inputs
+        local displayBoard = publicService:getItemManager():getBoardDisplay(NAME_BOARD_DISPLAY)
+        if displayBoard ~= nil then
+            for _, param in ipairs(LIST_PARAM_DISPLAY_BOARD_BUTTONS) do
+                displayBoard:createButton(param)
+            end
+
+            for _, param in ipairs(LIST_PARAM_DISPLAY_BOARD_INPUTS) do
+                displayBoard:createInput(param)
+            end
+
+        else
+            error("fatal error: display board not found")
         end
 
         -- init main board buttons

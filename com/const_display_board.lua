@@ -8,6 +8,117 @@ KWORD_PREFERENCE = "preference"
 KWORD_NICKNAME = "nickname"
 KWORD_ITEM = "item"
 
+-- buttons
+DISPLAY_BOARD_BUTTON_SCALE = {x=0.6,z=0.6,y=1}
+DISPLAY_BOARD_BUTTON_WIDTH = 400
+DISPLAY_BOARD_BUTTON_HEIGHT = 200
+DISPLAY_BOARD_BUTTON_FONT_SIZE = 80
+
+PARAM_DISPLAY_BOARD_BUTTON_REFRESH = {
+    click_function="onChangeDisplayBoardRefersh",
+    function_owner = self,
+    width = DISPLAY_BOARD_BUTTON_WIDTH, height = DISPLAY_BOARD_BUTTON_HEIGHT,
+    scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=DISPLAY_BOARD_BUTTON_FONT_SIZE,
+    position = Vector(0.05, 1.0, -0.53),
+    label = "○", tooltip = "重置当前页面"
+}
+
+PARAM_DISPLAY_BOARD_BUTTON_SWITCH_PREV_PAGE = {
+    click_function="onChangeDisplayBoardSettingPrevPage",
+    function_owner = self,
+    width = DISPLAY_BOARD_BUTTON_WIDTH, height = DISPLAY_BOARD_BUTTON_HEIGHT,
+    scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=DISPLAY_BOARD_BUTTON_FONT_SIZE,
+    position = Vector(0.05, 1.0, -0.53),
+    label = "<", tooltip = "上一页",
+}
+
+PARAM_DISPLAY_BOARD_BUTTON_SWITCH_NEXT_PAGE = {
+    click_function="onChangeDisplayBoardSettingNextPage",
+    function_owner = self,
+    width = DISPLAY_BOARD_BUTTON_WIDTH, height = DISPLAY_BOARD_BUTTON_HEIGHT,
+    scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=DISPLAY_BOARD_BUTTON_FONT_SIZE,
+    position = Vector(0.05, 1.0, -0.53),
+    label = ">", tooltip = "下一页",
+}
+
+PARAM_DISPLAY_BOARD_BUTTON_SWITCH_PREFERENCE = {
+    click_function="onChangeDisplayBoardSettingPreference",
+    function_owner = self,
+    width = DISPLAY_BOARD_BUTTON_WIDTH, height = DISPLAY_BOARD_BUTTON_HEIGHT,
+    scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=DISPLAY_BOARD_BUTTON_FONT_SIZE,
+    position = Vector(-0.65, 1.0, -0.78),
+}
+
+PARAM_DISPLAY_BOARD_BUTTON_SWITCH_SORT_BY = {
+    click_function="onChangeDisplayBoardSettingSortBy",
+    function_owner = self,
+    width = DISPLAY_BOARD_BUTTON_WIDTH, height = DISPLAY_BOARD_BUTTON_HEIGHT,
+    scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=DISPLAY_BOARD_BUTTON_FONT_SIZE,
+    position = Vector(0.05, 1.0, -0.78),
+}
+
+PARAM_DISPLAY_BOARD_BUTTON_SWITCH_IS_REVERSE = {
+    click_function="onChangeDisplayBoardSettingIsReverse",
+    function_owner = self,
+    width = DISPLAY_BOARD_BUTTON_WIDTH, height = DISPLAY_BOARD_BUTTON_HEIGHT,
+    scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=DISPLAY_BOARD_BUTTON_FONT_SIZE,
+    position = Vector(-0.65, 1.0, -0.53),
+}
+
+LIST_PARAM_DISPLAY_BOARD_BUTTONS = {
+    PARAM_DISPLAY_BOARD_BUTTON_REFRESH,
+    PARAM_DISPLAY_BOARD_BUTTON_SWITCH_PREV_PAGE,
+    PARAM_DISPLAY_BOARD_BUTTON_SWITCH_NEXT_PAGE,
+    PARAM_DISPLAY_BOARD_BUTTON_SWITCH_PREFERENCE,
+    PARAM_DISPLAY_BOARD_BUTTON_SWITCH_SORT_BY,
+    PARAM_DISPLAY_BOARD_BUTTON_SWITCH_IS_REVERSE,
+}
+
+PARAM_SWITCH_BUTTON_CHANGE = {
+    [3] = {
+        [EnumRolePreference.NONE] = {label = "全部显示", tooltip = "点击切换至采集角色"},
+        [EnumRolePreference.GATHERING] = {label = "采集角色", tooltip = "点击切换至狩猎角色"},
+        [EnumRolePreference.HUNTING] = {label = "狩猎角色", tooltip = "点击切换至泛用角色"},
+        [EnumRolePreference.NO_PREFERENCE] = {label = "泛用角色", tooltip = "点击切换至全部显示"},
+    },
+    [4] = {
+        [EnumDisplayBoardSort.DIFFICULTY] = {label = "难度顺序", tooltip = "点击切换至时间顺序"},
+        [EnumDisplayBoardSort.TIME] = {label ="时间顺序", tooltip = "点击切换至难度顺序"},
+    },
+    [5] = {
+        [false] = {label = "↑", tooltip = "点击切换至倒序"},
+        [true]  = {label = "↓", tooltip = "点击切换至顺序"},
+    },
+}
+
+--- input
+PARAM_DISPLAY_BOARD_INPUT_PAGE_NUM = {
+    input_function="onChangeDisplayBoardPageNum",
+    function_owner = self,
+    width = DISPLAY_BOARD_BUTTON_WIDTH, height = DISPLAY_BOARD_BUTTON_HEIGHT,
+    scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=DISPLAY_BOARD_BUTTON_FONT_SIZE,
+    position = Vector(0.05, 1.0, -0.78),
+    alignment = 5, -- Justified
+    validation = 2, -- Integer validation
+}
+PARAM_DISPLAY_BOARD_INPUT_SEARCH_TEXT = {
+    input_function="onChangeDisplayBoardSearchText",
+    function_owner = self,
+    width = DISPLAY_BOARD_BUTTON_WIDTH, height = DISPLAY_BOARD_BUTTON_HEIGHT,
+    scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=DISPLAY_BOARD_BUTTON_FONT_SIZE,
+    position = Vector(-0.65, 1.0, -0.78),
+    alignment = 2,
+}
+
+LIST_PARAM_DISPLAY_BOARD_INPUTS = {
+    PARAM_DISPLAY_BOARD_INPUT_PAGE_NUM,
+    PARAM_DISPLAY_BOARD_INPUT_SEARCH_TEXT,
+}
+
+-- var
+NAME_BOARD_DISPLAY = "board_display"
+GUID_DISPLAY_BOARD = "b97de7"
+
 -- all roles here
 KWORD_ROLE_DAVIAN = "role_davian" ---- 达维安，巨人杀手
 KWORD_ROLE_GELMAN = "role_gelman" ---- 盖尔曼，历战勇士
@@ -281,7 +392,3 @@ ROLE_REGISTER_DICT = {
         }
     }
 }
-
--- var
-NAME_BOARD_DISPLAY = "board_display"
-GUID_DISPLAY_BOARD = "b97de7"
