@@ -8,6 +8,7 @@ require("src/public_service")
 require("src/player_service")
 require("src/build_data")
 require("src/event_game_board")
+require("src/event_display_board")
 require("src/event_main_board")
 require("src/event_context_menu")
 

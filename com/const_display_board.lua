@@ -1,6 +1,7 @@
 require("mock/default")
 require("com/enum_const")
 require("com/const_dev_board")
+require("com/const_game_board")
 
 KWORD_ORDER = "order"
 KWORD_DIFFICULTY = "difficulty"
@@ -9,52 +10,52 @@ KWORD_NICKNAME = "nickname"
 KWORD_ITEM = "item"
 
 -- buttons
-DISPLAY_BOARD_BUTTON_SCALE = {x=0.6,z=0.6,y=1}
-DISPLAY_BOARD_BUTTON_WIDTH = 400
-DISPLAY_BOARD_BUTTON_HEIGHT = 200
-DISPLAY_BOARD_BUTTON_FONT_SIZE = 80
+DISPLAY_BOARD_BUTTON_SCALE = {x=0.6,z=0.6,y=0.5}
+DISPLAY_BOARD_BUTTON_WIDTH = 300
+DISPLAY_BOARD_BUTTON_HEIGHT = 100
+DISPLAY_BOARD_BUTTON_FONT_SIZE = 70
 
 PARAM_DISPLAY_BOARD_BUTTON_REFRESH = {
     click_function="onChangeDisplayBoardRefersh",
     function_owner = self,
     width = 100, height = 100,
     scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=DISPLAY_BOARD_BUTTON_FONT_SIZE,
-    position = Vector(0.9, 1.0, 0.9),
+    position = Vector(1.25, 1.0, -1.0),
     label = "○", tooltip = "重置当前页面"
 }
 
 PARAM_DISPLAY_BOARD_BUTTON_SWITCH_PREV_PAGE = {
     click_function="onChangeDisplayBoardSettingPrevPage",
     function_owner = self,
-    width = 100, height = 150,
+    width = 50, height = 100,
     scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=DISPLAY_BOARD_BUTTON_FONT_SIZE,
-    position = Vector(-0.20, 1.0, -0.90),
+    position = Vector(-0.15, 1.0, 1.0),
     label = "<", tooltip = "上一页",
 }
 
 PARAM_DISPLAY_BOARD_BUTTON_SWITCH_NEXT_PAGE = {
     click_function="onChangeDisplayBoardSettingNextPage",
     function_owner = self,
-    width = DISPLAY_BOARD_BUTTON_WIDTH, height = DISPLAY_BOARD_BUTTON_HEIGHT,
+    width = 50, height = 100,
     scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=DISPLAY_BOARD_BUTTON_FONT_SIZE,
-    position = Vector(0.20, 1.0, -0.90),
+    position = Vector(0.15, 1.0, 1.0),
     label = ">", tooltip = "下一页",
 }
 
 PARAM_DISPLAY_BOARD_BUTTON_SWITCH_PREFERENCE = {
     click_function="onChangeDisplayBoardSettingPreference",
     function_owner = self,
-    width = DISPLAY_BOARD_BUTTON_WIDTH, height = DISPLAY_BOARD_BUTTON_HEIGHT,
+    width = 350, height = 65,
     scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=DISPLAY_BOARD_BUTTON_FONT_SIZE,
-    position = Vector(-0.85, 1.0, 0.78),
+    position = Vector(-1.10, 1.0, -1.0),
 }
 
 PARAM_DISPLAY_BOARD_BUTTON_SWITCH_SORT_BY = {
     click_function="onChangeDisplayBoardSettingSortBy",
     function_owner = self,
-    width = DISPLAY_BOARD_BUTTON_WIDTH, height = DISPLAY_BOARD_BUTTON_HEIGHT,
+    width = 350, height = 65,
     scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=DISPLAY_BOARD_BUTTON_FONT_SIZE,
-    position = Vector(0.55, 1.0, 0.78),
+    position = Vector(0.82, 1.0, -1.0),
 }
 
 PARAM_DISPLAY_BOARD_BUTTON_SWITCH_IS_REVERSE = {
@@ -62,28 +63,28 @@ PARAM_DISPLAY_BOARD_BUTTON_SWITCH_IS_REVERSE = {
     function_owner = self,
     width = 100, height = 100,
     scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=DISPLAY_BOARD_BUTTON_FONT_SIZE,
-    position = Vector(0.7, 1.0, 0.9),
+    position = Vector(1.10, 1.0, -1.0),
 }
 
 LIST_PARAM_DISPLAY_BOARD_BUTTONS = {
-    PARAM_DISPLAY_BOARD_BUTTON_REFRESH,
-    PARAM_DISPLAY_BOARD_BUTTON_SWITCH_PREV_PAGE,
-    PARAM_DISPLAY_BOARD_BUTTON_SWITCH_NEXT_PAGE,
-    PARAM_DISPLAY_BOARD_BUTTON_SWITCH_PREFERENCE,
-    PARAM_DISPLAY_BOARD_BUTTON_SWITCH_SORT_BY,
-    PARAM_DISPLAY_BOARD_BUTTON_SWITCH_IS_REVERSE,
+    [1] = PARAM_DISPLAY_BOARD_BUTTON_REFRESH,
+    [2] = PARAM_DISPLAY_BOARD_BUTTON_SWITCH_PREV_PAGE,
+    [3] = PARAM_DISPLAY_BOARD_BUTTON_SWITCH_NEXT_PAGE,
+    [4] = PARAM_DISPLAY_BOARD_BUTTON_SWITCH_PREFERENCE,
+    [5] = PARAM_DISPLAY_BOARD_BUTTON_SWITCH_SORT_BY,
+    [6] = PARAM_DISPLAY_BOARD_BUTTON_SWITCH_IS_REVERSE,
 }
 
 PARAM_SWITCH_BUTTON_CHANGE = {
-    [3] = {
-        [EnumRolePreference.NONE] = {label = "全部显示", tooltip = "点击切换至采集角色"},
-        [EnumRolePreference.GATHERING] = {label = "采集角色", tooltip = "点击切换至狩猎角色"},
-        [EnumRolePreference.HUNTING] = {label = "狩猎角色", tooltip = "点击切换至泛用角色"},
-        [EnumRolePreference.NO_PREFERENCE] = {label = "泛用角色", tooltip = "点击切换至全部显示"},
+    [3]= {
+        [EnumRolePreference.NONE] = {label = "全部显示", tooltip = "点击切换至采集角色", color = __BUTTON_COLOR_WHITE},
+        [EnumRolePreference.GATHERING] = {label = "采集角色", tooltip = "点击切换至狩猎角色", color = __BUTTON_COLOR_GREEN},
+        [EnumRolePreference.HUNTING] = {label = "狩猎角色", tooltip = "点击切换至泛用角色", color = __BUTTON_COLOR_RED},
+        [EnumRolePreference.NO_PREFERENCE] = {label = "泛用角色", tooltip = "点击切换至全部显示", color = __BUTTON_COLOR_YELLOW},
     },
     [4] = {
-        [EnumDisplayBoardSort.DIFFICULTY] = {label = "难度顺序", tooltip = "点击切换至时间顺序"},
-        [EnumDisplayBoardSort.TIME] = {label ="时间顺序", tooltip = "点击切换至难度顺序"},
+        [EnumDisplayBoardSort.DIFFICULTY] = {label = "难度顺序", tooltip = "点击切换至时间顺序", color = __BUTTON_COLOR_WHITE},
+        [EnumDisplayBoardSort.TIME] = {label ="时间顺序", tooltip = "点击切换至难度顺序", color = __BUTTON_COLOR_PURPLE},
     },
     [5] = {
         [false] = {label = "↑", tooltip = "点击切换至倒序"},
@@ -95,19 +96,19 @@ PARAM_SWITCH_BUTTON_CHANGE = {
 PARAM_DISPLAY_BOARD_INPUT_PAGE_NUM = {
     input_function="onChangeDisplayBoardPageNum",
     function_owner = self,
-    width = DISPLAY_BOARD_BUTTON_WIDTH, height = DISPLAY_BOARD_BUTTON_HEIGHT,
+    width = 150, height = 100,
     scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=DISPLAY_BOARD_BUTTON_FONT_SIZE,
-    position = Vector(0.00, 1.0, -0.9),
-    alignment = 5, -- Justified
+    position = Vector(0.00, 1.0, 1.0),
+    alignment = 3,
     validation = 2, -- Integer validation
 }
 PARAM_DISPLAY_BOARD_INPUT_SEARCH_TEXT = {
     input_function="onChangeDisplayBoardSearchText",
     function_owner = self,
-    width = DISPLAY_BOARD_BUTTON_WIDTH, height = DISPLAY_BOARD_BUTTON_HEIGHT,
-    scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=DISPLAY_BOARD_BUTTON_FONT_SIZE,
-    position = Vector(0.00, 1.0, 0.78),
-    alignment = 2,
+    width = 1200, height = 110,
+    scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=75,
+    position = Vector(-0.15, 1.0, -1.0),
+    alignment = 5,
 }
 
 LIST_PARAM_DISPLAY_BOARD_INPUTS = {

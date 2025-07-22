@@ -10,6 +10,7 @@ local function editDisplayBoardButton(index, value)
     -- quick break if param is not found
     if not param then return end
 
+    param.index = index
     GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY):editButton(param)
 end
 
