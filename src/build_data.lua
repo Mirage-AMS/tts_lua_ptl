@@ -1,6 +1,7 @@
 require("com/const")
 require("com/const_dev_board")
 require("com/const_game_board")
+require("com/const_display_board")
 require("com/basic")
 require("com/vector")
 require("com/enum_const")

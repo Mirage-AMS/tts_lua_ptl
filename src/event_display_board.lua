@@ -1,5 +1,26 @@
 require("mock/default")
 require("com/enum_const")
+require("com/const_display_board")
+
+local function editDisplayBoardButton(index, value)
+    local buttonParam = PARAM_SWITCH_BUTTON_CHANGE[index]
+    -- quick break if button param is not found
+    if not buttonParam then return end
+    local param = buttonParam[value]
+    -- quick break if param is not found
+    if not param then return end
+
+    GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY):editButton(param)
+end
+
+local function editDisplayBoardInputPageNum(page_num)
+    local param = {
+        index = 0,
+        value = page_num,
+    }
+    GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY):editInput(param)
+end
+
 
 ---@param data table<string, any>
 ---@param forceUpdate boolean?
@@ -10,7 +31,17 @@ function updateDisplayBoard(data, forceUpdate)
     boardDisplay:setDisplayOption(data)
     local newData = boardDisplay:getDisplayOption()
 
+    -- get data by display option
+    -- TODO: get display infos by display option
 
+    -- update the display board ui
+    editDisplayBoardButton(3, newData.preference)
+    editDisplayBoardButton(4, newData.sort_by)
+    editDisplayBoardButton(5, newData.is_reverse)
+    editDisplayBoardInputPageNum(newData.page_num)
+
+    -- update display board
+    -- TODO: update display roles by display infos
 end
 
 --- a wrapper function to toggle between values
