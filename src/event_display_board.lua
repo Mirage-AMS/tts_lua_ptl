@@ -1,6 +1,7 @@
 require("mock/default")
 require("com/enum_const")
 require("com/const_display_board")
+require("com/const_dev_board")
 
 ---@param option table<string, any>
 ---@return string[]
@@ -117,6 +118,85 @@ local function clearDisplayBoardZone()
     end
 end
 
+---@param infoList string[]
+local function setupRoleItem(infoList)
+    if not infoList or #infoList == 0 then return end
+    local boardDisplay = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY)
+
+    -- gather items info from register role info
+    local registerRoleInfo = ROLE_REGISTER_DICT
+    local items = {}
+    for boardIdx, roleKey in ipairs(infoList) do
+        local roleData = registerRoleInfo[roleKey] or {}
+        local roleItems = roleData[KWORD_ITEM]
+        if roleItems and #roleItems > 0 then
+            for _, item in ipairs(roleItems) do
+                local origin = item.origin
+                local prefix = item.prefix
+                if not items[origin] then
+                    items[origin] = {}
+                end
+                if not items[origin][prefix] then
+                    items[origin][prefix] = {}
+                end
+                local copyItem = deepCopy(item)
+                copyItem.loc_id = boardIdx
+                table.insert(items[origin][prefix], copyItem)
+            end
+        end
+    end
+
+    -- dev deck
+    local publicService = GAME:getPublicService()
+
+    local boardPattern = ROLE_DISPLAY_BOARD_PATTERN
+    local dx, dz = boardPattern.dx, boardPattern.dz
+    local dxx, dzz = boardPattern.dxx, boardPattern.dzz
+    local dxxx, dzzz = boardPattern.dxxx, boardPattern.dzzz
+
+    local itemFromDevDeck = items[EnumItemOrigin.DEV_DECK]
+    if itemFromDevDeck then
+        for prefix, itemList in pairs(itemFromDevDeck) do
+            if itemList and #itemList > 0 then
+                local deck = publicService:getDevDeck(prefix)
+                if not deck or not isCardLike(deck) then
+                    error("fatal error: dev deck "..prefix.." is not found")
+                end
+                local clonedPos = boardDisplay:getPosition() + Vector(0, 2, 0)
+                local clonedDeck = deck.clone({position = clonedPos})
+
+                local deckTakeCount = 1
+                for _, item in ipairs(itemList) do
+                    local deckIndex = item.index
+                    local col = (item.loc_id % 2 == 1) and 1 or 2
+                    local row = math.ceil(item.loc_id / 2)
+                    local offsets = {
+                        [1] = { x = col, z = row, dx = dx, dz = dz },
+                        [2] = { x = item.loc_idx or 1, z = 1, dx = dxx, dz = dzz },
+                        [3] = { x = item.loc_idxx or 1, z = 1, dx = dxxx, dz = dzzz }
+                    }
+
+                    while deckIndex > deckTakeCount do
+                        clonedDeck.takeObject().destruct()
+                        deckTakeCount = deckTakeCount + 1
+                    end
+
+                    --- 3 times pattern shift
+                    local pos = boardDisplay:getPosition()
+                    for index, offset in ipairs(offsets) do
+                        pos = getOffsetPosition(pos, offset.x, offset.z, offset.dx, offset.dz)
+                        -- special case for 3rd pattern shift, shift up a little bit
+                        if index == 3 and offset.x > 1 then
+                            pos = pos + Vector(0, 0.05, 0) * (offset.x - 1)
+                        end
+                    end
+                    clonedDeck.takeObject({position = pos, flip=true}).setLock(true)
+                end
+            end
+        end
+    end
+end
+
 ---@param data table<string, any>
 ---@param forceUpdate boolean?
 function updateDisplayBoard(data, forceUpdate)
@@ -154,7 +234,7 @@ function updateDisplayBoard(data, forceUpdate)
     clearDisplayBoardZone()
 
     -- gather card info
-    -- @TODO: fulfill this function
+    setupRoleItem(newInfoList)
 end
 
 --- a wrapper function to toggle between values
