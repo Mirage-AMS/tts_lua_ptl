@@ -103,6 +103,19 @@ local function editDisplayBoardInputPageNum(page_num)
     GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY):editInput(param)
 end
 
+local function clearDisplayBoardZone()
+    local zone = GAME:getPublicItemManager():getZone(NAME_ZONE_DISPLAY_BOARD)
+    if not zone then
+        error("fatal error: display board zone is not found")
+    end
+    local deckSlot = zone.deck_slot
+    if not deckSlot then
+        error("fatal error: "..zone.name..".deck_slot is nil")
+    end
+    for _, card in ipairs(deckSlot:getCardObjects()) do
+        card.destruct()
+    end
+end
 
 ---@param data table<string, any>
 ---@param forceUpdate boolean?
@@ -137,8 +150,11 @@ function updateDisplayBoard(data, forceUpdate)
     local isDisplayListChanged = not isListEqual(oldInfoList, newInfoList)
     if not forceUpdate and not isDisplayListChanged then return end
 
-    -- update display board
-    -- TODO: update display roles by display infos
+    -- clear display board zone
+    clearDisplayBoardZone()
+
+    -- gather card info
+    -- @TODO: fulfill this function
 end
 
 --- a wrapper function to toggle between values
