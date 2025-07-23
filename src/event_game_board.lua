@@ -163,7 +163,7 @@ end
 ---@param data table<string, any>: data to update
 ---@param forceUpdate boolean: force update all fields
 function updateGameMode(data, forceUpdate)
-    local paramDictAll = PARAM_SWITCH_BUTTON_CHANGE
+    local paramDictAll = PARAM_GAME_BOARD_SWITCH_BUTTON_CHANGE
     local publicService = GAME:getPublicService()
     local gameModeManager = publicService:getGameModeManager()
     local gameBoard = publicService:getPublicBoard(NAME_BOARD_GAME)

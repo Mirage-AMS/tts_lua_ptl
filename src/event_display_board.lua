@@ -85,7 +85,7 @@ local function getDisplayListByOption(option)
 end
 
 local function editDisplayBoardButton(index, value)
-    local buttonParam = PARAM_SWITCH_BUTTON_CHANGE[index]
+    local buttonParam = PARAM_DISPLAY_BOARD_SWITCH_BUTTON_CHANGE[index]
     -- quick break if button param is not found
     if not buttonParam then return end
     local param = buttonParam[value]

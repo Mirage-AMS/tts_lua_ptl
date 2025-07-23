@@ -51,7 +51,7 @@ PARAM_GAME_BOARD_BUTTON_SWITCH_BP_STRATEGY = {
     position = Vector(0.05, 1.0, -0.53),
 }
 
-PARAM_SWITCH_BUTTON_CHANGE = {
+PARAM_GAME_BOARD_SWITCH_BUTTON_CHANGE = {
     [1] = {
         [EnumGameGoal.QUICK] = {label = "传奇-快速", tooltip = "点击切换至传奇-标准", color = __BUTTON_COLOR_DEFAULT},
         [EnumGameGoal.STANDARD] = {label = "传奇-标准", tooltip = "点击切换至传奇-快速", color = __BUTTON_COLOR_YELLOW},
