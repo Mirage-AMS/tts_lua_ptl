@@ -97,11 +97,16 @@ local function editDisplayBoardButton(index, value)
 end
 
 local function editDisplayBoardInputPageNum(page_num)
-    local param = {
-        index = 0,
-        value = page_num,
-    }
-    GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY):editInput(param)
+    Wait.frames(
+        function()
+            local param = {
+                index = 0,
+                value = page_num,
+            }
+            GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY):editInput(param)
+        end,
+        1
+    )
 end
 
 local function clearDisplayBoardZone()
@@ -242,7 +247,7 @@ end
 ---@param debounceTime? number: debounce time in milliseconds
 local function onChangeDisplayBoardSetting(valueType, getValue, debounceTime)
     -- use a closure to realize debounce
-    debounceTime = debounceTime or 200 -- default debounce time is 200ms
+    debounceTime = debounceTime or 500 -- default debounce time is 200ms
     local lastClickTime = 0.0
 
     return function()
@@ -321,6 +326,7 @@ local searchTextHandler = createInputHandler("search_text", 0)
 
 onChangeDisplayBoardPageNum = function(_, _, input_value, stillEditing)
     if stillEditing then return end
+    input_value = tonumber(input_value)
     if type(input_value) == "number" then
         pageNumHandler.setValue(input_value)
         pageNumHandler.execute()
