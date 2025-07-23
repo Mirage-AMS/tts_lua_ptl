@@ -16,7 +16,7 @@ DISPLAY_BOARD_BUTTON_HEIGHT = 100
 DISPLAY_BOARD_BUTTON_FONT_SIZE = 70
 
 PARAM_DISPLAY_BOARD_BUTTON_REFRESH = {
-    click_function="onChangeDisplayBoardRefersh",
+    click_function="onChangeDisplayBoardPageRefresh",
     function_owner = self,
     width = 100, height = 100,
     scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=DISPLAY_BOARD_BUTTON_FONT_SIZE,
@@ -25,7 +25,7 @@ PARAM_DISPLAY_BOARD_BUTTON_REFRESH = {
 }
 
 PARAM_DISPLAY_BOARD_BUTTON_SWITCH_PREV_PAGE = {
-    click_function="onChangeDisplayBoardSettingPrevPage",
+    click_function="onChangeDisplayBoardPagePrev",
     function_owner = self,
     width = 50, height = 100,
     scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=DISPLAY_BOARD_BUTTON_FONT_SIZE,
@@ -34,7 +34,7 @@ PARAM_DISPLAY_BOARD_BUTTON_SWITCH_PREV_PAGE = {
 }
 
 PARAM_DISPLAY_BOARD_BUTTON_SWITCH_NEXT_PAGE = {
-    click_function="onChangeDisplayBoardSettingNextPage",
+    click_function="onChangeDisplayBoardPageNext",
     function_owner = self,
     width = 50, height = 100,
     scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=DISPLAY_BOARD_BUTTON_FONT_SIZE,
@@ -76,6 +76,14 @@ LIST_PARAM_DISPLAY_BOARD_BUTTONS = {
 }
 
 PARAM_SWITCH_BUTTON_CHANGE = {
+    [1] = {
+        [false] = {color = __BUTTON_COLOR_DEFAULT},
+        [true] = {color = __BUTTON_COLOR_DISABLE},
+    },
+    [2] = {
+        [false] = {color = __BUTTON_COLOR_DEFAULT},
+        [true] = {color = __BUTTON_COLOR_DISABLE},
+    },
     [3]= {
         [EnumRolePreference.NONE] = {label = "全部显示", tooltip = "点击切换至采集角色", color = __BUTTON_COLOR_DEFAULT},
         [EnumRolePreference.GATHERING] = {label = "采集角色", tooltip = "点击切换至狩猎角色", color = __BUTTON_COLOR_GREEN},
@@ -103,7 +111,7 @@ PARAM_DISPLAY_BOARD_INPUT_PAGE_NUM = {
     validation = 2, -- Integer validation
 }
 PARAM_DISPLAY_BOARD_INPUT_SEARCH_TEXT = {
-    input_function="onChangeDisplayBoardSearchText",
+    input_function="onChangeDisplayBoardSettingSearchText",
     function_owner = self,
     width = 1200, height = 110,
     scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=75,

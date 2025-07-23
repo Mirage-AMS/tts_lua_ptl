@@ -109,20 +109,33 @@ end
 function updateDisplayBoard(data, forceUpdate)
     local boardDisplay = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY)
 
-    -- set the display option
+    -- fetch old data
     local oldData = boardDisplay:getDisplayOption()
+    local oldDisplayList = getDisplayListByOption(oldData)
+    local oldInfoList = boardDisplay:getPageInfo(oldDisplayList)
+
+    -- update display option
     boardDisplay:setDisplayOption(data)
     local newData = boardDisplay:getDisplayOption()
-
-    -- get data by display option
-    local oldDisplayList = getDisplayListByOption(oldData)
     local newDisplayList = getDisplayListByOption(newData)
+    local newInfoList = boardDisplay:getPageInfo(newDisplayList)
 
     -- update the display board ui
-    editDisplayBoardButton(3, newData.preference)
-    editDisplayBoardButton(4, newData.sort_by)
-    editDisplayBoardButton(5, newData.is_reverse)
+    config = {
+        [1] = boardDisplay.page_num==1,
+        [2] = boardDisplay.page_num==boardDisplay.max_page_num,
+        [3] = boardDisplay.preference,
+        [4] = boardDisplay.sort_by,
+        [5] = boardDisplay.is_reverse,
+    }
+    for i = 1, #config do
+        editDisplayBoardButton(i, config[i])
+    end
     editDisplayBoardInputPageNum(newData.page_num)
+
+    -- check if display list is changed
+    local isDisplayListChanged = not isListEqual(oldInfoList, newInfoList)
+    if not forceUpdate and not isDisplayListChanged then return end
 
     -- update display board
     -- TODO: update display roles by display infos
@@ -144,15 +157,18 @@ local function onChangeDisplayBoardSetting(valueType, getValue, debounceTime)
         lastClickTime = currentTime
 
         -- quick break if game mode is not setable
-        updateDisplayBoard({[valueType] = getValue()}, false) -- 传递类型和新值
+        updateDisplayBoard(
+            {[valueType] = getValue(), ["page_num"] = 1},
+            false
+            )
     end
 end
 
-function onChangeDisplayBoardRefersh()
+onChangeDisplayBoardPageRefresh = function()
     updateDisplayBoard({}, true)
 end
 
-onChangeDisplayBoardSettingPrevPage = onChangeDisplayBoardSetting(
+onChangeDisplayBoardPagePrev = onChangeDisplayBoardSetting(
     "page_num",
     function()
         local currPageNum = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY).page_num
@@ -160,13 +176,29 @@ onChangeDisplayBoardSettingPrevPage = onChangeDisplayBoardSetting(
     end
 )
 
-onChangeDisplayBoardSettingNextPage = onChangeDisplayBoardSetting(
+onChangeDisplayBoardPageNext = onChangeDisplayBoardSetting(
     "page_num",
     function()
-        local currPageNum = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY).page_num
-        return currPageNum + 1
+        local displayBoard = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY)
+        local currPageNum = displayBoard.page_num
+        local maxPageNum = displayBoard.max_page_num
+        return math.min(maxPageNum, currPageNum + 1)
     end
 )
+
+onChangeDisplayBoardPageNum = function(_, _, input_value, stillEditing)
+    if stillEditing then return end
+    if type(input_value) ~= "number" then return end
+    updateDisplayBoard({["page_num"] = input_value}, false)
+end
+
+onChangeDisplayBoardSettingSearchText = function(_, _, input_value, stillEditing)
+    if stillEditing then return end
+    updateDisplayBoard(
+        {["search_text"] = input_value, ["page_num"] = 1},
+        false
+        )
+end
 
 onChangeDisplayBoardSettingPreference = onChangeDisplayBoardSetting(
     "preference",
@@ -199,15 +231,3 @@ onChangeDisplayBoardSettingIsReverse = onChangeDisplayBoardSetting(
         return getNextValInValList(currValue, valueList)
     end
 )
-
-function onChangeDisplayBoardPageNum(_, _, input_value, stillEditing)
-    if stillEditing then return end
-    local page_num = tonumber(input_value)
-    if type(page_num) ~= "number" then return end
-    updateDisplayBoard({["page_num"] = page_num}, false)
-end
-
-function onChangeDisplayBoardSearchText(_, _, input_value, stillEditing)
-    if stillEditing then return end
-    updateDisplayBoard({["search_text"] = input_value}, false)
-end
