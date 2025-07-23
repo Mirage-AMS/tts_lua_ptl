@@ -156,17 +156,31 @@ local function onChangeDisplayBoardSetting(valueType, getValue, debounceTime)
         if currentTime - lastClickTime < debounceTime then return end
         lastClickTime = currentTime
 
-        -- quick break if game mode is not setable
-        updateDisplayBoard(
-            {[valueType] = getValue(), ["page_num"] = 1},
-            false
-            )
+        -- if refresh is triggered, update the display board directly
+        if valueType == "refresh" then
+            updateDisplayBoard({}, true)
+            return
+        end
+
+        -- change other settings
+        local displayBoard = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY)
+        local currData = displayBoard[valueType]
+        local newData = getValue()
+        if currData == newData then return end
+
+        local updateData = {[valueType] = newData}
+         -- reset page num to 1 when changing other settings
+        if valueType ~= "page_num" then
+            updateData.page_num = 1
+        end
+        updateDisplayBoard(updateData, false)
     end
 end
 
-onChangeDisplayBoardPageRefresh = function()
-    updateDisplayBoard({}, true)
-end
+onChangeDisplayBoardPageRefresh = onChangeDisplayBoardSetting(
+    "refresh",
+    function() end
+)
 
 onChangeDisplayBoardPagePrev = onChangeDisplayBoardSetting(
     "page_num",
@@ -186,18 +200,42 @@ onChangeDisplayBoardPageNext = onChangeDisplayBoardSetting(
     end
 )
 
+--- 使用闭包来创建一个输入处理器, 它可以更新值并执行相应的操作。
+---@param valueType string
+---@param debounceTime? number
+---@return table
+local function createInputHandler(valueType, debounceTime)
+    local currentValue  -- 用闭包变量存储当前值
+    local handler = onChangeDisplayBoardSetting(
+        valueType,
+        function() return currentValue end,  -- 访问闭包中的currentValue
+        debounceTime or 0
+    )
+
+    -- 返回更新值和执行的接口
+    return {
+        setValue = function(value)
+            currentValue = value
+        end,
+        execute = handler
+    }
+end
+
+local pageNumHandler = createInputHandler("page_num", 0)
+local searchTextHandler = createInputHandler("search_text", 0)
+
 onChangeDisplayBoardPageNum = function(_, _, input_value, stillEditing)
     if stillEditing then return end
-    if type(input_value) ~= "number" then return end
-    updateDisplayBoard({["page_num"] = input_value}, false)
+    if type(input_value) == "number" then
+        pageNumHandler.setValue(input_value)
+        pageNumHandler.execute()
+    end
 end
 
 onChangeDisplayBoardSettingSearchText = function(_, _, input_value, stillEditing)
     if stillEditing then return end
-    updateDisplayBoard(
-        {["search_text"] = input_value, ["page_num"] = 1},
-        false
-        )
+    searchTextHandler.setValue(input_value)
+    searchTextHandler.execute()
 end
 
 onChangeDisplayBoardSettingPreference = onChangeDisplayBoardSetting(
