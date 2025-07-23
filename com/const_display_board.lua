@@ -116,6 +116,21 @@ LIST_PARAM_DISPLAY_BOARD_INPUTS = {
     PARAM_DISPLAY_BOARD_INPUT_SEARCH_TEXT,
 }
 
+-- zones
+NAME_ZONE_DISPLAY_BOARD = "zone_display_board"
+PARAM_SCRIPTING_TRIGGER_DISPLAY_BOARD = {
+    type        = DEFAULT_SPAWN_TYPE_SCRIPTING_TRIGGER,
+    rotation    = {0, 0, 0},
+}
+LIST_PARAM_SCRIPTING_DISPLAY_BOARD = {
+    [NAME_ZONE_DISPLAY_BOARD] = {
+        [KEYWORD_ZONE_DECK] = {
+            position = {x=0, y=0.0, z=0},
+            scale =  {x=17.50, y=1.00, z=16.60}
+        }
+    }
+}
+
 -- var
 NAME_BOARD_DISPLAY = "board_display"
 GUID_DISPLAY_BOARD = "b97de7"

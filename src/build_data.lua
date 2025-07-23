@@ -132,6 +132,13 @@ function buildPublicZoneData()
     refGuid = GUID_GAME_BOARD
     data = buildItemZoneData(data, paramTemplate, paramData, zoneNameList, refGuid)
 
+    -- display board zone
+    paramTemplate = PARAM_SCRIPTING_TRIGGER_DISPLAY_BOARD
+    paramData = LIST_PARAM_SCRIPTING_DISPLAY_BOARD
+    zoneNameList = {NAME_ZONE_DISPLAY_BOARD}
+    refGuid = GUID_DISPLAY_BOARD
+    data = buildItemZoneData(data, paramTemplate, paramData, zoneNameList, refGuid)
+
     return data
 end
 

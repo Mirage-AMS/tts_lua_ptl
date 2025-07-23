@@ -21,6 +21,27 @@ function isAnyObjInObjList(target_list, list)
     return false
 end
 
+--- Checks if two lists are equal.
+---@param list1 table?
+---@param list2 table?
+---@return boolean
+function isListEqual(list1, list2)
+    if type(list1) ~= "table" or type(list2) ~= "table" then
+        return false
+    end
+    if #list1 ~= #list2 then
+        return false
+    end
+
+    for i = 1, #list1 do
+        if type(list1[i]) ~= type(list2[i]) or list1[i] ~= list2[i] then
+            return false
+        end
+    end
+
+    return true
+end
+
 function getValIdxInValList(value, list)
     for idx, val in ipairs(list) do if val == value then return idx end end
     return nil
