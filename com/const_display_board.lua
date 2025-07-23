@@ -77,13 +77,13 @@ LIST_PARAM_DISPLAY_BOARD_BUTTONS = {
 
 PARAM_SWITCH_BUTTON_CHANGE = {
     [3]= {
-        [EnumRolePreference.NONE] = {label = "全部显示", tooltip = "点击切换至采集角色", color = __BUTTON_COLOR_WHITE},
+        [EnumRolePreference.NONE] = {label = "全部显示", tooltip = "点击切换至采集角色", color = __BUTTON_COLOR_DEFAULT},
         [EnumRolePreference.GATHERING] = {label = "采集角色", tooltip = "点击切换至狩猎角色", color = __BUTTON_COLOR_GREEN},
         [EnumRolePreference.HUNTING] = {label = "狩猎角色", tooltip = "点击切换至泛用角色", color = __BUTTON_COLOR_RED},
         [EnumRolePreference.NO_PREFERENCE] = {label = "泛用角色", tooltip = "点击切换至全部显示", color = __BUTTON_COLOR_YELLOW},
     },
     [4] = {
-        [EnumDisplayBoardSort.DIFFICULTY] = {label = "难度顺序", tooltip = "点击切换至时间顺序", color = __BUTTON_COLOR_WHITE},
+        [EnumDisplayBoardSort.DIFFICULTY] = {label = "难度顺序", tooltip = "点击切换至时间顺序", color = __BUTTON_COLOR_DEFAULT},
         [EnumDisplayBoardSort.TIME] = {label ="时间顺序", tooltip = "点击切换至难度顺序", color = __BUTTON_COLOR_PURPLE},
     },
     [5] = {

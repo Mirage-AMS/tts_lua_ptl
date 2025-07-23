@@ -1,5 +1,12 @@
 require("com/enum")
 
+__BUTTON_COLOR_DEFAULT = {1, 1, 1}
+__BUTTON_COLOR_DISABLE = {0.5, 0.5, 0.5, 0.8}
+__BUTTON_COLOR_RED = {1, 0.5, 0.5}
+__BUTTON_COLOR_GREEN = {0.5, 1, 0.5}
+__BUTTON_COLOR_YELLOW = {1, 1, 0.5}
+__BUTTON_COLOR_PURPLE = {1, 0.5, 1}
+
 ---@class DevMode
 ---@field DEV number
 ---@field GUEST number

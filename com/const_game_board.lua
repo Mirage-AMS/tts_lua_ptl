@@ -51,23 +51,17 @@ PARAM_GAME_BOARD_BUTTON_SWITCH_BP_STRATEGY = {
     position = Vector(0.05, 1.0, -0.53),
 }
 
-__BUTTON_COLOR_WHITE = {1, 1, 1}
-__BUTTON_COLOR_RED = {1, 0.5, 0.5}
-__BUTTON_COLOR_GREEN = {0.5, 1, 0.5}
-__BUTTON_COLOR_YELLOW = {1, 1, 0.5}
-__BUTTON_COLOR_PURPLE = {1, 0.5, 1}
-__BUTTON_COLOR_DISABLE = {0.5, 0.5, 0.5, 0.8}
 PARAM_SWITCH_BUTTON_CHANGE = {
     [1] = {
-        [EnumGameGoal.QUICK] = {label = "传奇-快速", tooltip = "点击切换至传奇-标准", color = __BUTTON_COLOR_WHITE},
+        [EnumGameGoal.QUICK] = {label = "传奇-快速", tooltip = "点击切换至传奇-标准", color = __BUTTON_COLOR_DEFAULT},
         [EnumGameGoal.STANDARD] = {label = "传奇-标准", tooltip = "点击切换至传奇-快速", color = __BUTTON_COLOR_YELLOW},
     },
     [2] = {
-        [EnumDeckSet.STD] = {label = "牌堆-标准", tooltip = "点击切换至牌堆-Dlc01", color = __BUTTON_COLOR_WHITE},
+        [EnumDeckSet.STD] = {label = "牌堆-标准", tooltip = "点击切换至牌堆-Dlc01", color = __BUTTON_COLOR_DEFAULT},
         [EnumDeckSet.DLC01] = {label ="牌堆-Dlc01", tooltip = "点击切换至牌堆-标准", color = __BUTTON_COLOR_YELLOW},
     },
     [3] = {
-        [false] = {label = "角色-禁用", tooltip = "点击启用角色", color = __BUTTON_COLOR_WHITE},
+        [false] = {label = "角色-禁用", tooltip = "点击启用角色", color = __BUTTON_COLOR_DEFAULT},
         [true] = {label = "角色-启用", tooltip = "点击禁用角色", color = __BUTTON_COLOR_GREEN},
     },
     [4] = {
