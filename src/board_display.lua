@@ -128,7 +128,7 @@ function FactoryCreateBoardDisplay()
 
     function board:setMaxPageNumByCount(count)
         if type(count) == "number" then
-            self.max_page_num = math.ceil(count / self.page_size)
+            self.max_page_num = math.max(1, math.ceil(count / self.page_size))
         end
         return self
     end

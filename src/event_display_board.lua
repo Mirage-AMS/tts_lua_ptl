@@ -20,7 +20,7 @@ local function getDisplayListByOption(option)
 
     local function __isNicknameMatch(nicknameList, searchStr)
         for _, nickname in ipairs(nicknameList) do
-            if string.find(nickname, searchStr, 1, true) then
+            if string.find(nickname, searchStr) then
                 return true
             end
         end
@@ -186,7 +186,7 @@ local function setupRoleItem(infoList)
                     local takeParam = {
                         index = deckIndex - 1,
                         position = pos,
-                        flip=true
+                        flip = true
                     }
                     clonedDeck.takeObject(takeParam).setLock(true)
                     clonedDeck.destruct()
