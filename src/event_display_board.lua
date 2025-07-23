@@ -141,6 +141,7 @@ local function setupRoleItem(infoList)
                 end
                 local copyItem = deepCopy(item)
                 copyItem.loc_id = boardIdx
+                copyItem.name = roleKey
                 table.insert(items[origin][prefix], copyItem)
             end
         end
@@ -162,10 +163,7 @@ local function setupRoleItem(infoList)
                 if not deck or not isCardLike(deck) then
                     error("fatal error: dev deck "..prefix.." is not found")
                 end
-                local clonedPos = boardDisplay:getPosition() + Vector(0, 2, 0)
-                local clonedDeck = deck.clone({position = clonedPos})
 
-                local deckTakeCount = 1
                 for _, item in ipairs(itemList) do
                     local deckIndex = item.index
                     local col = (item.loc_id % 2 == 1) and 1 or 2
@@ -175,14 +173,7 @@ local function setupRoleItem(infoList)
                         [2] = { x = item.loc_idx or 1, z = 1, dx = dxx, dz = dzz },
                         [3] = { x = item.loc_idxx or 1, z = 1, dx = dxxx, dz = dzzz }
                     }
-
-                    while deckIndex > deckTakeCount do
-                        clonedDeck.takeObject().destruct()
-                        deckTakeCount = deckTakeCount + 1
-                    end
-
-                    --- 3 times pattern shift
-                    local pos = boardDisplay:getPosition()
+                    local pos = boardDisplay:getPosition() + boardPattern.origin
                     for index, offset in ipairs(offsets) do
                         pos = getOffsetPosition(pos, offset.x, offset.z, offset.dx, offset.dz)
                         -- special case for 3rd pattern shift, shift up a little bit
@@ -190,7 +181,15 @@ local function setupRoleItem(infoList)
                             pos = pos + Vector(0, 0.05, 0) * (offset.x - 1)
                         end
                     end
-                    clonedDeck.takeObject({position = pos, flip=true}).setLock(true)
+                    local clonedPos = pos + Vector(0, 2, 0)
+                    local clonedDeck = deck.clone({position = clonedPos})
+                    local takeParam = {
+                        index = deckIndex - 1,
+                        position = pos,
+                        flip=true
+                    }
+                    clonedDeck.takeObject(takeParam).setLock(true)
+                    clonedDeck.destruct()
                 end
             end
         end

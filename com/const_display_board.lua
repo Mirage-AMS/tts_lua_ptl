@@ -134,7 +134,7 @@ LIST_PARAM_SCRIPTING_DISPLAY_BOARD = {
     [NAME_ZONE_DISPLAY_BOARD] = {
         [KEYWORD_ZONE_DECK] = {
             position = {x=0, y=0.0, z=0},
-            scale =  {x=17.50, y=1.00, z=16.60}
+            scale =  {x=30, y=1.00, z=20}
         }
     }
 }
@@ -404,15 +404,4 @@ ROLE_REGISTER_DICT = {
             [3] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF02, index = 19, loc_idx = 3},
         }
     },
-    [KWORD_ROLE_NEXT] = {
-        [KWORD_ORDER]       = 22,
-        [KWORD_DIFFICULTY]  = EnumRoleDifficulty.NORMAL,
-        [KWORD_PREFERENCE]  = EnumRolePreference.NO_PREFERENCE,
-        [KWORD_NICKNAME]    = {"测试"},
-        [KWORD_ITEM]       = {
-            [1] = { origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT02, index = 10, loc_idx = 1 },
-            [2] = { origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF02, index = 20, loc_idx = 2 },
-            [3] = { origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF02, index = 21, loc_idx = 3 },
-        }
-    }
 }
