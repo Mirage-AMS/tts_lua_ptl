@@ -2,6 +2,87 @@ require("mock/default")
 require("com/enum_const")
 require("com/const_display_board")
 
+---@param option table<string, any>
+---@return string[]
+local function getDisplayListByOption(option)
+    ---@type string[]
+    local displayList = {}
+    local registerRoleInfo = ROLE_REGISTER_DICT
+
+    local function __getRoleData(roleKey)
+        local data = registerRoleInfo[roleKey]
+        if not data then
+            error("role data not found for role key: " .. tostring(roleKey))
+        end
+        return data
+    end
+
+    local function __isNicknameMatch(nicknameList, searchStr)
+        for _, nickname in ipairs(nicknameList) do
+            if string.find(nickname, searchStr, 1, true) then
+                return true
+            end
+        end
+        return false
+    end
+
+    -- get all register role list (apply search text if any)
+    local searchText = option.search_text
+    local hasSearchText = type(searchText) == "string" and searchText ~= ""
+    for roleKey, roleData in pairs(registerRoleInfo) do
+        if not hasSearchText then
+            table.insert(displayList, roleKey)
+        else
+            local nicknameList = roleData[KWORD_NICKNAME]
+            if nicknameList and #nicknameList > 0 and __isNicknameMatch(nicknameList, searchText) then
+                table.insert(displayList, roleKey)
+            end
+        end
+    end
+
+    -- get all reference role list (apply preference if any)
+    local preference = option.preference
+    local hasPreference = EnumRolePreference(preference) and preference ~= EnumRolePreference.NONE
+    if hasPreference then
+        local filtered = {}
+        for _, roleKey in ipairs(displayList) do
+            local roleData = __getRoleData(roleKey)
+            if roleData[KWORD_PREFERENCE] == preference then
+                table.insert(filtered, roleKey)
+            end
+        end
+        displayList = filtered  -- 直接替换为过滤后的列表
+    end
+
+    -- sort by order/difficulty
+    local sortBy = option.sort_by
+    local compareFunc
+    if sortBy == EnumDisplayBoardSort.TIME then
+        compareFunc = function(a, b)
+            return __getRoleData(a)[KWORD_ORDER] < __getRoleData(b)[KWORD_ORDER]
+        end
+    elseif sortBy == EnumDisplayBoardSort.DIFFICULTY then
+        compareFunc = function(a, b)
+            local dataA = __getRoleData(a)
+            local dataB = __getRoleData(b)
+            local diffA = dataA[KWORD_DIFFICULTY]
+            local diffB = dataB[KWORD_DIFFICULTY]
+            return diffA < diffB or (diffA == diffB and dataA[KWORD_ORDER] < dataB[KWORD_ORDER])
+        end
+    else
+        error("invalid sort by: " .. tostring(sortBy))
+    end
+    table.sort(displayList, compareFunc)
+
+    -- is reverse order
+    local isReverse = option.is_reverse
+    if type(isReverse) == "boolean" and isReverse then
+        reverseList(displayList)
+    end
+
+    return displayList
+end
+
 local function editDisplayBoardButton(index, value)
     local buttonParam = PARAM_SWITCH_BUTTON_CHANGE[index]
     -- quick break if button param is not found
@@ -29,11 +110,13 @@ function updateDisplayBoard(data, forceUpdate)
     local boardDisplay = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY)
 
     -- set the display option
+    local oldData = boardDisplay:getDisplayOption()
     boardDisplay:setDisplayOption(data)
     local newData = boardDisplay:getDisplayOption()
 
     -- get data by display option
-    -- TODO: get display infos by display option
+    local oldDisplayList = getDisplayListByOption(oldData)
+    local newDisplayList = getDisplayListByOption(newData)
 
     -- update the display board ui
     editDisplayBoardButton(3, newData.preference)

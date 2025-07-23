@@ -52,6 +52,27 @@ function mergeList(l1, l2)
     return l1
 end
 
+---@param list table The list to reverse.
+---@return table? reversed The reversed list.
+function reverseList(list)
+    -- 检查列表是否有效且至少有两个元素
+    if not list or #list < 2 then
+        return list
+    end
+
+    local i, j = 1, #list
+    -- 只需要遍历到列表的中间位置
+    while i < j do
+        -- 交换对称位置的元素
+        list[i], list[j] = list[j], list[i]
+        -- 移动索引
+        i = i + 1
+        j = j - 1
+    end
+
+    return list
+end
+
 function tableToString(tbl)
     local seen = {}
     local function _tostring(t)
