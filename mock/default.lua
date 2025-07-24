@@ -77,7 +77,8 @@ Time = {}
 ---@field new fun(self: Vector, x?: number|table, y?: number, z?: number): Vector
 ---@field __add fun(self: Vector, a: Vector): Vector
 ---@field __sub fun(self: Vector, a: Vector): Vector
----@field __mul fun(self: Vector, a: number|Vector): Vector
+---@field __mul fun(self: Vector, a: number): Vector  -- 向量×数字返回Vector
+---@field __mul fun(self: Vector, a: Vector): number  -- 向量×向量返回点积（数字）
 Vector = {}
 
 ---@class Wait
