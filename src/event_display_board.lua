@@ -188,8 +188,7 @@ local function setupRoleItem(infoList)
                     if item.flip ~= nil then isFlip = item.flip end
                     local rot = isFlip and __CARD_ROTATION_FACE_UP or __CARD_ROTATION_FACE_DOWN
                     local pos = boardDisplay:getPosition() + getDisplayBoardItemShift(item)
-                    local clonedPos = pos
-                    local clonedObject = deck.clone({position = clonedPos, rotation = rot})
+                    local clonedObject = deck.clone({position = pos, rotation = rot})
                     local takeParam = {index = item.index - 1, position = pos, rotation = rot}
                     clonedObject.takeObject(takeParam).setLock(true)
                     clonedObject.destruct()
@@ -216,8 +215,7 @@ local function setupRoleItem(infoList)
                     if item.flip ~= nil then isFlip = item.flip end
                     local rot = isFlip and __CARD_ROTATION_FACE_UP or __CARD_ROTATION_FACE_DOWN
                     local pos = boardDisplay:getPosition() + getDisplayBoardItemShift(item)
-                    local clonedPos = pos
-                    local clonedObject = container.object.clone({position = clonedPos})
+                    local clonedObject = container.object.clone({position = pos})
                     local takeParam = {position = pos, rotation = rot}
                     clonedObject.takeObject(takeParam).setLock(true)
                     clonedObject.destruct()

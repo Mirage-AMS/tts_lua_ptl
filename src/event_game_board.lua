@@ -1,6 +1,7 @@
 require("mock/default")
 require("com/const")
 require("com/basic")
+require("com/enum_const")
 require("com/const_game_board")
 require("src/event_dev_board")
 
@@ -93,24 +94,17 @@ local function updateGameGoal(gameGoal)
     if not deck or not isCardLike(deck) then
         error("fatal error: getDevDeck[" .. prefix .. "] is nil")
     end
-    local _clonedShift = Vector(0, 2, 0)
-    local clonedDeck = deck.clone({position = gameBoard:getPosition() + _clonedShift})
-    if not clonedDeck then
-        error("fatal error: failed to clone deck with prefix " .. prefix)
-    end
 
     local dataList = LIST_PARAM_LEGEND_DISPLAY[gameGoal]
-    if dataList == nil then
-        error("fatal error: not recognize gameGoal: " .. tostring(gameGoal))
-    end
     for _, locData in ipairs(dataList) do
-        if locData.idx == nil or locData.idz == nil then
-            clonedDeck.takeObject().destruct()
-        else
-            local idx, idz = locData.idx, locData.idz
-            local eachPos = getOffsetPosition(pos, idx, idz, dx, dz)
-            clonedDeck.takeObject({position = eachPos, flip=true}).setLock(true)
-        end
+        local deckIdx = locData.index
+        local idx, idz = locData.idx, locData.idz
+        local eachPos = getOffsetPosition(pos, idx, idz, dx, dz)
+        local eachRot = __CARD_ROTATION_FACE_UP
+        local clonedDeck = deck.clone({position = eachPos, rotation = eachRot})
+        local takeParam = {index = deckIdx - 1, position = eachPos, rotation = eachRot}
+        clonedDeck.takeObject(takeParam).setLock(true)
+        clonedDeck.destruct()
     end
 
 end
