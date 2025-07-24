@@ -131,30 +131,28 @@ local function setupRoleItem(infoList)
         local roleItems = roleData[KWORD_ITEM]
         if roleItems and #roleItems > 0 then
             for _, item in ipairs(roleItems) do
-                local origin = item.origin
-                local prefix = item.prefix
-                if not items[origin] then
-                    items[origin] = {}
-                end
-                if not items[origin][prefix] then
-                    items[origin][prefix] = {}
-                end
                 local copyItem = deepCopy(item)
                 copyItem.loc_id = boardIdx
-                copyItem.name = roleKey
+                local origin = item.origin
+                local prefix = item.prefix
+
+                items[origin] = items[origin] or {}
+                items[origin][prefix] = items[origin][prefix] or {}
                 table.insert(items[origin][prefix], copyItem)
             end
         end
     end
 
-    -- dev deck
     local publicService = GAME:getPublicService()
-
+    local pattern1, pattern2, pattern3 = 1, 2, 3
+    local column_count = 2
+    local y_offset = Vector(0, 0.05, 0)
     local boardPattern = ROLE_DISPLAY_BOARD_PATTERN
     local dx, dz = boardPattern.dx, boardPattern.dz
     local dxx, dzz = boardPattern.dxx, boardPattern.dzz
     local dxxx, dzzz = boardPattern.dxxx, boardPattern.dzzz
 
+    -- dev deck
     local itemFromDevDeck = items[EnumItemOrigin.DEV_DECK]
     if itemFromDevDeck then
         for prefix, itemList in pairs(itemFromDevDeck) do
@@ -165,20 +163,21 @@ local function setupRoleItem(infoList)
                 end
 
                 for _, item in ipairs(itemList) do
+                    local locId = item.loc_id
                     local deckIndex = item.index
-                    local col = (item.loc_id % 2 == 1) and 1 or 2
-                    local row = math.ceil(item.loc_id / 2)
+                    local col = (locId % column_count == 1) and 1 or 2
+                    local row = math.ceil(locId / column_count)
                     local offsets = {
-                        [1] = { x = col, z = row, dx = dx, dz = dz },
-                        [2] = { x = item.loc_idx or 1, z = 1, dx = dxx, dz = dzz },
-                        [3] = { x = item.loc_idxx or 1, z = 1, dx = dxxx, dz = dzzz }
+                        [pattern1] = { x = col, z = row, dx = dx, dz = dz },
+                        [pattern2] = { x = item.loc_idx or 1, z = 1, dx = dxx, dz = dzz },
+                        [pattern3] = { x = item.loc_idxx or 1, z = 1, dx = dxxx, dz = dzzz }
                     }
                     local pos = boardDisplay:getPosition() + boardPattern.origin
-                    for index, offset in ipairs(offsets) do
+                    for offsetIdx, offset in ipairs(offsets) do
                         pos = getOffsetPosition(pos, offset.x, offset.z, offset.dx, offset.dz)
                         -- special case for 3rd pattern shift, shift up a little bit
-                        if index == 3 and offset.x > 1 then
-                            pos = pos + Vector(0, 0.05, 0) * (offset.x - 1)
+                        if offsetIdx == pattern3 and offset.x > 1 then
+                            pos = pos + y_offset * (offset.x - 1)
                         end
                     end
                     local clonedPos = pos + Vector(0, 2, 0)
