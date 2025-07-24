@@ -184,14 +184,13 @@ local function setupRoleItem(infoList)
                 end
 
                 for _, item in ipairs(itemList) do
-                    local pos = boardDisplay:getPosition() + getDisplayBoardItemShift(item)
-                    local clonedPos = pos + Vector(0, 2, 0)
-                    local clonedObject = deck.clone({position = clonedPos})
                     local isFlip = true
-                    if item.flip ~= nil then
-                        isFlip = item.flip
-                    end
-                    local takeParam = {index = item.index - 1, position = pos, flip = isFlip}
+                    if item.flip ~= nil then isFlip = item.flip end
+                    local rot = isFlip and __CARD_ROTATION_FACE_UP or __CARD_ROTATION_FACE_DOWN
+                    local pos = boardDisplay:getPosition() + getDisplayBoardItemShift(item)
+                    local clonedPos = pos
+                    local clonedObject = deck.clone({position = clonedPos, rotation = rot})
+                    local takeParam = {index = item.index - 1, position = pos, rotation = rot}
                     clonedObject.takeObject(takeParam).setLock(true)
                     clonedObject.destruct()
                 end
@@ -213,14 +212,13 @@ local function setupRoleItem(infoList)
                 end
 
                 for _, item in ipairs(itemList) do
-                    local pos = boardDisplay:getPosition() + getDisplayBoardItemShift(item)
-                    local clonedPos = pos + Vector(0, 2, 0)
-                    local clonedObject = container.object.clone({position = clonedPos})
                     local isFlip = true
-                    if item.flip ~= nil then
-                        isFlip = item.flip
-                    end
-                    local takeParam = {index = item.index - 1, position = pos, flip = isFlip}
+                    if item.flip ~= nil then isFlip = item.flip end
+                    local rot = isFlip and __CARD_ROTATION_FACE_UP or __CARD_ROTATION_FACE_DOWN
+                    local pos = boardDisplay:getPosition() + getDisplayBoardItemShift(item)
+                    local clonedPos = pos
+                    local clonedObject = container.object.clone({position = clonedPos})
+                    local takeParam = {position = pos, rotation = rot}
                     clonedObject.takeObject(takeParam).setLock(true)
                     clonedObject.destruct()
                 end

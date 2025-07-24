@@ -176,9 +176,9 @@ KWORD_ROLE_KAY = "role_kay" ---- 凯，嗜赌成性
 KWORD_ROLE_NEXT = "role_next" ---- 下一角色，用于测试
 
 NAME_CONTAINER_ROLE_PHYLLIS_HOLY_WATER = "container_role_phyllis_holy_water"
-GUID_CONTAINER_ROLE_PHYLLIS_HOLY_WATER = ""
+GUID_CONTAINER_ROLE_PHYLLIS_HOLY_WATER = "1f70e5"
 NAME_CONTAINER_ROLE_ARYA_EAGLET = "container_role_arya_eaglet"
-GUID_CONTAINER_ROLE_ARYA_EAGLET = ""
+GUID_CONTAINER_ROLE_ARYA_EAGLET = "13acb9"
 
 ROLE_REGISTER_DICT = {
     [KWORD_ROLE_DAVIAN] = {
@@ -390,8 +390,8 @@ ROLE_REGISTER_DICT = {
         [KWORD_ITEM]        = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT02, index = 7, loc_idx = 1},
             [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF02, index = 15, loc_idx = 2},
-            [3] = {origin = EnumItemOrigin.DEV_CONTAINER_ITEM, prefix = GUID_CONTAINER_ROLE_ARYA_EAGLET, loc_idx = 3, loc_idxx = 1, flip = true},
-            [4] = {origin = EnumItemOrigin.DEV_CONTAINER_ITEM, prefix = GUID_CONTAINER_ROLE_ARYA_EAGLET, loc_idx = 3, loc_idxx = 2, flip = false},
+            [3] = {origin = EnumItemOrigin.DEV_CONTAINER_ITEM, prefix = NAME_CONTAINER_ROLE_ARYA_EAGLET, loc_idx = 3, loc_idxx = 1, flip = true},
+            [4] = {origin = EnumItemOrigin.DEV_CONTAINER_ITEM, prefix = NAME_CONTAINER_ROLE_ARYA_EAGLET, loc_idx = 3, loc_idxx = 2, flip = false},
         }
     },
     [KWORD_ROLE_CARLOS] = {
