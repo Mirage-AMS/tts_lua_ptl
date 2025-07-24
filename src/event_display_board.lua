@@ -1,7 +1,7 @@
 require("mock/default")
 require("com/enum_const")
-require("com/const_display_board")
 require("com/const_dev_board")
+require("com/const_display_board")
 
 --- 为了方便搜索，将角色注册信息转换为仅包含昵称的表。
 ---@type table<string, string[]>
@@ -118,6 +118,34 @@ local function clearDisplayBoardZone()
     end
 end
 
+--- get shift position for display board item
+---@param item {loc_id: number, loc_idx?: number, loc_idxx?: number}
+---@return Vector
+local function getDisplayBoardItemShift(item)
+    local Y_OFFSET = Vector(0, 0.05, 0)
+    local boardPattern = ROLE_DISPLAY_BOARD_PATTERN
+    local originShift = boardPattern.origin
+    local dx, dz = boardPattern.dx, boardPattern.dz
+    local dxx, dzz = boardPattern.dxx, boardPattern.dzz
+    local dxxx, dzzz = boardPattern.dxxx, boardPattern.dzzz
+
+    local locId = item.loc_id
+    local col = (locId % 2 == 1) and 1 or 2
+    local row = math.ceil(locId / 2)
+
+    local pos = originShift
+    pos = getOffsetPosition(pos, col, row, dx, dz)
+    local x2 = item.loc_idx or 1
+    pos = getOffsetPosition(pos, x2, 1, dxx, dzz)
+    local x3 = item.loc_idxx or 1
+    pos = getOffsetPosition(pos, x3, 1, dxxx, dzzz)
+    if x3 > 1 then
+        pos = pos + Y_OFFSET * (x3 - 1)
+    end
+
+    return pos
+end
+
 ---@param infoList string[]
 local function setupRoleItem(infoList)
     if not infoList or #infoList == 0 then return end
@@ -144,13 +172,6 @@ local function setupRoleItem(infoList)
     end
 
     local publicService = GAME:getPublicService()
-    local pattern1, pattern2, pattern3 = 1, 2, 3
-    local column_count = 2
-    local y_offset = Vector(0, 0.05, 0)
-    local boardPattern = ROLE_DISPLAY_BOARD_PATTERN
-    local dx, dz = boardPattern.dx, boardPattern.dz
-    local dxx, dzz = boardPattern.dxx, boardPattern.dzz
-    local dxxx, dzzz = boardPattern.dxxx, boardPattern.dzzz
 
     -- dev deck
     local itemFromDevDeck = items[EnumItemOrigin.DEV_DECK]
@@ -163,32 +184,45 @@ local function setupRoleItem(infoList)
                 end
 
                 for _, item in ipairs(itemList) do
-                    local locId = item.loc_id
-                    local deckIndex = item.index
-                    local col = (locId % column_count == 1) and 1 or 2
-                    local row = math.ceil(locId / column_count)
-                    local offsets = {
-                        [pattern1] = { x = col, z = row, dx = dx, dz = dz },
-                        [pattern2] = { x = item.loc_idx or 1, z = 1, dx = dxx, dz = dzz },
-                        [pattern3] = { x = item.loc_idxx or 1, z = 1, dx = dxxx, dz = dzzz }
-                    }
-                    local pos = boardDisplay:getPosition() + boardPattern.origin
-                    for offsetIdx, offset in ipairs(offsets) do
-                        pos = getOffsetPosition(pos, offset.x, offset.z, offset.dx, offset.dz)
-                        -- special case for 3rd pattern shift, shift up a little bit
-                        if offsetIdx == pattern3 and offset.x > 1 then
-                            pos = pos + y_offset * (offset.x - 1)
-                        end
-                    end
+                    local pos = boardDisplay:getPosition() + getDisplayBoardItemShift(item)
                     local clonedPos = pos + Vector(0, 2, 0)
-                    local clonedDeck = deck.clone({position = clonedPos})
-                    local takeParam = {
-                        index = deckIndex - 1,
-                        position = pos,
-                        flip = true
-                    }
-                    clonedDeck.takeObject(takeParam).setLock(true)
-                    clonedDeck.destruct()
+                    local clonedObject = deck.clone({position = clonedPos})
+                    local isFlip = true
+                    if item.flip ~= nil then
+                        isFlip = item.flip
+                    end
+                    local takeParam = {index = item.index - 1, position = pos, flip = isFlip}
+                    clonedObject.takeObject(takeParam).setLock(true)
+                    clonedObject.destruct()
+                end
+            end
+        end
+    end
+
+    --- containers
+    local itemFromContainer = items[EnumItemOrigin.DEV_CONTAINER_ITEM]
+    if itemFromContainer then
+        for prefix, itemList in pairs(itemFromContainer) do
+            if itemList and #itemList > 0 then
+                local container = publicService:getItemManager():getContainer(prefix)
+                if not container then
+                    error("fatal error: container "..prefix.." is not found")
+                end
+                if not container.object then
+                    error("fatal error: container "..prefix.." is not loaded")
+                end
+
+                for _, item in ipairs(itemList) do
+                    local pos = boardDisplay:getPosition() + getDisplayBoardItemShift(item)
+                    local clonedPos = pos + Vector(0, 2, 0)
+                    local clonedObject = container.object.clone({position = clonedPos})
+                    local isFlip = true
+                    if item.flip ~= nil then
+                        isFlip = item.flip
+                    end
+                    local takeParam = {index = item.index - 1, position = pos, flip = isFlip}
+                    clonedObject.takeObject(takeParam).setLock(true)
+                    clonedObject.destruct()
                 end
             end
         end
@@ -249,6 +283,12 @@ local function onChangeDisplayBoardSetting(valueType, getValue, debounceTime)
         local currentTime = Time.time * 1000
         if currentTime - lastClickTime < debounceTime then return end
         lastClickTime = currentTime
+
+        -- quick break if still in dev mode
+        if GAME:getPublicService():isDevMode() then
+            broadcastToAll("Dev-Mode is enabled, please disable it first")
+            return
+        end
 
         -- if refresh is triggered, update the display board directly
         if valueType == "refresh" then

@@ -155,7 +155,11 @@ function buildDefaultData()
                 state = 0,
             },
             item_manager = {
-                containers = { [NAME_RUBBISH_BIN] = {guid = GUID_RUBBISH_BIN }},
+                containers = {
+                    [NAME_RUBBISH_BIN] = {guid = GUID_RUBBISH_BIN },
+                    [NAME_CONTAINER_ROLE_PHYLLIS_HOLY_WATER] = {guid = GUID_CONTAINER_ROLE_PHYLLIS_HOLY_WATER},
+                    [NAME_CONTAINER_ROLE_ARYA_EAGLET] = {guid = GUID_CONTAINER_ROLE_ARYA_EAGLET},
+                },
                 boards = {
                     [NAME_BOARD_MAIN] = { guid = GUID_MAIN_BOARD },
                     [NAME_BOARD_GAME] = { guid = GUID_GAME_BOARD },
