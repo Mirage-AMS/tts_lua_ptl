@@ -18,6 +18,7 @@ require("mock/default")
 ---@return Board
 function FactoryCreateBoard()
     ---@type Board
+    ---@diagnostic disable-next-line: missing-fields
     local board = {
         guid = nil,
         object = nil

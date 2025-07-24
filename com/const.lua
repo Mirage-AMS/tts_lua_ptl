@@ -234,4 +234,5 @@ GUID_ROLE_HAND_BOARD_LIST = {
 }
 
 ---@type Game
+---@diagnostic disable-next-line: missing-fields
 GAME = {}

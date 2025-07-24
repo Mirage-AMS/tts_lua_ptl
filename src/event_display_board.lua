@@ -246,7 +246,7 @@ function updateDisplayBoard(data, forceUpdate)
     local newInfoList = boardDisplay:getPageInfo(newDisplayList)
 
     -- update the display board ui
-    config = {
+    local config = {
         [1] = boardDisplay.page_num==1,
         [2] = boardDisplay.page_num==boardDisplay.max_page_num,
         [3] = boardDisplay.preference,

@@ -4,6 +4,7 @@
 JSON = {}
 
 ---@class Object
+---@field is_face_down boolean If the object is face down
 ---@field interactable boolean If player can interact with this object
 ---@field __call fun(param?: table<string, any>): Object
 ---@field new fun(param?: table<string, any>): Object
@@ -26,6 +27,9 @@ JSON = {}
 ---@field putObject fun(obj: Object): Object
 ---@field setLock fun(lock: boolean): boolean
 ---@field setRotation fun(vector: Vector): boolean
+---@field setRotationSmooth fun(vector: Vector, collide?: boolean, fast?: boolean): boolean
+---@field setPosition fun(vector: Vector): boolean
+---@field setPositionSmooth fun(vector: Vector, collide?: boolean, fast?: boolean): boolean
 ---@field shuffle fun(): boolean
 ---@field takeObject fun(param?: table<string, any>): Object
 Object = {}

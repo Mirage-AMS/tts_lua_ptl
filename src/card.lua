@@ -18,11 +18,13 @@ function mergeCard(obj1, obj2, tag)
         return obj1
     end
 
+    ---@cast obj1 Object
+    ---@cast obj2 Object
     return obj1.putObject(obj2)
 end
 
 ---dealCard: deal a card to a location
----@param obj any object to deal a card from
+---@param obj Object object to deal a card from
 ---@param location table location to deal card
 ---@param flip boolean whether or not to flip the card
 ---@return boolean result whether or not the card was dealt
@@ -52,7 +54,7 @@ function dealCard(obj, location, flip)
 end
 
 ---numCard: get how many cards are in an object
----@param obj any object to check for card count
+---@param obj Object object to check for card count
 ---@return number result number of cards in object
 function numCard(obj)
     -- quick error break
