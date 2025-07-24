@@ -3,6 +3,13 @@ require("com/enum_const")
 require("com/const_display_board")
 require("com/const_dev_board")
 
+--- 为了方便搜索，将角色注册信息转换为仅包含昵称的表。
+---@type table<string, string[]>
+local registerRoleInfoForSearch = {}
+for k, v in pairs(ROLE_REGISTER_DICT) do
+    registerRoleInfoForSearch[k] = v[KWORD_NICKNAME]
+end
+
 ---@param option table<string, any>
 ---@return string[]
 local function getDisplayListByOption(option)
@@ -18,26 +25,14 @@ local function getDisplayListByOption(option)
         return data
     end
 
-    local function __isNicknameMatch(nicknameList, searchStr)
-        for _, nickname in ipairs(nicknameList) do
-            if string.find(nickname, searchStr) then
-                return true
-            end
-        end
-        return false
-    end
-
     -- get all register role list (apply search text if any)
     local searchText = option.search_text
     local hasSearchText = type(searchText) == "string" and searchText ~= ""
-    for roleKey, roleData in pairs(registerRoleInfo) do
-        if not hasSearchText then
+    if hasSearchText then
+        displayList = fuzzySearch(registerRoleInfoForSearch, searchText)
+    else
+        for roleKey, _ in pairs(registerRoleInfo) do
             table.insert(displayList, roleKey)
-        else
-            local nicknameList = roleData[KWORD_NICKNAME]
-            if nicknameList and #nicknameList > 0 and __isNicknameMatch(nicknameList, searchText) then
-                table.insert(displayList, roleKey)
-            end
         end
     end
 
