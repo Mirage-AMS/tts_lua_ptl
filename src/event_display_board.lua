@@ -157,7 +157,7 @@ local function setupRoleItem(infoList)
     for boardIdx, roleKey in ipairs(infoList) do
         local roleData = registerRoleInfo[roleKey] or {}
         local roleItems = roleData[KWORD_ITEM]
-        if roleItems and #roleItems > 0 then
+        if roleItems ~= nil and #roleItems > 0 then
             for _, item in ipairs(roleItems) do
                 local copyItem = deepCopy(item)
                 copyItem.loc_id = boardIdx
@@ -361,10 +361,14 @@ local searchTextHandler = createInputHandler("search_text", 0)
 onChangeDisplayBoardPageNum = function(_, _, input_value, stillEditing)
     if stillEditing then return end
     input_value = tonumber(input_value)
-    if type(input_value) == "number" then
-        pageNumHandler.setValue(input_value)
-        pageNumHandler.execute()
+    if type(input_value) ~= "number" then
+        editDisplayBoardInputPageNum(
+            GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY).page_num
+        )
+        return
     end
+    pageNumHandler.setValue(input_value)
+    pageNumHandler.execute()
 end
 
 onChangeDisplayBoardSettingSearchText = function(_, _, input_value, stillEditing)
