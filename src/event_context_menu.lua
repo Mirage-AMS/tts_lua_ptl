@@ -1,5 +1,6 @@
 require("mock/default")
 require("src/event_dev_board")
+require("src/event_display_board")
 require("src/event_game_board")
 
 --- QuitDevMode: for ContextMenu switching development mode on and off.
@@ -16,10 +17,10 @@ function QuitDevMode()
         local toRunFunc = function()
             -- set dev-board hidden
             setDevBoardHidden()
-            -- setup role card
-            setupRoleCard()
             -- setup game board
             updateGameMode({}, true)
+            -- setup display board
+            updateDisplayBoard({}, true)
             -- disable dev mode
             GAME:getPublicService():setDevMode(DevMode.GUEST)
             broadcastToAll("Dev-Mode Disabled")

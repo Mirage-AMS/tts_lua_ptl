@@ -139,6 +139,14 @@ LIST_PARAM_SCRIPTING_DISPLAY_BOARD = {
     }
 }
 
+-- layout
+ROLE_DISPLAY_BOARD_PATTERN = {
+    origin = Vector(-11.84, 0.20, 7.38),
+    dx =  15.11, dz = -7.38,
+    dxx = 4.3, dzz = 0.0,
+    dxxx = 1.0, dzzz = 0.0,
+}
+
 -- var
 NAME_BOARD_DISPLAY = "board_display"
 GUID_DISPLAY_BOARD = "b97de7"
@@ -166,6 +174,11 @@ KWORD_ROLE_ARYA = "role_arya" ---- 艾丽娅，驯鹰人
 KWORD_ROLE_CARLOS = "role_carlos" ---- 卡洛斯，万咒环身
 KWORD_ROLE_KAY = "role_kay" ---- 凯，嗜赌成性
 KWORD_ROLE_NEXT = "role_next" ---- 下一角色，用于测试
+
+NAME_CONTAINER_ROLE_PHYLLIS_HOLY_WATER = "container_role_phyllis_holy_water"
+GUID_CONTAINER_ROLE_PHYLLIS_HOLY_WATER = ""
+NAME_CONTAINER_ROLE_ARYA_EAGLET = "container_role_arya_eaglet"
+GUID_CONTAINER_ROLE_ARYA_EAGLET = ""
 
 ROLE_REGISTER_DICT = {
     [KWORD_ROLE_DAVIAN] = {
@@ -296,9 +309,9 @@ ROLE_REGISTER_DICT = {
         [KWORD_NICKNAME]    = {"菲莉斯", "圣女"},
         [KWORD_ITEM]        = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT01, index = 12, loc_idx = 1},
-            [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF01, index = 23, loc_idx = 2},
-            [3] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF01, index = 24, loc_idx = 3},
-            [4] = {origin = EnumItemOrigin.DEV_CONTAINER, prefix = "role_phyllis_holy_water", loc_idx = 4}
+            [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF01, index = 23, loc_idx = 2, loc_idxx = 1},
+            [3] = {origin = EnumItemOrigin.DEV_CONTAINER_ITEM, prefix = NAME_CONTAINER_ROLE_PHYLLIS_HOLY_WATER, loc_idx = 2, loc_idxx = 2},
+            [4] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF01, index = 24, loc_idx = 3},
         }
     },
     [KWORD_ROLE_SOURCER] = {
@@ -377,9 +390,8 @@ ROLE_REGISTER_DICT = {
         [KWORD_ITEM]        = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT02, index = 7, loc_idx = 1},
             [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF02, index = 15, loc_idx = 2},
-            [3] = {origin = EnumItemOrigin.DEV_CONTAINER_ITEM, prefix = "role_arya_eaglet", loc_idx = 3, loc_idxx = 1},
-            [4] = {origin = EnumItemOrigin.DEV_CONTAINER_ITEM, prefix = "role_arya_eaglet", loc_idx = 3, loc_idxx = 2, flip = true},
-            [5] = {origin = EnumItemOrigin.DEV_CONTAINER, prefix = "role_arya_eaglet", loc_idx = 3},
+            [3] = {origin = EnumItemOrigin.DEV_CONTAINER_ITEM, prefix = GUID_CONTAINER_ROLE_ARYA_EAGLET, loc_idx = 3, loc_idxx = 1, flip = true},
+            [4] = {origin = EnumItemOrigin.DEV_CONTAINER_ITEM, prefix = GUID_CONTAINER_ROLE_ARYA_EAGLET, loc_idx = 3, loc_idxx = 2, flip = false},
         }
     },
     [KWORD_ROLE_CARLOS] = {

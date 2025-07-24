@@ -160,10 +160,10 @@ function buildDefaultData()
                     [NAME_BOARD_MAIN] = { guid = GUID_MAIN_BOARD },
                     [NAME_BOARD_GAME] = { guid = GUID_GAME_BOARD },
                     [NAME_BOARD_DEVELOPMENT] = { guid = GUID_DEV_BOARD },
-                    [NAME_BOARD_ROLE_DISPLAY_01] = { guid = GUID_ROLE_DISPLAY_BOARD_01 },
-                    [NAME_BOARD_ROLE_DISPLAY_02] = { guid = GUID_ROLE_DISPLAY_BOARD_02 },
-                    [NAME_BOARD_ROLE_DISPLAY_03] = { guid = GUID_ROLE_DISPLAY_BOARD_03 },
-                    [NAME_BOARD_ROLE_DISPLAY_04] = { guid = GUID_ROLE_DISPLAY_BOARD_04 },
+                    --[NAME_BOARD_ROLE_DISPLAY_01] = { guid = GUID_ROLE_DISPLAY_BOARD_01 },
+                    --[NAME_BOARD_ROLE_DISPLAY_02] = { guid = GUID_ROLE_DISPLAY_BOARD_02 },
+                    --[NAME_BOARD_ROLE_DISPLAY_03] = { guid = GUID_ROLE_DISPLAY_BOARD_03 },
+                    --[NAME_BOARD_ROLE_DISPLAY_04] = { guid = GUID_ROLE_DISPLAY_BOARD_04 },
                 },
                 displayBoards = {
                     [NAME_BOARD_DISPLAY] = { guid = GUID_DISPLAY_BOARD}

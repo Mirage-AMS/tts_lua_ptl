@@ -190,6 +190,7 @@ function FactoryCreateGame()
                     self:setAllBoardNotInteractable()
                     setDevBoardHidden()
                     updateGameMode({}, true)
+                    updateDisplayBoard({}, true)
                 end,
                 1
             )
