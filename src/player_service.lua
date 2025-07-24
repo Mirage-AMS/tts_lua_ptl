@@ -79,10 +79,10 @@ function FactoryCreatePlayerService()
         for k, v in pairs(players) do
             -- 创建并加载玩家数据，增加错误检查
             local player = FactoryCreatePrivateService()
-            if player then
+            if player ~= nil then
                 self.players[k] = player:onLoad(v or {})
             else
-                print("Error: Failed to create player service for color " .. tostring(k))
+                error("Error: Failed to create player service for color " .. tostring(k))
             end
         end
         return self

@@ -369,7 +369,7 @@ function onButtonClickShowThreeCard(_, _, alt_click)
         --- this special case if only happened when there is only one card in conventicle zone
         local deckObj = conventicleZone:getDeckObj()
         if deckObj and isCard(conventicleZone:getDeckObj()) then
-            deckObj.setRotation({0, 180, 0})
+            deckObj.setRotation(Vector(0, 180, 0))
         end
         conventicleZone:getRebuildDeckObjFromSlots({conventicleZone.deck_slot, table.unpack(conventicleZone.top_slots)})
     else

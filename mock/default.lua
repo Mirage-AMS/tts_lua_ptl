@@ -25,7 +25,8 @@ JSON = {}
 ---@field flip fun(): boolean
 ---@field putObject fun(obj: Object): Object
 ---@field setLock fun(lock: boolean): boolean
----@field setRotation fun(vector: Vector): bool
+---@field setRotation fun(vector: Vector): boolean
+---@field shuffle fun(): boolean
 ---@field takeObject fun(param?: table<string, any>): Object
 Object = {}
 

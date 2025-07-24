@@ -29,6 +29,7 @@ local ZoneMethods = {
     setObjDiscard = function(self, cardObj)
         -- better than putObject
         local pos = self.discard_slot:getPosition()
+        pos.y = pos.y + 1.0 + math.random(1, 30) * 0.02
         if not pos then return end
         cardObj.setPositionSmooth(pos)
     end,
@@ -255,6 +256,7 @@ function FactoryCreateZone()
     ---@field getDeckObj fun(self: Zone): Object?
     ---@field getRebuildDeckObjFromSlots fun(self: Zone, slots: Slot[]?, flip?: boolean): Object? This function Sync Rebuild Deck
     ---@field getRebuildDeckObj fun(self: Zone, flip?: boolean): Object? This function Async Rebuild Deck
+    ---@field setObjDiscard fun(self: Zone, obj: Object): nil
     ---@field shuffleDeck fun(self: Zone): nil
     ---@field destructDeck fun(self: Zone): nil
     ---@field dealDeckCardIntoHand fun(self: Zone, count: number, player_color: string, deckFlip?: boolean): nil

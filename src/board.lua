@@ -5,7 +5,7 @@ require("mock/default")
 ---@field object Object?
 ---@field getPosition fun(self: Board): Vector
 ---@field createButton fun(self: Board, param: table)
----@field getButtons fun(self: Board): table<string, any>
+---@field getButtons fun(self: Board): table<string, any>[]
 ---@field editButton fun(self: Board, param: table)
 ---@field createInput fun(self: Board, param: table)
 ---@field editInput fun(self: Board, param: table)
