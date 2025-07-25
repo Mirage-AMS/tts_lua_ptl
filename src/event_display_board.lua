@@ -326,8 +326,16 @@ end
 local updateHandler = createUpdateHandler()
 
 function onChangeDisplayBoardPageRefresh(_, _, alt_click)
-    if alt_click then return end
-    updateHandler.execute({refresh = true})
+    if alt_click then
+        updateHandler.execute({refresh = true})
+        return
+    end
+    updateHandler.execute({
+        preference = EnumRolePreference.NONE,
+        search_text = "",
+        sort_by = EnumDisplayBoardSort.DIFFICULTY,
+        is_reverse = false
+    })
 end
 
 function onChangeDisplayBoardPagePrev(_, _, alt_click)
@@ -360,7 +368,7 @@ end
 
 function onChangeDisplayBoardSettingSearchText(_, _, input_value, stillEditing)
     if stillEditing then return end
-    updateHandler.execute({search_text = input_value})
+    updateHandler.execute({search_text = input_value, page_num = 1})
 end
 
 function onChangeDisplayBoardSettingPreference(_, _, alt_click)
@@ -373,7 +381,7 @@ function onChangeDisplayBoardSettingPreference(_, _, alt_click)
         }
     local currValue = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY).preference
     local newValue = getNextValInValList(currValue, valueList)
-    updateHandler.execute({preference = newValue})
+    updateHandler.execute({preference = newValue, page_num = 1})
 end
 
 function onChangeDisplayBoardSettingSortBy(_, _, alt_click)
@@ -381,7 +389,7 @@ function onChangeDisplayBoardSettingSortBy(_, _, alt_click)
     local valueList = {EnumDisplayBoardSort.DIFFICULTY, EnumDisplayBoardSort.TIME}
     local currValue = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY).sort_by
     local newValue = getNextValInValList(currValue, valueList)
-    updateHandler.execute({sort_by = newValue})
+    updateHandler.execute({sort_by = newValue, page_num = 1})
 end
 
 function onChangeDisplayBoardSettingIsReverse(_, _, alt_click)
@@ -389,5 +397,5 @@ function onChangeDisplayBoardSettingIsReverse(_, _, alt_click)
     local valueList = {false, true}
     local currValue = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY).is_reverse
     local newValue = getNextValInValList(currValue, valueList)
-    updateHandler.execute({is_reverse = newValue})
+    updateHandler.execute({is_reverse = newValue, page_num = 1})
 end

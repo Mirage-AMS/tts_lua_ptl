@@ -21,7 +21,7 @@ PARAM_DISPLAY_BOARD_BUTTON_REFRESH = {
     width = 100, height = 100,
     scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=DISPLAY_BOARD_BUTTON_FONT_SIZE,
     position = Vector(1.25, 1.0, -1.0),
-    label = "○", tooltip = "重置当前页面"
+    label = "🔄", tooltip = "左键重置/右键刷新"
 }
 
 PARAM_DISPLAY_BOARD_BUTTON_SWITCH_PREV_PAGE = {
