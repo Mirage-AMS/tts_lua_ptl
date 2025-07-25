@@ -78,21 +78,19 @@ LIST_PARAM_GAME_BOARD_BUTTONS = {
     PARAM_GAME_BOARD_BUTTON_SWITCH_BP_STRATEGY
 }
 
--- Decks --------------------------------------------------------------------------------
+---@type table<number, table<string, number>[]>
 LIST_PARAM_LEGEND_DISPLAY = {
     [EnumGameGoal.QUICK] = {
-        [1] = {idx = 2, idz = 1},
-        [2] = {idx = 3, idz = 1},
-        [3] = {idx = 1, idz = 1},
-        [4] = {}, [5] = {}, [6] = {}, [7] = {},
+        {index = 1, idx = 2, idz = 1},
+        {index = 2, idx = 3, idz = 1},
+        {index = 3, idx = 1, idz = 1},
     },
     [EnumGameGoal.STANDARD] = {
-        [1] = {}, [2] = {},
-        [3] = {idx = 1, idz = 1},
-        [4] = {idx = 2, idz = 1},
-        [5] = {idx = 3, idz = 1},
-        [6] = {idx = 1, idz = 2},
-        [7] = {idx = 2, idz = 2},
+        {index = 3, idx = 1, idz = 1},
+        {index = 4, idx = 2, idz = 1},
+        {index = 5, idx = 3, idz = 1},
+        {index = 6, idx = 1, idz = 2},
+        {index = 7, idx = 2, idz = 2},
     }
 }
 

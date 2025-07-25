@@ -7,6 +7,9 @@ __BUTTON_COLOR_GREEN = {0.5, 1, 0.5}
 __BUTTON_COLOR_YELLOW = {1, 1, 0.5}
 __BUTTON_COLOR_PURPLE = {1, 0.5, 1}
 
+__CARD_ROTATION_FACE_UP = Vector(0, 180, 0)
+__CARD_ROTATION_FACE_DOWN = Vector(0, 180, 180)
+
 ---@class DevMode
 ---@field DEV number
 ---@field GUEST number
