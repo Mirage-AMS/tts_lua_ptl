@@ -91,17 +91,13 @@ local function editDisplayBoardButton(index, value)
     GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY):editButton(param)
 end
 
-local function editDisplayBoardInputPageNum(page_num)
-    Wait.frames(
-        function()
-            local param = {
-                index = 0,
-                value = page_num,
-            }
-            GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY):editInput(param)
-        end,
-        1
-    )
+local function editDisplayBoardInput(index, value)
+    local toRunFunc = function()
+        local param = {index = index, value = value}
+        local displayBoard = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY)
+        displayBoard:editInput(param)
+    end
+    Wait.frames(toRunFunc, 1)
 end
 
 local function clearDisplayBoardZone()
@@ -257,7 +253,8 @@ function updateDisplayBoard(data, forceUpdate)
     for i = 1, #config do
         editDisplayBoardButton(i, config[i])
     end
-    editDisplayBoardInputPageNum(newData.page_num)
+    editDisplayBoardInput(0, newData.page_num)
+    editDisplayBoardInput(1, newData.search_text)
 
     -- check if display list is changed
     local isDisplayListChanged = not isListEqual(oldInfoList, newInfoList)
@@ -335,7 +332,9 @@ function onChangeDisplayBoardPageRefresh(_, _, alt_click)
         preference = EnumRolePreference.NONE,
         search_text = "",
         sort_by = EnumDisplayBoardSort.DIFFICULTY,
-        is_reverse = false
+        is_reverse = false,
+        page_num = 1,
+        refresh = true,
     })
 end
 
@@ -359,12 +358,11 @@ function onChangeDisplayBoardPageNum (_, _, input_value, stillEditing)
     if stillEditing then return end
     local displayBoard = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY)
     input_value = tonumber(input_value)
-    if type(input_value) ~= "number" then
-        editDisplayBoardInputPageNum(displayBoard.page_num)
+    if type(input_value) ~= "number" or input_value < 1 or input_value > displayBoard.max_page_num then
+        editDisplayBoardInput(0, displayBoard.page_num)
         return
     end
-    local newPageNum = math.max(1, math.min(math.floor(input_value), displayBoard.max_page_num))
-    updateHandler.execute({page_num = newPageNum})
+    updateHandler.execute({page_num = input_value})
 end
 
 function onChangeDisplayBoardSettingSearchText(_, _, input_value, stillEditing)
