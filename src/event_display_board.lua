@@ -270,95 +270,84 @@ function updateDisplayBoard(data, forceUpdate)
 end
 
 --- a wrapper function to toggle between values
----@param valueType string: type of value to be changed
----@param getValue function: get new value to be changed
----@param debounceTime? number: debounce time in milliseconds
-local function onChangeDisplayBoardSetting(valueType, getValue, debounceTime)
-    -- use a closure to realize debounce
-    debounceTime = debounceTime or 500 -- default debounce time is 200ms
+---@return {isDebouncing: fun(), setDebounceTime: fun(debounceTime: number), execute:fun(data: table<string, any>)}
+local function createUpdateHandler()
+    ---@type number
     local lastClickTime = 0.0
+    ---@type number
+    local debounceTime = 500
 
-    return function()
-        -- quick break if debounce time is not passed
+    ---@return boolean
+    local function isDebouncing()
         local currentTime = Time.time * 1000
-        if currentTime - lastClickTime < debounceTime then return end
-        lastClickTime = currentTime
+        return currentTime - lastClickTime < debounceTime
+    end
 
-        -- quick break if still in dev mode
+    ---@param newDebounceTime number
+    local function setDebounceTime(newDebounceTime)
+        debounceTime = newDebounceTime
+    end
+
+    local function execute(data)
+        if isDebouncing() then return end
+
         if GAME:getPublicService():isDevMode() then
             broadcastToAll("Dev-Mode is enabled, please disable it first")
             return
         end
 
-        -- if refresh is triggered, update the display board directly
-        if valueType == "refresh" then
-            updateDisplayBoard({}, true)
-            return
-        end
-
         -- change other settings
         local displayBoard = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY)
-        local currData = displayBoard[valueType]
-        local newData = getValue()
-        if currData == newData then return end
-
-        local updateData = {[valueType] = newData}
-         -- reset page num to 1 when changing other settings
-        if valueType ~= "page_num" then
-            updateData.page_num = 1
+        local currData = displayBoard:getDisplayOption()
+        local isChanged = false
+        local isForceRefresh = false
+        for k, v in pairs(data) do
+            if k == "refresh" then
+                isForceRefresh = true
+            elseif currData[k] ~= v then
+                isChanged = true
+            end
         end
-        updateDisplayBoard(updateData, false)
+        if not isChanged and not isForceRefresh then return end
+
+        -- core logic
+        updateDisplayBoard(data, isForceRefresh)
+
+        -- update last click time
+        lastClickTime = Time.time * 1000
     end
-end
 
-onChangeDisplayBoardPageRefresh = onChangeDisplayBoardSetting(
-    "refresh",
-    function() end
-)
-
-onChangeDisplayBoardPagePrev = onChangeDisplayBoardSetting(
-    "page_num",
-    function()
-        local currPageNum = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY).page_num
-        return math.max(1, currPageNum - 1)
-    end
-)
-
-onChangeDisplayBoardPageNext = onChangeDisplayBoardSetting(
-    "page_num",
-    function()
-        local displayBoard = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY)
-        local currPageNum = displayBoard.page_num
-        local maxPageNum = displayBoard.max_page_num
-        return math.min(maxPageNum, currPageNum + 1)
-    end
-)
-
---- 使用闭包来创建一个输入处理器, 它可以更新值并执行相应的操作。
----@param valueType string
----@param debounceTime? number
----@return table
-local function createInputHandler(valueType, debounceTime)
-    local currentValue  -- 用闭包变量存储当前值
-    local handler = onChangeDisplayBoardSetting(
-        valueType,
-        function() return currentValue end,  -- 访问闭包中的currentValue
-        debounceTime or 0
-    )
-
-    -- 返回更新值和执行的接口
     return {
-        setValue = function(value)
-            currentValue = value
-        end,
-        execute = handler
+        isDebouncing = isDebouncing,
+        setDebounceTime = setDebounceTime,
+        execute = execute,
     }
 end
 
-local pageNumHandler = createInputHandler("page_num", 0)
-local searchTextHandler = createInputHandler("search_text", 0)
+--- all display functions share the same debounce logic
+local updateHandler = createUpdateHandler()
 
-onChangeDisplayBoardPageNum = function(_, _, input_value, stillEditing)
+function onChangeDisplayBoardPageRefresh(_, _, alt_click)
+    if alt_click then return end
+    updateHandler.execute({refresh = true})
+end
+
+function onChangeDisplayBoardPagePrev(_, _, alt_click)
+    if alt_click then return end
+    local currPageNum = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY).page_num
+    local newPageNum = math.max(1, currPageNum - 1)
+    updateHandler.execute({page_num = newPageNum})
+end
+
+function onChangeDisplayBoardPageNext(_, _, alt_click)
+    if alt_click then return end
+    local displayBoard = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY)
+    local currPageNum = displayBoard.page_num
+    local newPageNum = math.min(currPageNum + 1, displayBoard.max_page_num)
+    updateHandler.execute({page_num = newPageNum})
+end
+
+function onChangeDisplayBoardPageNum (_, _, input_value, stillEditing)
     if stillEditing then return end
     input_value = tonumber(input_value)
     if type(input_value) ~= "number" then
@@ -367,44 +356,39 @@ onChangeDisplayBoardPageNum = function(_, _, input_value, stillEditing)
         )
         return
     end
-    pageNumHandler.setValue(input_value)
-    pageNumHandler.execute()
+    updateHandler.execute({page_num = math.floor(input_value)})
 end
 
-onChangeDisplayBoardSettingSearchText = function(_, _, input_value, stillEditing)
+function onChangeDisplayBoardSettingSearchText(_, _, input_value, stillEditing)
     if stillEditing then return end
-    searchTextHandler.setValue(input_value)
-    searchTextHandler.execute()
+    updateHandler.execute({search_text = input_value})
 end
 
-onChangeDisplayBoardSettingPreference = onChangeDisplayBoardSetting(
-    "preference",
-    function()
-        local valueList = {
+function onChangeDisplayBoardSettingPreference(_, _, alt_click)
+    if alt_click then return end
+    local valueList = {
             EnumRolePreference.NONE,
             EnumRolePreference.GATHERING,
             EnumRolePreference.HUNTING,
             EnumRolePreference.NO_PREFERENCE,
         }
-        local currValue = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY).preference
-        return getNextValInValList(currValue, valueList)
-    end
-)
+    local currValue = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY).preference
+    local newValue = getNextValInValList(currValue, valueList)
+    updateHandler.execute({preference = newValue})
+end
 
-onChangeDisplayBoardSettingSortBy = onChangeDisplayBoardSetting(
-    "sort_by",
-    function()
-        local valueList = {EnumDisplayBoardSort.DIFFICULTY, EnumDisplayBoardSort.TIME}
-        local currValue = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY).sort_by
-        return getNextValInValList(currValue, valueList)
-    end
-)
+function onChangeDisplayBoardSettingSortBy(_, _, alt_click)
+    if alt_click then return end
+    local valueList = {EnumDisplayBoardSort.DIFFICULTY, EnumDisplayBoardSort.TIME}
+    local currValue = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY).sort_by
+    local newValue = getNextValInValList(currValue, valueList)
+    updateHandler.execute({sort_by = newValue})
+end
 
-onChangeDisplayBoardSettingIsReverse = onChangeDisplayBoardSetting(
-    "is_reverse",
-    function()
-        local valueList = {false, true}
-        local currValue = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY).is_reverse
-        return getNextValInValList(currValue, valueList)
-    end
-)
+function onChangeDisplayBoardSettingIsReverse(_, _, alt_click)
+    if alt_click then return end
+    local valueList = {false, true}
+    local currValue = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY).is_reverse
+    local newValue = getNextValInValList(currValue, valueList)
+    updateHandler.execute({is_reverse = newValue})
+end
