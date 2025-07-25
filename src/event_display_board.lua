@@ -290,6 +290,7 @@ local function createUpdateHandler()
 
     local function execute(data)
         if isDebouncing() then return end
+        lastClickTime = Time.time * 1000
 
         if GAME:getPublicService():isDevMode() then
             broadcastToAll("Dev-Mode is enabled, please disable it first")
@@ -312,9 +313,6 @@ local function createUpdateHandler()
 
         -- core logic
         updateDisplayBoard(data, isForceRefresh)
-
-        -- update last click time
-        lastClickTime = Time.time * 1000
     end
 
     return {
@@ -334,7 +332,8 @@ end
 
 function onChangeDisplayBoardPagePrev(_, _, alt_click)
     if alt_click then return end
-    local currPageNum = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY).page_num
+    local displayBoard = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY)
+    local currPageNum = displayBoard.page_num
     local newPageNum = math.max(1, currPageNum - 1)
     updateHandler.execute({page_num = newPageNum})
 end
@@ -349,14 +348,14 @@ end
 
 function onChangeDisplayBoardPageNum (_, _, input_value, stillEditing)
     if stillEditing then return end
+    local displayBoard = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY)
     input_value = tonumber(input_value)
     if type(input_value) ~= "number" then
-        editDisplayBoardInputPageNum(
-            GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY).page_num
-        )
+        editDisplayBoardInputPageNum(displayBoard.page_num)
         return
     end
-    updateHandler.execute({page_num = math.floor(input_value)})
+    local newPageNum = math.max(1, math.min(math.floor(input_value), displayBoard.max_page_num))
+    updateHandler.execute({page_num = newPageNum})
 end
 
 function onChangeDisplayBoardSettingSearchText(_, _, input_value, stillEditing)
