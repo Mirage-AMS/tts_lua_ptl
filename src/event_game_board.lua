@@ -101,12 +101,9 @@ local function updateGameGoal(gameGoal)
         local idx, idz = locData.idx, locData.idz
         local eachPos = getOffsetPosition(pos, idx, idz, dx, dz)
         local eachRot = __CARD_ROTATION_FACE_UP
-        local clonedDeck = deck.clone({})
-        local takeParam = {index = deckIdx - 1}
-        local takeItem = clonedDeck.takeObject(takeParam)
-        takeItem.setLock(true)
-        takeItem.setPosition(eachPos)
-        takeItem.setRotation(eachRot)
+        local clonedDeck = deck.clone({position = eachPos, rotation = eachRot})
+        local takeParam = {index = deckIdx - 1, position = eachPos, rotation = eachRot}
+        clonedDeck.takeObject(takeParam).setLock(true)
         clonedDeck.destruct()
     end
 
@@ -220,7 +217,7 @@ end
 ---@param debounceTime? number: time to wait before allowing another click (in milliseconds)
 local function onButtonClickToggle(valueType, valueList, getCurrentValue, debounceTime)
     -- use a closure to realize debounce
-    debounceTime = debounceTime or 200 -- default debounce time is 200ms
+    debounceTime = debounceTime or 500 -- default debounce time is 200ms
     local lastClickTime = 0.0
 
     return function()

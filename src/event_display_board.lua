@@ -184,12 +184,9 @@ local function setupRoleItem(infoList)
                     if item.flip ~= nil then isFlip = item.flip end
                     local rot = isFlip and __CARD_ROTATION_FACE_UP or __CARD_ROTATION_FACE_DOWN
                     local pos = boardDisplay:getPosition() + getDisplayBoardItemShift(item)
-                    local clonedObject = deck.clone({})
-                    local takeParam = {index = item.index - 1}
-                    local takeItem = clonedObject.takeObject(takeParam)
-                    takeItem.setLock(true)
-                    takeItem.setPosition(pos)
-                    takeItem.setRotation(rot)
+                    local clonedObject = deck.clone({position = pos, rotation = rot})
+                    local takeParam = {index = item.index - 1, position = pos, rotation = rot}
+                    clonedObject.takeObject(takeParam).setLock(true)
                     clonedObject.destruct()
                 end
             end
@@ -214,11 +211,9 @@ local function setupRoleItem(infoList)
                     if item.flip ~= nil then isFlip = item.flip end
                     local rot = isFlip and __CARD_ROTATION_FACE_UP or __CARD_ROTATION_FACE_DOWN
                     local pos = boardDisplay:getPosition() + getDisplayBoardItemShift(item)
-                    local clonedObject = container.object.clone({})
-                    local takeItem = clonedObject.takeObject()
-                    takeItem.setPosition(pos)
-                    takeItem.setLock(true)
-                    takeItem.setRotation(rot)
+                    local clonedObject = container.object.clone({position = pos})
+                    local takeParam = {position = pos, rotation = rot}
+                    clonedObject.takeObject(takeParam).setLock(true)
                     clonedObject.destruct()
                 end
             end
@@ -273,7 +268,7 @@ local function createUpdateHandler()
     ---@type number
     local lastClickTime = 0.0
     ---@type number
-    local debounceTime = 200
+    local debounceTime = 500.0
 
     ---@return boolean
     local function isDebouncing()
