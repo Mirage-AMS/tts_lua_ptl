@@ -117,6 +117,7 @@ PARAM_DISPLAY_BOARD_INPUT_SEARCH_TEXT = {
     scale=DISPLAY_BOARD_BUTTON_SCALE, font_size=75,
     position = Vector(-0.15, 1.0, -1.0),
     alignment = 5,
+    label = "搜索角色，如：牢玛", tooltip = "输入角色名或角色昵称进行筛选",
 }
 
 LIST_PARAM_DISPLAY_BOARD_INPUTS = {
@@ -185,7 +186,7 @@ ROLE_REGISTER_DICT = {
         [KWORD_ORDER]       = 1,
         [KWORD_DIFFICULTY]  = EnumRoleDifficulty.NORMAL,
         [KWORD_PREFERENCE]  = EnumRolePreference.HUNTING,
-        [KWORD_NICKNAME]    = {"达维安", "巨杀"},
+        [KWORD_NICKNAME]    = {"达维安", "巨杀", "杀手"},
         [KWORD_ITEM]        = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT01, index = 1, loc_idx = 1},
             [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF01, index = 1, loc_idx = 2},
@@ -196,7 +197,7 @@ ROLE_REGISTER_DICT = {
         [KWORD_ORDER]       = 2,
         [KWORD_DIFFICULTY]  = EnumRoleDifficulty.EASY,
         [KWORD_PREFERENCE]  = EnumRolePreference.HUNTING,
-        [KWORD_NICKNAME]    = {"盖尔曼"},
+        [KWORD_NICKNAME]    = {"盖尔曼", "牢盖", "格尔曼"},
         [KWORD_ITEM]        = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT01, index = 2, loc_idx = 1},
             [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF01, index = 3, loc_idx = 2},
@@ -207,7 +208,7 @@ ROLE_REGISTER_DICT = {
         [KWORD_ORDER]       = 3,
         [KWORD_DIFFICULTY]  = EnumRoleDifficulty.EASY,
         [KWORD_PREFERENCE]  = EnumRolePreference.GATHERING,
-        [KWORD_NICKNAME]    = {"埃尔", "铁与火", "火老头"},
+        [KWORD_NICKNAME]    = {"埃尔", "铁与火", "老头"},
         [KWORD_ITEM]        = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT01, index = 3, loc_idx = 1},
             [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF01, index = 5, loc_idx = 2},
@@ -218,7 +219,7 @@ ROLE_REGISTER_DICT = {
         [KWORD_ORDER]       = 4,
         [KWORD_DIFFICULTY]  = EnumRoleDifficulty.EASY,
         [KWORD_PREFERENCE]  = EnumRolePreference.GATHERING,
-        [KWORD_NICKNAME]    = {"泽丽尔", "树屋", "精灵"},
+        [KWORD_NICKNAME]    = {"泽丽尔", "树屋", "精灵", "烂草"},
         [KWORD_ITEM]        = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT01, index = 4, loc_idx = 1},
             [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF01, index = 7, loc_idx = 2},
@@ -262,7 +263,7 @@ ROLE_REGISTER_DICT = {
         [KWORD_ORDER]       = 8,
         [KWORD_DIFFICULTY]  = EnumRoleDifficulty.HARD,
         [KWORD_PREFERENCE]  = EnumRolePreference.NO_PREFERENCE,
-        [KWORD_NICKNAME]    = {"塔尔凡", "风老头"},
+        [KWORD_NICKNAME]    = {"塔尔凡", "老头"},
         [KWORD_ITEM]        = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT01, index = 8, loc_idx = 1},
             [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF01, index = 15, loc_idx = 2},
@@ -329,7 +330,7 @@ ROLE_REGISTER_DICT = {
         [KWORD_ORDER]       = 14,
         [KWORD_DIFFICULTY]  = EnumRoleDifficulty.NORMAL,
         [KWORD_PREFERENCE]  = EnumRolePreference.NO_PREFERENCE,
-        [KWORD_NICKNAME]    = {"莱奥", "牢剑", "牢奥"},
+        [KWORD_NICKNAME]    = {"莱奥", "剑心", "牢剑", "牢奥"},
         [KWORD_ITEM]        = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT02, index = 2, loc_idx = 1},
             [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF02, index = 3, loc_idx = 2},
@@ -353,7 +354,7 @@ ROLE_REGISTER_DICT = {
         [KWORD_ORDER]       = 16,
         [KWORD_DIFFICULTY]  = EnumRoleDifficulty.NORMAL,
         [KWORD_PREFERENCE]  = EnumRolePreference.GATHERING,
-        [KWORD_NICKNAME]    = {"莱拉娜"},
+        [KWORD_NICKNAME]    = {"莱拉娜", "祭祀", "祭司"},
         [KWORD_ITEM]        = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT02, index = 4, loc_idx = 1},
             [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF02, index = 9, loc_idx = 2},
