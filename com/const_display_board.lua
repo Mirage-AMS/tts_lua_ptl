@@ -174,6 +174,7 @@ KWORD_ROLE_FLINT = "role_flint" ---- 弗林特，栖身林原
 KWORD_ROLE_ARYA = "role_arya" ---- 艾丽娅，驯鹰人
 KWORD_ROLE_CARLOS = "role_carlos" ---- 卡洛斯，万咒环身
 KWORD_ROLE_KAY = "role_kay" ---- 凯，嗜赌成性
+KWORD_ROLE_COLIN = "role_colin" ---- 科林，石拳
 KWORD_ROLE_NEXT = "role_next" ---- 下一角色，用于测试
 
 NAME_CONTAINER_ROLE_PHYLLIS_HOLY_WATER = "container_role_phyllis_holy_water"
@@ -417,4 +418,15 @@ ROLE_REGISTER_DICT = {
             [3] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF02, index = 19, loc_idx = 3},
         }
     },
+    [KWORD_ROLE_COLIN] = {
+        [KWORD_ORDER]       = 22,
+        [KWORD_DIFFICULTY]  = EnumRoleDifficulty.NORMAL,
+        [KWORD_PREFERENCE]  = EnumRolePreference.GATHERING,
+        [KWORD_NICKNAME]    = {"科林", "石拳", "石头"},
+        [KWORD_ITEM]        = {
+            [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT02, index = 10, loc_idx = 1},
+            [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF02, index = 20, loc_idx = 2},
+            [3] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF02, index = 21, loc_idx = 3},
+        }
+    }
 }
