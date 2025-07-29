@@ -90,8 +90,8 @@ function registerCard(deck, info)
     -- register the deck
     deck.setLock(true)
     local cardSet = {}
-    local _initShift = 1.75
-    local _eachShift = 0.2
+    local _initShift = 1.5
+    local _eachShift = 0.5
     local pos = deck.getPosition()
     pos.y = pos.y + _initShift + _eachShift * cardNum
 
