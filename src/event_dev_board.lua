@@ -48,6 +48,40 @@ function registerDeckInfo()
     end
 end
 
+--- checkDeckInfo: Re-Check the information of development decks after the game starts.
+function checkDeckInfo()
+    ---@type string[]
+    local all_deck_list = DECK_LIST
+    ---@type table<string, string[]>
+    local all_deck_info = DECK_INFO
+
+    local publicService = GAME:getPublicService()
+
+    for _, prefix in ipairs(all_deck_list) do
+        local eachDeck = publicService:getDevDeck(prefix)
+        local eachDeckInfo = all_deck_info[prefix]
+        if eachDeckInfo == nil or #eachDeckInfo <= 0 then
+            error("fatal error: devDeck[" .. prefix .. "] info is nil")
+        end
+        if eachDeck == nil or not isCardLike(eachDeck) then
+            error("fatal error: getDevDeck[" .. prefix .. "] is nil")
+        end
+        local eachDeckGetObjects = eachDeck.getObjects()
+
+        --- check count
+        if #eachDeckGetObjects ~= #eachDeckInfo then
+            error("fatal error: devDeck[" .. prefix .. "] card count mismatch" .. #eachDeckGetObjects .. " != " .. #eachDeckInfo)
+        end
+
+        --- check specific card
+        for idx, eachCard in ipairs(eachDeckGetObjects) do
+            if eachCard.name ~= eachDeckInfo[idx] then
+                print("warning: devDeck[" .. prefix .. "] card name mismatch" .. eachCard.name .. " != " .. eachDeckInfo[idx])
+            end
+        end
+    end
+end
+
 --- setDevBoardHidden: Hide the development board and all its components.
 function setDevBoardHidden()
     local hideId = "DevBoardHider"

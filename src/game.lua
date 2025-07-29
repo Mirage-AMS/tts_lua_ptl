@@ -8,6 +8,7 @@ require("src/public_service")
 require("src/player_service")
 require("src/build_data")
 require("src/event_game_board")
+require("src/event_dev_board")
 require("src/event_display_board")
 require("src/event_main_board")
 require("src/event_context_menu")
@@ -187,8 +188,12 @@ function FactoryCreateGame()
         else
             Wait.frames(
                 function()
+                    --- check deck info
+                    checkDeckInfo()
+                    --- setup dev board hidden and  all boards not interactable
                     self:setAllBoardNotInteractable()
                     setDevBoardHidden()
+                    --- update game mode and display board
                     updateGameMode({}, true)
                     updateDisplayBoard({}, true)
                 end,
