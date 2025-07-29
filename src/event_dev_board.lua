@@ -119,7 +119,7 @@ end
 
 --- setupContainer: Set up the container for development cards.
 function setupContainer()
-    ---@type table<string, {origin: number, prefix: string, index: number}>
+    ---@type table<string, {origin: number, prefix: string, index: number, flip?: boolean}>
     local registerContainerInfo = CONTAINER_REGISTER_DICT
     local publicService = GAME:getPublicService()
     local publicItemManager = GAME:getPublicItemManager()
@@ -139,15 +139,14 @@ function setupContainer()
             if not devDeck then
                 error("fatal error: devDeck[" .. prefix .. "] is nil")
             end
+            local isFlip = true
+            if info.flip ~= nil then isFlip = info.flip end
+            local rot = isFlip and __CARD_ROTATION_FACE_UP or __CARD_ROTATION_FACE_DOWN
+            local pos = pos + Vector(0, 5, 0)
             local clonedDeck = devDeck.clone({position = pos})
-            local takeParam = {index = deckIdx - 1, position = pos}
+            local takeParam = {index = deckIdx - 1, position = pos, rotation = rot}
             takeItem = clonedDeck.takeObject(takeParam)
             clonedDeck.destruct()
-        end
-
-        --- put item
-        if takeItem ~= nil then
-            targetContainer:putObject(takeItem)
         end
     end
 end
