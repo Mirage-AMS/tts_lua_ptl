@@ -157,6 +157,8 @@ function buildDefaultData()
             item_manager = {
                 containers = {
                     [NAME_RUBBISH_BIN] = {guid = GUID_RUBBISH_BIN },
+                    [NAME_CONTAINER_ACCESSORY_ROTTEN_GRASS] = {guid = GUID_CONTAINER_ACCESSORY_ROTTEN_GRASS},
+                    [NAME_CONTAINER_ACCESSORY_GOLD] = {guid = GUID_CONTAINER_ACCESSORY_GOLD},
                     [NAME_CONTAINER_ROLE_PHYLLIS_HOLY_WATER] = {guid = GUID_CONTAINER_ROLE_PHYLLIS_HOLY_WATER},
                     [NAME_CONTAINER_ROLE_ARYA_EAGLET] = {guid = GUID_CONTAINER_ROLE_ARYA_EAGLET},
                 },
@@ -164,10 +166,6 @@ function buildDefaultData()
                     [NAME_BOARD_MAIN] = { guid = GUID_MAIN_BOARD },
                     [NAME_BOARD_GAME] = { guid = GUID_GAME_BOARD },
                     [NAME_BOARD_DEVELOPMENT] = { guid = GUID_DEV_BOARD },
-                    --[NAME_BOARD_ROLE_DISPLAY_01] = { guid = GUID_ROLE_DISPLAY_BOARD_01 },
-                    --[NAME_BOARD_ROLE_DISPLAY_02] = { guid = GUID_ROLE_DISPLAY_BOARD_02 },
-                    --[NAME_BOARD_ROLE_DISPLAY_03] = { guid = GUID_ROLE_DISPLAY_BOARD_03 },
-                    --[NAME_BOARD_ROLE_DISPLAY_04] = { guid = GUID_ROLE_DISPLAY_BOARD_04 },
                 },
                 displayBoards = {
                     [NAME_BOARD_DISPLAY] = { guid = GUID_DISPLAY_BOARD}

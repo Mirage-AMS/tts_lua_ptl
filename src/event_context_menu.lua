@@ -17,6 +17,8 @@ function QuitDevMode()
         local toRunFunc = function()
             -- set dev-board hidden
             setDevBoardHidden()
+            -- setup container
+            setupContainer()
             -- setup game board
             updateGameMode({}, true)
             -- setup display board

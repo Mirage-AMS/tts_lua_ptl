@@ -177,10 +177,6 @@ KWORD_ROLE_KAY = "role_kay" ---- 凯，嗜赌成性
 KWORD_ROLE_COLIN = "role_colin" ---- 科林，石拳
 KWORD_ROLE_NEXT = "role_next" ---- 下一角色，用于测试
 
-NAME_CONTAINER_ROLE_PHYLLIS_HOLY_WATER = "container_role_phyllis_holy_water"
-GUID_CONTAINER_ROLE_PHYLLIS_HOLY_WATER = "1f70e5"
-NAME_CONTAINER_ROLE_ARYA_EAGLET = "container_role_arya_eaglet"
-GUID_CONTAINER_ROLE_ARYA_EAGLET = "13acb9"
 
 ROLE_REGISTER_DICT = {
     [KWORD_ROLE_DAVIAN] = {

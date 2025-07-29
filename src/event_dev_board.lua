@@ -81,3 +81,39 @@ function setDevBoardHidden()
         eachDeck.attachInvisibleHider(hideId, true, DEFAULT_ALL_COLOR_LIST)
     end
 end
+
+
+--- setupContainer: Set up the container for development cards.
+function setupContainer()
+    ---@type table<string, {origin: number, prefix: string, index: number}>
+    local registerContainerInfo = CONTAINER_REGISTER_DICT
+    local publicService = GAME:getPublicService()
+    local publicItemManager = GAME:getPublicItemManager()
+
+    for key, info in pairs(registerContainerInfo) do
+        --- init
+        local targetContainer = publicItemManager:getContainer(key)
+        local pos = targetContainer:getPosition()
+        local origin = info.origin
+        local prefix = info.prefix
+        local takeItem
+
+        --- take item
+        if origin == EnumItemOrigin.DEV_DECK then
+            local deckIdx = info.index
+            local devDeck = publicService:getDevDeck(prefix)
+            if not devDeck then
+                error("fatal error: devDeck[" .. prefix .. "] is nil")
+            end
+            local clonedDeck = devDeck.clone({position = pos})
+            local takeParam = {index = deckIdx - 1, position = pos}
+            takeItem = clonedDeck.takeObject(takeParam)
+            clonedDeck.destruct()
+        end
+
+        --- put item
+        if takeItem ~= nil then
+            targetContainer:putObject(takeItem)
+        end
+    end
+end
