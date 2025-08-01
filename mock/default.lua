@@ -93,6 +93,29 @@ Vector = {}
 ---@field stop fun(id: any): boolean
 Wait = {}
 
+---@class WebRequestInstance
+---@field is_error boolean If the request failed due to an error.
+---@field is_done boolean If the request completed or failed. If the request failed, is_error will be set.
+---@field response_code number Response HTTP status code.
+---@field url string The request's target URL. If the request was redirected, this will still return the initial URL.
+---@field text string Response body.
+---@field error string Reason why the request failed to complete. HTTP error (4xx/5xx) is not considered a request error.
+---@field download_progress number Download percentage, represented as a number in the range 0-1.
+---@field upload_progress number Upload percentage, represented as a number from 0-1.
+---@field dispose fun() requests are automatically disposed of after a request completes/fails. You may call this method to try abort a request and dispose of it early.
+---@field getResponseHeader fun(name: string): string Returns the value of the specified response header, or nil if no such header exists.
+---@field getResponseHeaders fun(): table<string, string> Returns the table of response headers. Keys and values are both strings.
+
+
+---@class WebRequest
+---@field custom fun(url: string, method: string, download: boolean, data: string, headers: table<string, string>, callback_function: function): WebRequestInstance Performs a HTTP request using the specified method, data and headers.
+---@field delete fun(url: string, callback_function: function): WebRequestInstance Performs a HTTP DELETE request.
+---@field get fun(url: string, callback_function: function): WebRequestInstance Performs a GET request.
+---@field head fun(url: string, callback_function: function): WebRequestInstance Performs a HEAD request.
+---@field post fun(url: string, form: any, callback_function: function): WebRequestInstance Performs a HTTP POST request, sending the specified form.
+---@field put fun(url: string, data: string, callback_function: function): WebRequestInstance Performs a HTTP PUT request, sending the specified data.
+WebRequest = {}
+
 self = {}
 Global = {}
 
