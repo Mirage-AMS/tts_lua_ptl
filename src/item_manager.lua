@@ -9,10 +9,10 @@ require("src/zone")
 ---@field boards table<string, Board>
 ---@field displayBoards table<string, BoardDisplay>
 ---@field zones table<string, Zone>
----@field getContainer fun(self: ItemManager, name: string): Container
----@field getBoard fun(self: ItemManager, name: string): Board
----@field getBoardDisplay fun(self: ItemManager, name: string): BoardDisplay
----@field getZone fun(self: ItemManager, name: string): Zone
+---@field getContainer fun(self: ItemManager, name: string): Container?
+---@field getBoard fun(self: ItemManager, name: string): Board?
+---@field getBoardDisplay fun(self: ItemManager, name: string): BoardDisplay?
+---@field getZone fun(self: ItemManager, name: string): Zone?
 ---@field onSave fun(self: ItemManager): table
 ---@field onLoad fun(self: ItemManager, data: table): ItemManager
 

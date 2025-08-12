@@ -3,12 +3,27 @@ require("src/turn_manager")
 require("src/item_manager")
 require("src/mode_manager")
 
+---@class PublicService
+---@field turn_manager TurnManager?
+---@field item_manager ItemManager?
+---@field mode_manager ModeManager?
+---@field getTurnManager fun(self: PublicService): TurnManager
+---@field getItemManager fun(self: PublicService): ItemManager
+---@field getModeManager fun(self: PublicService): ModeManager
+---@field getGameModeManager fun(self: PublicService): GameModeManager
+---@field isGameModeSet fun(self: PublicService): boolean
+---@field isDevMode fun(self: PublicService): boolean
+---@field getPublicBoard fun(self: PublicService, name: string): Board?
+---@field getPublicZone fun(self: PublicService, name: string): Zone?
+---@field getDevDeck fun(self: PublicService, prefix: string): Object?
+---@field setDevMode fun(self: PublicService, new_mode: number)
+---@field onSave fun(self: PublicService): table
+---@field onLoad fun(self: PublicService, data: table): PublicService
+
 ---@return PublicService
 function FactoryCreatePublicService()
-    ---@class PublicService
-    ---@field turn_manager TurnManager?
-    ---@field item_manager ItemManager?
-    ---@field mode_manager ModeManager?
+    ---@type PublicService
+    ---@diagnostic disable-next-line: missing-fields
     local service = {
         turn_manager = nil,
         item_manager = nil,
@@ -19,66 +34,58 @@ function FactoryCreatePublicService()
     --- check and get turn manager
     ---@return TurnManager
     function service:getTurnManager()
-        if self.turn_manager ~= nil then
-            return self.turn_manager
+        if not self.turn_manager then
+            error("fatal error: turn_manager is nil")
         end
-        error("fatal error: turn_manager is nil")
+        return self.turn_manager
     end
 
     --- get item manager
     --- check and get item manager
     ---@return ItemManager
     function service:getItemManager()
-        if self.item_manager ~= nil then
-            return self.item_manager
+        if not self.item_manager then
+            error("fatal error: item_manager is nil")
         end
-        error("fatal error: item_manager is nil")
+        return self.item_manager
+    end
+
+    --- get mode manager
+    --- check and get mode manager
+    ---@return ModeManager
+    function service:getModeManager()
+        if not self.mode_manager then
+            error("fatal error: mode_manager is nil")
+        end
+        return self.mode_manager
     end
 
     --- get game mode manager
     ---@return GameModeManager
     function service:getGameModeManager()
-        if self.mode_manager ~= nil then
-            return self.mode_manager:getGameModeManager()
-        end
-        error("fatal error: mode_manager is nil")
+        return self:getModeManager():getGameModeManager()
     end
 
     ---@return boolean
     function service:isGameModeSet()
-        local gameModeManager = self:getGameModeManager()
-        if gameModeManager ~= nil then
-            return gameModeManager.is_set
-        end
-        error("fatal error: game_mode_manager is nil")
+        return self:getGameModeManager().is_set
     end
 
     ---@return boolean
     function service:isDevMode()
-        if self.mode_manager ~= nil then
-            return self.mode_manager:isDevMode()
-        end
-        error("fatal error: mode_manager is nil")
+        return self:getModeManager():isDevMode()
     end
 
     ---@param name string: name of board
-    ---@return Board
+    ---@return Board?
     function service:getPublicBoard(name)
-        local publicItemManager = self.item_manager
-        if not publicItemManager then
-            error("fatal error: publicItemManager is nil")
-        end
-        return publicItemManager:getBoard(name)
+        return self:getItemManager():getBoard(name)
     end
 
     ---@param name string: name of zone
-    ---@return Zone
+    ---@return Zone?
     function service:getPublicZone(name)
-        local publicItemManager = self.item_manager
-        if not publicItemManager then
-            error("fatal error: publicItemManager is nil")
-        end
-        return publicItemManager:getZone(name)
+        return self:getItemManager():getZone(name)
     end
 
     ---@param prefix string: prefix of dev-mode deck (see ref in const_dev_board.lua)
@@ -107,11 +114,7 @@ function FactoryCreatePublicService()
     ---@param new_mode number: DevMode.DEV | DevMode.GUEST
     ---@return nil
     function service:setDevMode(new_mode)
-        if self.mode_manager ~= nil then
-            self.mode_manager:setDevMode(new_mode)
-            return
-        end
-        error("fatal error: mode_manager is nil")
+        self:getModeManager():setDevMode(new_mode)
     end
 
     -- Save and Load ----------------------------------------------------------------------------

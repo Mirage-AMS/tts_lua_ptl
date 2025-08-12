@@ -22,12 +22,24 @@ local function clearScriptingZones()
     end
 end
 
+---@class Game
+---@field version number
+---@field public_service PublicService?
+---@field player_service PlayerService?
+---@field getPublicService fun(self: Game): PublicService
+---@field getTurnManager fun(self: Game): TurnManager
+---@field getPublicItemManager fun(self: Game): ItemManager
+---@field getPlayerService fun(self: Game): PlayerService
+---@field getPrivateItemManager fun(self:Game, player_color: string): ItemManager
+---@field setAllBoardNotInteractable fun(self: Game)
+---@field onLoad fun(self: Game): Game
+---@field onSave fun(self: Game): string
+---@field init fun(self: Game): Game
+
 ---@return Game
 function FactoryCreateGame()
-    ---@class Game
-    ---@field version number
-    ---@field public_service PublicService
-    ---@field player_service PlayerService
+    ---@type Game
+    ---@diagnostic disable-next-line: missing-fields
     local game = {
         version = 0,
         public_service = nil,
@@ -39,6 +51,9 @@ function FactoryCreateGame()
     ---------------------------------------------------------------------
     ---@return PublicService
     function game:getPublicService()
+        if not self.public_service then
+            error("fatal error: public service not found")
+        end
         return self.public_service
     end
 
@@ -54,11 +69,14 @@ function FactoryCreateGame()
 
     ---@return PlayerService
     function game:getPlayerService()
+        if not self.player_service then
+            error("fatal error: player service not found")
+        end
         return self.player_service
     end
 
     function game:getPrivateItemManager(player_color)
-        return self:getPlayerService():getPlayer(player_color).item_manager
+        return self:getPlayerService():getPlayer(player_color):getItemManager()
     end
 
     --- set all board interactable = false
@@ -137,8 +155,8 @@ function FactoryCreateGame()
     function game:onSave()
         local savedData = {
             version = self.version,
-            public_service = self.public_service:onSave(),
-            player_service = self.player_service:onSave(),
+            public_service = self:getPublicService():onSave(),
+            player_service = self:getPlayerService():onSave(),
         }
         return JSON.encode(savedData)
     end
