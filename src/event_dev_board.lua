@@ -90,8 +90,8 @@ function setDevBoardHidden()
     --- hide dev board
     local devBoardName = NAME_BOARD_DEVELOPMENT
     local devBoard = publicService:getPublicBoard(devBoardName)
-    if not devBoard.object then
-        error("fatal error: devBoard.object is nil")
+    if not devBoard or not devBoard.object then
+        error("fatal error: devBoard not found")
     end
     devBoard.object.attachInvisibleHider(hideId, true, DEFAULT_ALL_COLOR_LIST)
 
@@ -127,6 +127,9 @@ function setupContainer()
     for key, info in pairs(registerContainerInfo) do
         --- init
         local targetContainer = publicItemManager:getContainer(key)
+        if not targetContainer then
+            error("fatal error: container[" .. key .. "] is nil")
+        end
         local pos = targetContainer:getPosition()
         local origin = info.origin
         local prefix = info.prefix

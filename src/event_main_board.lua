@@ -46,6 +46,10 @@ local function clearPlayerDiscardZone(player_color)
         return false
     end
     local rubbishBin = itemManager:getContainer(NAME_RUBBISH_BIN)
+    if not rubbishBin then
+        error("fatal error: rubbishBin not found")
+        return false
+    end
 
     -- clean discardZone
     local playerItemManager = GAME:getPrivateItemManager(player_color)
@@ -292,6 +296,9 @@ function onButtonClickInitGame(_, player_clicker_color, alt_click)
     local dealNum = 5
     local playerList = playerService:getSeatedPlayerColorList()
     local conventicleZone = itemManager:getZone(NAME_ZONE_CONVENTICLE)
+    if not conventicleZone then
+        error("fatal error: could not find conventicle zone")
+    end
     for _, player_color in ipairs(playerList) do
         conventicleZone:dealDeckCardIntoHand(dealNum, player_color)
     end

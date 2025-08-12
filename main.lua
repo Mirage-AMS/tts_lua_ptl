@@ -2,11 +2,13 @@ require("mock/default")
 require("com/const")
 require("src/game")
 
+---@diagnostic disable-next-line:lowercase-global
 function onLoad(saved_data)
     -- check saved data version and decide to use saved data or not
     GAME = FactoryCreateGame():onLoad(saved_data):init()
 end
 
+---@diagnostic disable-next-line:lowercase-global
 function onSave()
     return GAME:onSave()
 end
@@ -16,6 +18,7 @@ onPlayerTurn(player, previous_player)
 -- [Player] player: Player whose turn is starting.
 -- [Player ]previous_player: Player whose turn just finished, or nil if this is the first turn.
 ]]--
+---@diagnostic disable-next-line:lowercase-global
 function onPlayerTurn(player, _)
     -- state update
     local turnManager = GAME:getTurnManager()
@@ -45,6 +48,7 @@ function onPlayerTurn(player, _)
 
 end
 
+---@diagnostic disable-next-line:lowercase-global
 function tryObjectEnterContainer(container, object)
     -- The below is the standard tag interaction rule:
     -- If the 'feature' does not have any tags, or if the
@@ -53,6 +57,7 @@ function tryObjectEnterContainer(container, object)
     return allow_interaction
 end
 
+---@diagnostic disable-next-line:lowercase-global
 function onObjectLeaveContainer(container, object)
     -- leaving-object tags container's tag
     for _, tag in pairs(container.getTags()) do

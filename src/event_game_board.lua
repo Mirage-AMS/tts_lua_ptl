@@ -115,7 +115,11 @@ local function updateDeckSet(deckSet)
     -- clean up
     local publicService = GAME:getPublicService()
     for _, zoneName in ipairs(PUBLIC_ZONE_NAME_LIST) do
-        publicService:getPublicZone(zoneName):destructDeck()
+        local zone = publicService:getPublicZone(zoneName)
+        if not zone then
+            error("fatal error: publicService:getPublicZone(\"" .. zoneName .. "\") is nil")
+        end
+        zone:destructDeck()
     end
 
     -- set new deck set
@@ -143,7 +147,11 @@ end
 local function updateEnableRole(enableRole)
     -- clean up
     local zoneName = NAME_ZONE_ROLE_PICK
-    GAME:getPublicService():getPublicZone(zoneName):destructDeck()
+    local rolePickZone = GAME:getPublicService():getPublicZone(zoneName)
+    if not rolePickZone then
+        error("fatal error: role pick zone is nil")
+    end
+    rolePickZone:destructDeck()
     -- set new deck set
     if enableRole then
         local zoneReflect = {
@@ -161,6 +169,9 @@ function updateGameMode(data, forceUpdate)
     local publicService = GAME:getPublicService()
     local gameModeManager = publicService:getGameModeManager()
     local gameBoard = publicService:getPublicBoard(NAME_BOARD_GAME)
+    if not gameBoard then
+        error("fatal error: gameBoard is nil")
+    end
 
     -- 定义设置项与处理函数的映射，同时指定在paramDictAll中的索引位置
     local settingsMap = {

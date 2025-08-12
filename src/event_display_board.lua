@@ -10,6 +10,23 @@ for k, v in pairs(ROLE_REGISTER_DICT) do
     registerRoleInfoForSearch[k] = v[KWORD_NICKNAME]
 end
 
+---@return fun(): BoardDisplay
+local function __getDisplayBoard()
+    local cache
+    return function()
+        if not cache then
+            cache = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY)
+            if not cache then
+                error("fatal error: display board is not found")
+            end
+        end
+        return cache
+    end
+end
+
+---@type fun(): BoardDisplay
+local _getDisplayBoard = __getDisplayBoard()
+
 ---@param option table<string, any>
 ---@return string[]
 local function getDisplayListByOption(option)
@@ -88,13 +105,14 @@ local function editDisplayBoardButton(index, value)
     if not param then return end
 
     param.index = index
-    GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY):editButton(param)
+    local displayBoard = _getDisplayBoard()
+    displayBoard:editButton(param)
 end
 
 local function editDisplayBoardInput(index, value)
     local toRunFunc = function()
         local param = {index = index, value = value}
-        local displayBoard = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY)
+        local displayBoard = _getDisplayBoard()
         displayBoard:editInput(param)
     end
     Wait.frames(toRunFunc, 1)
@@ -145,7 +163,7 @@ end
 ---@param infoList string[]
 local function setupRoleItem(infoList)
     if not infoList or #infoList == 0 then return end
-    local boardDisplay = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY)
+    local boardDisplay = _getDisplayBoard()
 
     -- gather items info from register role info
     local registerRoleInfo = ROLE_REGISTER_DICT
@@ -224,8 +242,7 @@ end
 ---@param data table<string, any>
 ---@param forceUpdate boolean?
 function updateDisplayBoard(data, forceUpdate)
-    local boardDisplay = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY)
-
+    local boardDisplay = _getDisplayBoard()
     -- fetch old data
     local oldData = boardDisplay:getDisplayOption()
     local oldDisplayList = getDisplayListByOption(oldData)
@@ -291,7 +308,7 @@ local function createUpdateHandler()
         end
 
         -- change other settings
-        local displayBoard = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY)
+        local displayBoard = _getDisplayBoard()
         local currData = displayBoard:getDisplayOption()
         local isChanged = false
         local isForceRefresh = false
@@ -335,7 +352,7 @@ end
 
 function onChangeDisplayBoardPagePrev(_, _, alt_click)
     if alt_click then return end
-    local displayBoard = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY)
+    local displayBoard = _getDisplayBoard()
     local currPageNum = displayBoard.page_num
     local newPageNum = math.max(1, currPageNum - 1)
     updateHandler.execute({page_num = newPageNum})
@@ -343,7 +360,7 @@ end
 
 function onChangeDisplayBoardPageNext(_, _, alt_click)
     if alt_click then return end
-    local displayBoard = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY)
+    local displayBoard = _getDisplayBoard()
     local currPageNum = displayBoard.page_num
     local newPageNum = math.min(currPageNum + 1, displayBoard.max_page_num)
     updateHandler.execute({page_num = newPageNum})
@@ -351,7 +368,7 @@ end
 
 function onChangeDisplayBoardPageNum (_, _, input_value, stillEditing)
     if stillEditing then return end
-    local displayBoard = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY)
+    local displayBoard = _getDisplayBoard()
     input_value = tonumber(input_value)
     if type(input_value) ~= "number" or input_value < 1 or input_value > displayBoard.max_page_num then
         editDisplayBoardInput(0, displayBoard.page_num)
@@ -373,7 +390,8 @@ function onChangeDisplayBoardSettingPreference(_, _, alt_click)
             EnumRolePreference.HUNTING,
             EnumRolePreference.NO_PREFERENCE,
         }
-    local currValue = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY).preference
+    local displayBoard = _getDisplayBoard()
+    local currValue = displayBoard.preference
     local newValue = getNextValInValList(currValue, valueList)
     updateHandler.execute({preference = newValue, page_num = 1})
 end
@@ -381,7 +399,8 @@ end
 function onChangeDisplayBoardSettingSortBy(_, _, alt_click)
     if alt_click then return end
     local valueList = {EnumDisplayBoardSort.DIFFICULTY, EnumDisplayBoardSort.TIME}
-    local currValue = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY).sort_by
+    local displayBoard = _getDisplayBoard()
+    local currValue = displayBoard.sort_by
     local newValue = getNextValInValList(currValue, valueList)
     updateHandler.execute({sort_by = newValue, page_num = 1})
 end
@@ -389,7 +408,8 @@ end
 function onChangeDisplayBoardSettingIsReverse(_, _, alt_click)
     if alt_click then return end
     local valueList = {false, true}
-    local currValue = GAME:getPublicItemManager():getBoardDisplay(NAME_BOARD_DISPLAY).is_reverse
+    local displayBoard = _getDisplayBoard()
+    local currValue = displayBoard.is_reverse
     local newValue = getNextValInValList(currValue, valueList)
     updateHandler.execute({is_reverse = newValue, page_num = 1})
 end

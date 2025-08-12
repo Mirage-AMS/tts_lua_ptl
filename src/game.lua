@@ -32,7 +32,7 @@ end
 ---@field getPlayerService fun(self: Game): PlayerService
 ---@field getPrivateItemManager fun(self:Game, player_color: string): ItemManager
 ---@field setAllBoardNotInteractable fun(self: Game)
----@field onLoad fun(self: Game): Game
+---@field onLoad fun(self: Game, data: string): Game
 ---@field onSave fun(self: Game): string
 ---@field onSnapshot fun(self: Game): string
 ---@field init fun(self: Game): Game
