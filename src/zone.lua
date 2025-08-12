@@ -4,10 +4,50 @@ require("com/object_type")
 require("src/slot")
 require("src/card")
 
+---@class Zone
+---@field name string?
+---@field deck_slot Slot?
+---@field discard_slot Slot?
+---@field display_slots Slot[]?
+---@field top_slots Slot[]?
+---@field getDeckObj fun(self: Zone): Object?
+---@field getRebuildDeckObjFromSlots fun(self: Zone, slots: Slot[]?, flip?: boolean): Object? This function Sync Rebuild Deck
+---@field getRebuildDeckObj fun(self: Zone, flip?: boolean): Object? This function Async Rebuild Deck
+---@field setObjDiscard fun(self: Zone, obj: Object): nil
+---@field shuffleDeck fun(self: Zone): nil
+---@field destructDeck fun(self: Zone): nil
+---@field dealDeckCardIntoHand fun(self: Zone, count: number, player_color: string, deckFlip?: boolean): nil
+---@field dealDeckCardIntoPosition fun(self: Zone, positionTable: Vector[], deckFlip?: boolean, cardFlip?: boolean): nil
+---@field fillDisplaySlots fun(self: Zone, deckFlip?: boolean, cardFlip?: boolean): nil
+---@field fillTopSlots fun(self: Zone, deckFlip?: boolean, cardFlip?: boolean): nil
+---@field __exportData fun(self: Zone, processor: fun(slot: Slot)): table
+---@field __importData fun(self: Zone, data: table, processor: fun(slot: Slot)): Zone
+---@field onSave fun(self: Zone): table
+---@field onSnapshot fun(self: Zone): table
+---@field onLoad fun(self: Zone, data: table): Zone
+
+local __zoneSlotTypes = {
+    "deck_slot",
+    "discard_slot",
+    "display_slots",
+    "top_slots"
+}
+
+---@param array Slot[]?
+---@param processor function(slot: Slot): any
+local function __processSlotArray(array, processor)
+    if not array or #array == 0 then return nil end
+    local result = {}
+    for i = 1, #array do
+        result[i] = processor(array[i])
+    end
+    return result
+end
+
 local ZoneMethods = {
     -- Get Object
     ---@param self Zone
-    ---@return any
+    ---@return Object?
     getDeckObj = function(self)
         if self.deck_slot == nil then
             return nil
@@ -17,7 +57,7 @@ local ZoneMethods = {
     end,
 
     ---@param self Zone
-    ---@return any
+    ---@return Object?
     getDiscardObj = function(self)
         if self.discard_slot == nil then
             return nil
@@ -27,7 +67,7 @@ local ZoneMethods = {
     end,
 
     setObjDiscard = function(self, cardObj)
-        -- better than putObject
+        if not self.discard_slot then return end
         local pos = self.discard_slot:getPosition()
         pos.y = pos.y + 1.0 + math.random(1, 30) * 0.02
         if not pos then return end
@@ -63,7 +103,8 @@ local ZoneMethods = {
             deck = mergeCard(deck, slot:getMergedCardObject(self.name), self.name)
         end
 
-        if deck ~= nil and isCardLike(deck) then
+        if isCardLike(deck) then
+            ---@cast deck Object
             if deck.is_face_down ~= flip then
                 deck.flip()
             end
@@ -176,95 +217,63 @@ local ZoneMethods = {
         self:fillSlots(self.top_slots, deckFlip, cardFlip)
     end,
 
-    -- Save and Load
-    onSave = function(self)
-        local savedData = {name = self.name}
-
-        local function saveSlot(slot)
-            return slot and slot:onSave() or nil
-        end
-
-        local function saveSlotArray(array)
-            if not array or #array == 0 then return nil end
-            local saved = {}
-            for i = 1, #array do
-                saved[i] = saveSlot(array[i])
-            end
-            return saved
-        end
-
-        local slotTypes = {
-            "deck_slot",
-            "discard_slot",
-            "display_slots",
-            "top_slots"
-        }
-
-        for _, slotType in ipairs(slotTypes) do
+    ---@param slotProcessor fun(slot: Slot): any
+    ---@return table
+    __exportData =function(self, slotProcessor)
+        local data = {name = self.name}
+        for _, slotType in ipairs(__zoneSlotTypes) do
             local value = self[slotType]
-            savedData[slotType] = slotType:find("_slots$") and saveSlotArray(value) or saveSlot(value)
+            if slotType:find("_slots$") then
+                data[slotType] = __processSlotArray(value, slotProcessor)
+            else
+                data[slotType] = value and slotProcessor(value) or nil
+            end
         end
-
-        return savedData
+        return data
     end,
 
-    onLoad = function(self, data)
-        if not data then return end
-
-        local function loadSlot(data)
-            -- skip those slot with no data
-            if not data then return nil end
-            return FactoryCreateSlot():onLoad(data)
-        end
-
-        local function loadSlotArray(source)
-            if not source or #source == 0 then return nil end
-            local loaded = {}
-            for i = 1, #source do
-                loaded[i] = loadSlot(source[i])
-            end
-            return loaded
-        end
-
-        local slotTypes = {
-            "deck_slot",
-            "discard_slot",
-            "display_slots",
-            "top_slots"
-        }
-
-        for _, slotType in ipairs(slotTypes) do
+    ---@param data table
+    ---@param slotProcessor fun(slot: Slot): any
+    ---@return Zone
+    __importData = function(self, data, slotProcessor)
+        if not data then return self end
+        for _, slotType in ipairs(__zoneSlotTypes) do
             local value = data[slotType]
-            self[slotType] = slotType:find("_slots$") and loadSlotArray(value) or loadSlot(value)
+            if slotType:find("_slots$") then
+                self[slotType] = __processSlotArray(value, slotProcessor)
+            else
+                self[slotType] = value and slotProcessor(value) or nil
+            end
         end
-
         self.name = data.name
-
         return self
     end,
 
+    -- 合并后的三个方法
+    onSave = function(self)
+        return self:__exportData(function(slot)
+            return slot:onSave()
+        end)
+    end,
+
+    onSnapshot = function(self)
+        return self:__exportData(function(slot)
+            return slot:onSnapshot()
+        end)
+    end,
+
+    onLoad = function(self, data)
+        return self:__importData(data, function(data)
+            if not data then return nil end
+            return FactoryCreateSlot():onLoad(data)
+        end)
+    end,
 }
 
 ---@return Zone
 function FactoryCreateZone()
-    ---@class Zone
-    ---@field name string?
-    ---@field deck_slot Slot?
-    ---@field discard_slot Slot?
-    ---@field display_slots Slot[]?
-    ---@field top_slots Slot[]?
-    ---@field getDeckObj fun(self: Zone): Object?
-    ---@field getRebuildDeckObjFromSlots fun(self: Zone, slots: Slot[]?, flip?: boolean): Object? This function Sync Rebuild Deck
-    ---@field getRebuildDeckObj fun(self: Zone, flip?: boolean): Object? This function Async Rebuild Deck
-    ---@field setObjDiscard fun(self: Zone, obj: Object): nil
-    ---@field shuffleDeck fun(self: Zone): nil
-    ---@field destructDeck fun(self: Zone): nil
-    ---@field dealDeckCardIntoHand fun(self: Zone, count: number, player_color: string, deckFlip?: boolean): nil
-    ---@field dealDeckCardIntoPosition fun(self: Zone, positionTable: Vector[], deckFlip?: boolean, cardFlip?: boolean): nil
-    ---@field fillDisplaySlots fun(self: Zone, deckFlip?: boolean, cardFlip?: boolean): nil
-    ---@field fillTopSlots fun(self: Zone, deckFlip?: boolean, cardFlip?: boolean): nil
-    ---@field onSave fun(self: Zone): table
-    ---@field onLoad fun(self: Zone, data: table): Zone
+    ---@type Zone
+    ---@diagnostic disable-next-line: missing-fields
     local zone = {}
 
     setmetatable(zone, { __index = ZoneMethods })
