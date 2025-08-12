@@ -4,6 +4,7 @@ require("com/const_game_board")
 require("com/const_display_board")
 require("com/const_main_board")
 require("com/basic")
+require("com/json")
 require("src/public_service")
 require("src/player_service")
 require("src/build_data")
@@ -117,7 +118,7 @@ function FactoryCreateGame()
         local data
         if savedData and savedData ~= "" then
             print("解析保存的数据")
-            local loadedData = JSON.decode(savedData)
+            local loadedData = json.decode(savedData)
 
             -- 验证数据有效性和版本
             if loadedData and tonumber(loadedData.version) then
@@ -159,7 +160,7 @@ function FactoryCreateGame()
             public_service = self:getPublicService():onSave(),
             player_service = self:getPlayerService():onSave(),
         }
-        return JSON.encode(savedData)
+        return json.encode(savedData)
     end
 
     --- OnSnapshot Game
@@ -170,7 +171,7 @@ function FactoryCreateGame()
             public_service = self:getPublicService():onSnapshot(),
             player_service = self:getPlayerService():onSnapshot(),
         }
-        return JSON.encode(snapshotData)
+        return json.encode(snapshotData)
     end
 
     --- Init game
