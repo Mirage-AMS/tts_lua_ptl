@@ -14,6 +14,7 @@ require("src/zone")
 ---@field getBoardDisplay fun(self: ItemManager, name: string): BoardDisplay?
 ---@field getZone fun(self: ItemManager, name: string): Zone?
 ---@field onSave fun(self: ItemManager): table
+---@field onSnapshot fun(self: ItemManager): table
 ---@field onLoad fun(self: ItemManager, data: table): ItemManager
 
 ---@return ItemManager
@@ -64,6 +65,23 @@ function FactoryCreateItemManager()
             end
 
             return savedData
+        end,
+
+        onSnapshot = function(self)
+            local snapshotData = {}
+
+            for _, entry in ipairs(config) do
+                local savedItems = {}
+                local items = self[entry.name] or {}
+
+                for k, v in pairs(items) do
+                    savedItems[k] = v:onSnapshot()
+                end
+
+                snapshotData[entry.name] = savedItems
+            end
+
+            return snapshotData
         end,
 
         onLoad = function(self, data)

@@ -34,6 +34,7 @@ end
 ---@field setAllBoardNotInteractable fun(self: Game)
 ---@field onLoad fun(self: Game): Game
 ---@field onSave fun(self: Game): string
+---@field onSnapshot fun(self: Game): string
 ---@field init fun(self: Game): Game
 
 ---@return Game
@@ -159,6 +160,17 @@ function FactoryCreateGame()
             player_service = self:getPlayerService():onSave(),
         }
         return JSON.encode(savedData)
+    end
+
+    --- OnSnapshot Game
+    ---@return string
+    function game:onSnapshot()
+        local snapshotData = {
+            version = self.version,
+            public_service = self:getPublicService():onSnapshot(),
+            player_service = self:getPlayerService():onSnapshot(),
+        }
+        return JSON.encode(snapshotData)
     end
 
     --- Init game

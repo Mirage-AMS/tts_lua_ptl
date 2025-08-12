@@ -5,6 +5,7 @@ require("src/item_manager")
 ---@field item_manager ItemManager?
 ---@field getItemManager fun(self: PrivateService): ItemManager
 ---@field onSave fun(self: PrivateService): table
+---@field onSnapshot fun(self: PrivateService): table
 ---@field onLoad fun(self: PrivateService, data: table): PrivateService
 
 ---@return PrivateService
@@ -27,6 +28,12 @@ function FactoryCreatePrivateService()
     function service:onSave()
         return {
             item_manager = self:getItemManager():onSave(),
+        }
+    end
+
+    function service:onSnapshot()
+        return {
+            item_manager = self:getItemManager():onSnapshot(),
         }
     end
 

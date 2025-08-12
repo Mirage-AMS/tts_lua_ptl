@@ -18,6 +18,7 @@ require("src/mode_manager")
 ---@field getDevDeck fun(self: PublicService, prefix: string): Object?
 ---@field setDevMode fun(self: PublicService, new_mode: number)
 ---@field onSave fun(self: PublicService): table
+---@field onSnapshot fun(self: PublicService): table
 ---@field onLoad fun(self: PublicService, data: table): PublicService
 
 ---@return PublicService
@@ -122,13 +123,19 @@ function FactoryCreatePublicService()
     --- public service onSave
     ---@return table
     function service:onSave()
-        if not self.turn_manager or not self.item_manager or not self.mode_manager then
-            error("fatal error: turn_manager or item_manager or mode_manager is nil")
-        end
         return {
-            turn_manager = self.turn_manager:onSave(),
-            item_manager = self.item_manager:onSave(),
-            mode_manager = self.mode_manager:onSave(),
+            turn_manager = self:getTurnManager():onSave(),
+            item_manager = self:getItemManager():onSave(),
+            mode_manager = self:getModeManager():onSave(),
+        }
+    end
+
+    ---@return table
+    function service:onSnapshot()
+        return {
+            turn_manager = self:getTurnManager():onSnapshot(),
+            item_manager = self:getItemManager():onSnapshot(),
+            mode_manager = self:getModeManager():onSnapshot(),
         }
     end
 
