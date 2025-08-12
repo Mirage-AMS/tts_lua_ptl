@@ -38,7 +38,7 @@ local function discardCardLikeObject(obj)
     return false
 end
 
-local function clearPlayerDiscardZone(player_color)
+function clearPlayerDiscardZone(player_color)
     -- get rubbishBin
     local itemManager = GAME:getPublicItemManager()
     if not itemManager then
@@ -174,9 +174,6 @@ end
 local function trigEndPhaseEffect(player_clicker_color, _)
     local turnManager = GAME:getTurnManager()
     local playerService = GAME:getPlayerService()
-
-    -- discard cards
-    clearPlayerDiscardZone(player_clicker_color)
 
     -- pass turn
     local seatedPlayerNum = playerService:getSeatedPlayerNum()

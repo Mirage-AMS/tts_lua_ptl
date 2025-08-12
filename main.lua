@@ -23,7 +23,7 @@ function onPlayerTurn(player, _)
     -- state update
     local turnManager = GAME:getTurnManager()
     if not player then
-        print("Turn disabled, Please check it")
+        broadcastToAll("当前回合玩家为空, Turn被关闭或没有落座玩家", DEFAULT_COLOR_RED)
         return
     end
 
@@ -33,19 +33,33 @@ function onPlayerTurn(player, _)
         turnManager:setFirstPlayer(player_color)
     end
 
-    -- record current player
+    --- record current player
     turnManager:setCurrentPlayer(player_color)
 
-    -- turn update
+    --- turn update
     turnManager:setState(2)
     updateButtonState()
 
-    -- round update
+    --- round update
     if player_color == turnManager:getFirstPlayer() then
         turnManager:addRound()
-        broadcastToAll("第" .. turnManager:getRound() .. "轮开始", player_color)
+        broadcastToAll("第" .. turnManager:getRound() .. "轮开始", DEFAULT_COLOR_WHITE)
     end
 
+    --- clear all discard zones
+    for _, each_player_color in ipairs(DEFAULT_PLAYER_COLOR_LIST) do
+        clearPlayerDiscardZone(each_player_color)
+    end
+
+    --- onSnapshot
+    ---@TODO: WebRequest not implemented yet
+    Wait.frames(
+        function()
+            print("Game onSnapshot")
+            GAME:onSnapshot()
+        end,
+    1
+    )
 end
 
 ---@diagnostic disable-next-line:lowercase-global
