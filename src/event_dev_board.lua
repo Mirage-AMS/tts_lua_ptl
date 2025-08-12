@@ -80,6 +80,8 @@ function checkDeckInfo()
             end
         end
     end
+
+    print("checkDeckInfo: done")
 end
 
 --- setDevBoardHidden: Hide the development board and all its components.

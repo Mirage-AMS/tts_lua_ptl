@@ -27,6 +27,8 @@ function QuitDevMode()
             GAME:getPublicService():setDevMode(DevMode.GUEST)
             broadcastToAll("Dev-Mode Disabled")
             clearContextMenu()
+            -- check for deck info
+            checkDeckInfo()
         end
 
         Wait.time(toRunFunc,4)
