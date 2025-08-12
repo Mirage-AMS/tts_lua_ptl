@@ -1,3 +1,4 @@
+require("mock/default")
 require("com/object_type")
 
 --- getCardData: get card data from an object
@@ -8,13 +9,15 @@ function getCardData(obj, container)
     if not isCardLike(obj) then return nil end
     local defaultMemo = "undefined"
     local source = container or obj
+    local pos = source.getPosition() or Vector(0, 0, 0)
+    local rot = source.getRotation() or Vector(0, 0, 0)
     return {
         memo = obj.memo or defaultMemo,
         name = obj.getName(),
         flip = source.is_face_down,
         lock = source.getLock(),
-        pos = source.getPosition(),
-        rot = source.getRotation()
+        pos = {x=pos.x, y=pos.y, z=pos.z},
+        rot = {x=rot.x, y=rot.y, z=rot.z},
     }
 end
 

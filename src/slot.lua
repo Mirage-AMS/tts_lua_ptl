@@ -1,5 +1,7 @@
 require("mock/default")
+require("com/enum_const")
 require("com/object_type")
+require("src/card")
 
 ---@class Slot
 ---@field guid string?
@@ -124,7 +126,7 @@ local SlotMethods = {
         for _, obj in ipairs(objList) do
             if obj and (isCardLike(obj) or isTokenLike(obj)) then
                 if not obj.getLock() then
-                    local rotation = obj.is_face_down and {x=0, y=180, z=180} or {x=0, y=180, z=0}
+                    local rotation = obj.is_face_down and __CARD_ROTATION_FACE_DOWN or __CARD_ROTATION_FACE_UP
                     obj.setRotation(rotation)
                 end
             end
