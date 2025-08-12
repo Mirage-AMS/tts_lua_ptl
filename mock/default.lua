@@ -6,15 +6,21 @@ JSON = {}
 ---@class Object
 ---@field is_face_down boolean If the object is face down
 ---@field interactable boolean If player can interact with this object
+---@field memo string Memo of the object
+---@field name string Name of the object
+---@field nickname string Nickname of the object
+---@field tags string[]? A table of  representing the tags on the contained object.
 ---@field __call fun(param?: table<string, any>): Object
 ---@field new fun(param?: table<string, any>): Object
 ---@field getButtons fun(): table<string, any>[] indexes start at 0
 ---@field getData fun(): table
 ---@field getGUID fun(): string
 ---@field getInputs fun(): table<string, any>[] indexes start at 0
+---@field getLock fun(): boolean
 ---@field getName fun(): string
 ---@field getObjects fun(): table<string, any>
 ---@field getPosition fun(): Vector
+---@field getRotation fun(): Vector
 ---@field attachInvisibleHider fun(id: string, hidden: boolean, players: string[]?)
 ---@field call fun(func_name: string, func_param?: any): any Used to call a Lua function on another entity.
 ---@field clone fun(param: table): Object
@@ -53,6 +59,7 @@ Player = {}
 ---@field team string The Team of the player. Options: "None", "Clubs", "Diamonds", "Hearts", "Spades", "Jokers".
 ---@field changeColor fun(color: string): boolean Changes player to this Player Color.
 ---@field getHandCount fun(): number Number of hand zones owned by this color.
+---@field pingTable fun(position: Vector): boolean Emulates the player using the ping tool at the given position (tapping Tab).
 PlayerInstance = {}
 
 ---@class Turns
@@ -64,8 +71,8 @@ PlayerInstance = {}
 ---@field disable_interactations boolean
 ---@field pass_turns boolean
 ---@field turn_color string
----@field getNextTurnColor fun(): string
----@field getPreviousTurnColor fun(): string[]
+---@field getNextTurnColor fun(): string?
+---@field getPreviousTurnColor fun(): string?
 Turns = {}
 
 ---@class Time a static global class which provides access to Unity's time information.
@@ -116,7 +123,9 @@ Wait = {}
 ---@field put fun(url: string, data: string, callback_function: function): WebRequestInstance Performs a HTTP PUT request, sending the specified data.
 WebRequest = {}
 
+---@diagnostic disable-next-line:lowercase-global
 self = {}
+
 Global = {}
 
 coroutine = {
@@ -126,38 +135,46 @@ coroutine = {
 }
 
 --- Adds a menu item to the objects right-click context menu.
---- @param label string: Label for the menu item.
---- @param callback function: Execute if menu item is selected. Called as callback(player_color, object_position, object)
---- @param keep_open boolean: Keep context menu open after menu item was selected (default: false)
---- @return boolean result
+---@param label string: Label for the menu item.
+---@param callback function: Execute if menu item is selected. Called as callback(player_color, object_position, object)
+---@param keep_open boolean: Keep context menu open after menu item was selected (default: false)
+---@return boolean result
+---@diagnostic disable-next-line:lowercase-global
 addContextMenuItem = function(label, callback, keep_open) return true end
 
 --- Clears all menu items added by function addContextMenuItem(...).
 ---@return boolean result
+---@diagnostic disable-next-line:lowercase-global
 clearContextMenu = function() return true end
 
 --- Starts a Lua coroutine.
 ---@param function_owner any: The Object that the function being called is on. Global is a valid target.
 ---@param function_name string: Name of the function being called as a coroutine.
+---@diagnostic disable-next-line:lowercase-global
 function startLuaCoroutine(function_owner, function_name) end
 
 --- Returns a table of the Player Colors strings of seated players.
 ---@return string[] result: The Player Colors strings of seated players.
+---@diagnostic disable-next-line:lowercase-global
 function getSeatedPlayers() return {} end
 
 ---@param message string: The message to broadcast.
 ---@param message_tint string?: The tint of the broadcasted message.
+---@diagnostic disable-next-line:lowercase-global
 function broadcastToAll(message, message_tint) end
 
 ---@param message string: The message to broadcast.
 ---@param player_color string: The color of the players to broadcast to.
 ---@param message_tint? string: The tint of the broadcasted message.
+---@diagnostic disable-next-line:lowercase-global
 function broadcastToColor(message, player_color, message_tint) end
 
 ---@param guid string: The GUID of the object to get.
 ---@return Object result: The object with the given GUID.
+---@diagnostic disable-next-line:lowercase-global
 function getObjectFromGUID(guid) return Object() end
 
 ---@param param table<string, any>: The parameters for the object to spawn.
 ---@return Object? result: The spawned object.
+---@diagnostic disable-next-line:lowercase-global
 function spawnObject(param) return Object() end
