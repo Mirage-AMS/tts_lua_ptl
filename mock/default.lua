@@ -59,7 +59,9 @@ Player = {}
 ---@field team string The Team of the player. Options: "None", "Clubs", "Diamonds", "Hearts", "Spades", "Jokers".
 ---@field changeColor fun(color: string): boolean Changes player to this Player Color.
 ---@field getHandCount fun(): number Number of hand zones owned by this color.
+---@field getHandObjects fun(hand_index?: number): Object[] Returns a Table of Objects that are in this hand zone.
 ---@field pingTable fun(position: Vector): boolean Emulates the player using the ping tool at the given position (tapping Tab).
+---@field showOptionsDialog fun(description: string, options: table<string, any>, default_value: number, callback: fun(selected_text: string, selected_index: number, player_color: string)): boolean
 PlayerInstance = {}
 
 ---@class Turns

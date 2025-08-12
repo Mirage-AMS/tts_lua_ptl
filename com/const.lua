@@ -173,22 +173,28 @@ LIST_PARAM_SCRIPING_TRIGGER_PLAYER = {
             position =  {x=11.90, y=PARAM_ROLE_BOARD_HEIGHT, z=3.35},
             scale =  {x=10.50, y=5.00, z=9.80}
         },
-        [KEYWORD_ZONE_DISCARD] = nil,
-        [KEYWORD_ZONE_DISPLAY] = nil,
-        [KEYWORD_ZONE_DISPLAY_PATTERN] = nil,
-        [KEYWORD_ZONE_TOP] = nil,
-        [KEYWORD_ZONE_TOP_PATTERN] = nil,
+        [KEYWORD_ZONE_DISPLAY] = {
+            position =  {x=11.90, y=PARAM_ROLE_BOARD_HEIGHT, z=3.35},
+            scale =  {x=1.0, y=5.00, z=1.0}
+        },
+        [KEYWORD_ZONE_DISPLAY_PATTERN] = {
+            x_num=3, x_shift=4.9,
+            z_num=2, z_shift=-5.60,
+        },
     },
     [NAME_ZONE_ABILITY] = {
         [KEYWORD_ZONE_DECK] = {
             position =  {x=-4.25, y=PARAM_ROLE_BOARD_HEIGHT, z=0.00},
             scale =  {x=17.50, y=5.00, z=16.60}
         },
-        [KEYWORD_ZONE_DISCARD] = nil,
-        [KEYWORD_ZONE_DISPLAY] = nil,
-        [KEYWORD_ZONE_DISPLAY_PATTERN] = nil,
-        [KEYWORD_ZONE_TOP] = nil,
-        [KEYWORD_ZONE_TOP_PATTERN] = nil,
+        [KEYWORD_ZONE_DISPLAY] = {
+            position =  {x=-4.25, y=PARAM_ROLE_BOARD_HEIGHT, z=0.00},
+            scale =  {x=1.0, y=5.00, z=1.0}
+        },
+        [KEYWORD_ZONE_DISPLAY_PATTERN] = {
+            x_num=4, x_shift=4.9,
+            z_num=3, z_shift=-5.60,
+        },
     },
     [NAME_ZONE_DISCARD] = {
         [KEYWORD_ZONE_DECK] = nil,
