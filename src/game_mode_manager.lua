@@ -1,14 +1,25 @@
 require("com/enum_const")
 
+---@class GameModeManager
+---@field is_set boolean
+---@field deck_set number: default as EnumDeckSet.STD
+---@field game_goal number: default as EnumGameGoal.QUICK
+---@field enable_role boolean: default as false
+---@field bp_strategy number: default as EnumBPStrategy.FREE
+---@field setIsSet fun(self: GameModeManager, isSet: boolean): GameModeManager
+---@field setDeckSet fun(self: GameModeManager, deckSet: number): GameModeManager
+---@field setGameGoal fun(self: GameModeManager, gameGoal: number): GameModeManager
+---@field setEnableRole fun(self: GameModeManager, enableRole: boolean): GameModeManager
+---@field setBPStrategy fun(self: GameModeManager, bpStrategy: number): GameModeManager
+---@field set fun(self: GameModeManager, data: table): GameModeManager
+---@field onSave fun(self: GameModeManager): table
+---@field onSnapshot fun(self: GameModeManager): table
+---@field onLoad fun(self: GameModeManager, data: table): GameModeManager
 
 ---@return GameModeManager
 function FactoryCreateGameModeManager()
-    ---@class GameModeManager
-    ---@field is_set boolean
-    ---@field deck_set number: default as EnumDeckSet.STD
-    ---@field game_goal number: default as EnumGameGoal.QUICK
-    ---@field enable_role boolean: default as false
-    ---@field bp_strategy number: default as EnumBPStrategy.FREE
+    ---@type GameModeManager
+    ---@diagnostic disable-next-line: missing-fields
     local game_mode_manager = {
         is_set = false,
         enable_role = false,
@@ -73,6 +84,10 @@ function FactoryCreateGameModeManager()
             enable_role = self.enable_role,
             bp_strategy = self.bp_strategy,
         }
+    end
+
+    function game_mode_manager:onSnapshot()
+        return self:onSave()
     end
 
     ---@param data table: onLoad data
