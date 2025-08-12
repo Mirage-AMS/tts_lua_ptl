@@ -2,6 +2,7 @@ require("src/item_manager")
 
 
 ---@class PrivateService
+---@field player_color string?
 ---@field item_manager ItemManager?
 ---@field getItemManager fun(self: PrivateService): ItemManager
 ---@field onSave fun(self: PrivateService): table
@@ -13,6 +14,7 @@ function FactoryCreatePrivateService()
     ---@type PrivateService
     ---@diagnostic disable-next-line: missing-fields
     local service = {
+        player_color = nil,
         item_manager = nil,
     }
 
@@ -27,12 +29,14 @@ function FactoryCreatePrivateService()
     ---@return table
     function service:onSave()
         return {
+            player_color = self.player_color,
             item_manager = self:getItemManager():onSave(),
         }
     end
 
     function service:onSnapshot()
         return {
+            player_color = self.player_color,
             item_manager = self:getItemManager():onSnapshot(),
         }
     end
@@ -40,6 +44,7 @@ function FactoryCreatePrivateService()
     ---@param data table
     ---@return PrivateService
     function service:onLoad(data)
+        self.player_color = data.player_color
         self.item_manager = FactoryCreateItemManager():onLoad(data.item_manager or {})
         return self
     end

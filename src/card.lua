@@ -1,5 +1,23 @@
 require("com/object_type")
 
+--- getCardData: get card data from an object
+---@param obj Object
+---@param container Object?
+---@return table? cardData
+function getCardData(obj, container)
+    if not isCardLike(obj) then return nil end
+    local defaultMemo = "undefined"
+    local source = container or obj
+    return {
+        memo = obj.memo or defaultMemo,
+        name = obj.getName(),
+        flip = source.is_face_down,
+        lock = source.getLock(),
+        pos = source.getPosition(),
+        rot = source.getRotation()
+    }
+end
+
 ---mergeCard: merge two cards together
 ---@param obj1 Object? object to merge into
 ---@param obj2 Object? object to merge

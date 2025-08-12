@@ -16,21 +16,6 @@ require("com/object_type")
 ---@field onSnapshot fun(self: Slot): table
 ---@field onLoad fun(self: Slot, data: table): Slot
 
----@param obj Object
----@param container Object?
-local function __getCardData(obj, container)
-    local defaultMemo = "undefined"
-    local source = container or obj  -- 确定属性获取的源对象
-    return {
-        memo = obj.memo or defaultMemo,
-        name = obj.getName(),
-        flip = source.is_face_down,
-        lock = source.getLock(),
-        pos = source.getPosition(),
-        rot = source.getRotation()
-    }
-end
-
 local SlotMethods = {
     getPosition = function(self)
         if self.object and isScripting(self.object) then
@@ -159,12 +144,12 @@ local SlotMethods = {
         for _, obj in ipairs(cardObjects) do
             if isCard(obj) then
                 ---@cast obj Object
-                table.insert(snapShotData, __getCardData(obj))
+                table.insert(snapShotData, getCardData(obj))
             elseif isDeck(obj) then
                 ---@cast obj Object
                 local objList = obj.getObjects()
                 for _, card in ipairs(objList) do
-                    table.insert(snapShotData, __getCardData(card, obj))
+                    table.insert(snapShotData, getCardData(card, obj))
                 end
             end
         end

@@ -86,27 +86,59 @@ function FactoryCreatePlayerService()
     end
 
     function service:onSnapshot()
-        local data = {
-            players = {}
-        }
-        for k, v in pairs(self.players) do
-            data.players[k] = v:onSnapshot() or {}
+        local data = { players = {} }
+
+        local function __snapshotPlayerHand(playerInstance)
+            local snapshotData = {}
+            for _, handObj in ipairs(playerInstance.getHandObjects()) do
+                ---@cast handObj Object
+                table.insert(snapshotData, getCardData(handObj))
+            end
+
+            return snapshotData
         end
+
+        for playerColor, playerPrivateService in pairs(self.players) do
+            local playerData = playerPrivateService:onSnapshot() or {}
+            data.players[playerColor] = playerData
+
+            local itemManagerData = playerData.item_manager or {}
+            itemManagerData.zones = itemManagerData.zones or {}
+            playerData.item_manager = itemManagerData
+
+            local playerInstance = self:getPlayerObject(playerColor)
+            if not playerInstance then
+                error("Player instance not found for color: " .. tostring(playerColor))
+            end
+            itemManagerData.zones["Hand"] = __snapshotPlayerHand(playerInstance)
+        end
+
+
         return data
     end
 
     ---@param data table
     ---@return PlayerService
     function service:onLoad(data)
-        local players = data.players or {}
-        for k, v in pairs(players) do
-            -- 创建并加载玩家数据，增加错误检查
-            local player = FactoryCreatePrivateService()
-            if player ~= nil then
-                self.players[k] = player:onLoad(v or {})
-            else
-                error("Error: Failed to create player service for color " .. tostring(k))
+        local playerData = data.players or {}
+        for playerColor, eachPlayerData in pairs(playerData) do
+            -- init safePlayerData to avoid nil values
+            local safePlayerData = eachPlayerData or {}
+            safePlayerData.player_color = playerColor
+
+            -- 检查工厂函数返回值，避免nil赋值
+            local playerPrivateService = FactoryCreatePrivateService()
+            if not playerPrivateService then
+                error(("Failed to create private service for player: %s"):format(tostring(playerColor)))
             end
+
+            -- 记录加载结果，确保onLoad返回有效实例
+            local loadedService = playerPrivateService:onLoad(safePlayerData)
+            if not loadedService then
+                error(("Failed to load data for player: %s"):format(tostring(playerColor)))
+            end
+
+            self.players[playerColor] = loadedService
         end
         return self
     end
