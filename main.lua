@@ -55,10 +55,11 @@ function onPlayerTurn(player, _)
     ---@TODO: WebRequest not implemented yet
     Wait.frames(
         function()
-            print("Game onSnapshot")
-            GAME:onSnapshot()
+            --- print("Game onSnapshot")
+            local data = GAME:onSnapshot()
+            --- print(data)
         end,
-    1
+    5
     )
 end
 

@@ -147,12 +147,12 @@ local SlotMethods = {
             if isCard(obj) then
                 ---@cast obj Object
                 table.insert(snapShotData, getCardData(obj))
-            elseif isDeck(obj) then
-                ---@cast obj Object
-                local objList = obj.getObjects()
-                for _, card in ipairs(objList) do
-                    table.insert(snapShotData, getCardData(card, obj))
-                end
+            --elseif isDeck(obj) then
+            --    ---@cast obj Object
+            --    local objList = obj.getObjects()
+            --    for _, card in ipairs(objList) do
+            --        table.insert(snapShotData, getCardData(card, obj))
+            --    end
             end
         end
 

@@ -11,10 +11,12 @@ function getCardData(obj, container)
     end
     local defaultMemo = "undefined"
     local source = container or obj
+    local pos = source.getPosition() or Vector(0, 0, 0)
     local data = {
         memo = obj.memo or defaultMemo,
         flip = source.is_face_down,
         lock = source.getLock(),
+        pos = {x=pos.x, y=pos.y, z=pos.z}
     }
     return data
 end

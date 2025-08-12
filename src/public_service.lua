@@ -125,7 +125,7 @@ function FactoryCreatePublicService()
     function service:onSave()
         return {
             turn_manager = self:getTurnManager():onSave(),
-            item_manager = self:getItemManager():onSave(),
+            --- item_manager = self:getItemManager():onSave(),
             mode_manager = self:getModeManager():onSave(),
         }
     end

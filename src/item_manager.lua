@@ -26,6 +26,10 @@ function FactoryCreateItemManager()
         { name = "zones", factory = FactoryCreateZone },
     }
 
+    local snapConfig = {
+        { name = "zones"}
+    }
+
     ---@type ItemManager
     local manager = {
         -- 显式初始化所有存储表
@@ -70,7 +74,7 @@ function FactoryCreateItemManager()
         onSnapshot = function(self)
             local snapshotData = {}
 
-            for _, entry in ipairs(config) do
+            for _, entry in ipairs(snapConfig) do
                 local savedItems = {}
                 local items = self[entry.name] or {}
 
