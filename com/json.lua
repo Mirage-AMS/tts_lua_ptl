@@ -22,15 +22,15 @@
 -- SOFTWARE.
 --
 
----@class json
+---@class Json
 ---@field _version string 模块版本号（仅标识用途）
 ---@field encode fun(data: any): string 编码Lua值为JSON字符串（支持nil、boolean、number、string、table）
 ---@field decode fun(data: string): any 解码JSON字符串为Lua值（返回对应类型，解析失败会抛出错误）
 
 --- 初始化JSON模块（静态编译场景下，确保按依赖顺序创建实例）
----@return json 包含encode/decode方法的模块实例
+---@return Json 包含encode/decode方法的模块实例
 function FactoryCreateJson()
-    ---@type json
+    ---@type Json
     ---@diagnostic disable-next-line: missing-fields
     local json = { _version = "0.1.2" }
 
@@ -398,4 +398,4 @@ function FactoryCreateJson()
 end
 
 -- 全局实例化，适配静态编译后的调用方式
-json = FactoryCreateJson()
+Json = FactoryCreateJson()

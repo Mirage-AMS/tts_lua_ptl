@@ -118,7 +118,7 @@ function FactoryCreateGame()
         local data
         if savedData and savedData ~= "" then
             print("解析保存的数据")
-            local loadedData = json.decode(savedData)
+            local loadedData = Json.decode(savedData)
 
             -- 验证数据有效性和版本
             if loadedData and tonumber(loadedData.version) then
@@ -160,7 +160,7 @@ function FactoryCreateGame()
             public_service = self:getPublicService():onSave(),
             player_service = self:getPlayerService():onSave(),
         }
-        return json.encode(savedData)
+        return Json.encode(savedData)
     end
 
     --- OnSnapshot Game
@@ -171,7 +171,7 @@ function FactoryCreateGame()
             public_service = self:getPublicService():onSnapshot(),
             player_service = self:getPlayerService():onSnapshot(),
         }
-        return json.encode(snapshotData)
+        return Json.encode(snapshotData)
     end
 
     --- Init game
