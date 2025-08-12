@@ -101,16 +101,13 @@ function FactoryCreatePlayerService()
         for playerColor, playerPrivateService in pairs(self.players) do
             local playerData = playerPrivateService:onSnapshot() or {}
             data.players[playerColor] = playerData
-
-            local itemManagerData = playerData.item_manager or {}
-            itemManagerData.zones = itemManagerData.zones or {}
-            playerData.item_manager = itemManagerData
-
             local playerInstance = self:getPlayerObject(playerColor)
-            if not playerInstance then
-                error("Player instance not found for color: " .. tostring(playerColor))
+            if playerInstance then
+                local itemManagerData = playerData.item_manager or {}
+                itemManagerData.zones = itemManagerData.zones or {}
+                playerData.item_manager = itemManagerData
+                itemManagerData.zones["Hand"] = __snapshotPlayerHand(playerInstance)
             end
-            itemManagerData.zones["Hand"] = __snapshotPlayerHand(playerInstance)
         end
 
 

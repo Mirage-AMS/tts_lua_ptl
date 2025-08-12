@@ -2,23 +2,21 @@ require("mock/default")
 require("com/object_type")
 
 --- getCardData: get card data from an object
----@param obj Object
+---@param obj Object|table
 ---@param container Object?
 ---@return table? cardData
 function getCardData(obj, container)
-    if not isCardLike(obj) then return nil end
+    if not isCardLike(obj) and type(obj) ~= "table" then
+        return nil
+    end
     local defaultMemo = "undefined"
     local source = container or obj
-    local pos = source.getPosition() or Vector(0, 0, 0)
-    local rot = source.getRotation() or Vector(0, 0, 0)
-    return {
+    local data = {
         memo = obj.memo or defaultMemo,
-        name = obj.getName(),
         flip = source.is_face_down,
         lock = source.getLock(),
-        pos = {x=pos.x, y=pos.y, z=pos.z},
-        rot = {x=rot.x, y=rot.y, z=rot.z},
     }
+    return data
 end
 
 ---mergeCard: merge two cards together
