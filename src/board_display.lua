@@ -22,6 +22,7 @@ require("src/board")
 ---@field setMaxPageNumByCount fun(self: BoardDisplay, count: number): BoardDisplay
 ---@field setDisplayOption  fun(self: BoardDisplay, data: table): BoardDisplay
 ---@field onSave            fun(self: BoardDisplay): table
+---@field onSnapshot        fun(self: BoardDisplay): table
 ---@field onLoad            fun(self: BoardDisplay, data: table): BoardDisplay
 
 --- A factory function to create a new BoardDisplay object.
@@ -149,6 +150,16 @@ function FactoryCreateBoardDisplay()
     function board:onSave()
         --- super onSave
         local data = parentInstance.onSave(self)
+        --- set additional properties
+        for k, v in pairs(self:getDisplayOption()) do
+            data[k] = v
+        end
+        return data
+    end
+
+    function board:onSnapshot()
+        --- super onSnapshot
+        local data = parentInstance.onSnapshot(self)
         --- set additional properties
         for k, v in pairs(self:getDisplayOption()) do
             data[k] = v

@@ -1,25 +1,38 @@
 require("src/private_service")
 
+---@class PlayerService
+---@field players table<string, PrivateService>
+---@field isPlayerDefault fun(self: PlayerService, player_color: string): boolean
+---@field getPlayer fun(self: PlayerService, player_color: string): PrivateService
+---@field getPlayerObjectList fun(self: PlayerService): PlayerInstance[]
+---@field getPlayerObject fun(self: PlayerService, player_color: string): PlayerInstance?
+---@field getSeatedPlayerColorList fun(self: PlayerService): string[]
+---@field getSeatedPlayerNum fun(self: PlayerService): number
+---@field letPlayerPingTable fun(self: PlayerService, player_color: string, position: Vector)
+---@field onSave fun(self: PlayerService): table
+---@field onSnapshot fun(self: PlayerService): table
+---@field onLoad fun(self: PlayerService, data: table): PlayerService
+
 ---@return PlayerService
 function FactoryCreatePlayerService()
-    ---@class PlayerService
+    ---@type PlayerService
+    ---@diagnostic disable-next-line: missing-fields
     local service = {
         players = {}
     }
-
     function service:isPlayerDefault(player_color)
         return isValInValList(player_color, DEFAULT_PLAYER_COLOR_LIST)
     end
 
     ---@return PrivateService
     function service:getPlayer(player_color)
-        if player_color and self.players[player_color] then
+        if player_color ~= nil and self.players[player_color] then
             return self.players[player_color]
         end
         error("Player not found for color: " .. tostring(player_color))
     end
 
-    ---@return table
+    ---@return PlayerInstance[]
     function service:getPlayerObjectList()
         return Player.getPlayers()
     end
@@ -68,6 +81,16 @@ function FactoryCreatePlayerService()
         }
         for k, v in pairs(self.players) do
             data.players[k] = v:onSave() or {}
+        end
+        return data
+    end
+
+    function service:onSnapshot()
+        local data = {
+            players = {}
+        }
+        for k, v in pairs(self.players) do
+            data.players[k] = v:onSnapshot() or {}
         end
         return data
     end

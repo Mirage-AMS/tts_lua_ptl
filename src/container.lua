@@ -6,6 +6,7 @@ require("mock/default")
 ---@field getPosition fun(self: Container): Vector
 ---@field putObject fun(self: Container, obj: Object)
 ---@field onSave fun(self: Container): table
+---@field onSnapshot fun(self: Container): table
 ---@field onLoad fun(self: Container, data: table): Container
 ---@return Container
 function FactoryCreateContainer()
@@ -36,6 +37,10 @@ function FactoryCreateContainer()
         return {
             guid = self.guid
         }
+    end
+
+    function container:onSnapshot()
+        return self:onSave()
     end
 
     function container:onLoad(data)

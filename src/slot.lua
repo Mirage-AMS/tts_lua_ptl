@@ -1,6 +1,35 @@
 require("mock/default")
 require("com/object_type")
 
+---@class Slot
+---@field guid string?
+---@field object Object?
+---@field getPosition fun(self: Slot): Vector?
+---@field getObjects fun(self: Slot): Object[]?
+---@field getCardObjects fun(self: Slot): Object?[]
+---@field getCardObject fun(self: Slot, isFirst?: boolean): Object?
+---@field getMergedCardObject fun(self: Slot, tag?: string): Object?
+---@field shuffle fun(self: Slot)
+---@feild setFlipped fun(self: Slot, flipped: boolean)
+---@field setStraight fun(self: Slot, straight: boolean)
+---@field onSave fun(self: Slot): table
+---@field onSnapshot fun(self: Slot): table
+---@field onLoad fun(self: Slot, data: table): Slot
+
+---@param obj Object
+---@param container Object?
+local function __getCardData(obj, container)
+    local defaultMemo = "undefined"
+    local source = container or obj  -- 确定属性获取的源对象
+    return {
+        memo = obj.memo or defaultMemo,
+        name = obj.getName(),
+        flip = source.is_face_down,
+        lock = source.getLock(),
+        pos = source.getPosition(),
+        rot = source.getRotation()
+    }
+end
 
 local SlotMethods = {
     getPosition = function(self)
@@ -123,6 +152,26 @@ local SlotMethods = {
         return {guid=self.guid}
     end,
 
+    onSnapshot = function(self)
+        local snapShotData = {}
+        local cardObjects = self:getCardObjects()
+
+        for _, obj in ipairs(cardObjects) do
+            if isCard(obj) then
+                ---@cast obj Object
+                table.insert(snapShotData, __getCardData(obj))
+            elseif isDeck(obj) then
+                ---@cast obj Object
+                local objList = obj.getObjects()
+                for _, card in ipairs(objList) do
+                    table.insert(snapShotData, __getCardData(card, obj))
+                end
+            end
+        end
+
+        return snapShotData
+    end,
+
     onLoad = function(self, data)
         self.guid = data.guid
         if self.guid then
@@ -170,13 +219,8 @@ local SlotMethods = {
 
 ---@return Slot
 function FactoryCreateSlot()
-    ---@class Slot
-    ---@field guid string?
-    ---@field object Object?
-    ---@field getObjects fun(self: Slot): Object[]?
-    ---@field getPosition fun(self: Slot): Vector?
-    ---@field getCardObjects fun(self: Slot): Object?[]
-    ---@field getCardObject fun(self: Slot, isFirst?: boolean): Object?
+    ---@type Slot
+    ---@diagnostic disable-next-line: missing-fields
     local slot = {
         guid = nil,
         object = nil

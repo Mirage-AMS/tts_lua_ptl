@@ -13,6 +13,7 @@ require("mock/default")
 ---@field getValueByIndex fun(self: Board, index: number): number?
 ---@field tiltValueByIndex fun(self: Board, index: number, value: number)
 ---@field onSave fun(self: Board): table
+---@field onSnapshot fun(self: Board): table
 ---@field onLoad fun(self: Board, data: table): Board
 
 ---@return Board
@@ -108,6 +109,10 @@ function FactoryCreateBoard()
         return {
             guid = self.guid
         }
+    end
+
+    function board:onSnapshot()
+        return self:onSave()
     end
 
     function board:onLoad(data)
