@@ -18,6 +18,9 @@ EnumRequestMethod = Enum({
 })
 
 ---@class Request
+---@field __call(self): Request
+---@field isRequest fun(v: any): boolean
+---@field __type string
 ---@field url string
 ---@field method string
 ---@field headers table
@@ -34,17 +37,22 @@ EnumRequestMethod = Enum({
 ---@field get fun(self: Request, url: string, callback: fun(request: WebRequestInstance)): Request
 ---@field post fun(self: Request, url: string, data: table, callback: fun(request: WebRequestInstance)): Request
 
----@type table<string, function> RequestMethodTable
+---@type table<string, any> RequestMethodTable
 local RequestMethodTable = {
+    __type = "Request",
     setUrl = function(self, url)
         if type(url) == "string" then
             self.url = url
+        else
+            print("Warning: url must be a string, got " .. type(url))
         end
         return self
     end,
     setMethod = function(self, method)
         if EnumRequestMethod(method) then
             self.method = method
+        else
+            print("Warning: method must be one of DELETE, GET, HEAD, POST, PUT")
         end
         return self
     end,
@@ -80,6 +88,15 @@ local RequestMethodTable = {
         return self
     end,
     send = function(self)
+        -- 校验 url
+        if type(self.url) ~= "string" or self.url == "" then
+            error("Request url is invalid (must be a non-empty string)")
+        end
+        -- 校验 method
+        if not EnumRequestMethod(self.method) then
+            error("Request method is invalid (must be one of: DELETE, GET, HEAD, POST, PUT)")
+        end
+
         if self.data and not self.body then
             self.body = Json.encode(self.data)        -- 如果设置了data但没有设置body，则自动编码data为JSON
         end
@@ -135,18 +152,34 @@ local RequestMethodTable = {
     end,
 }
 
+-- 设置元表的__index指向自身
+RequestMethodTable.__index = RequestMethodTable
+
+-- 定义Request类表
+Request = {}
+
+--- Request 构造函数
 ---@return Request
-function FactoryCreateRequest()
-    ---@type Request
-    ---@diagnostic disable-next-line: missing-fields
-    local request = setmetatable({}, RequestMethodTable)
-    request.url = "http://example.com"
-    request.method = EnumRequestMethod.GET
-    request.headers = {}
-    request.data = nil
-    request.body = nil
-    return request
+function Request.new()
+    local self = {
+        url = "",                             -- 初始化 url 为空字符串
+        method = EnumRequestMethod.GET,       -- 初始化 method 为 GET 方法
+        headers = {},                         -- 初始化 headers 为空表（关键修复）
+        data = nil,
+        body = nil,
+        handler = nil
+    }
+    setmetatable(self, RequestMethodTable)
+    ---@cast self Request
+    return self
 end
 
--- 示例用法
-FactoryCreateRequest():get("http://example.com/api", function(request) print(request.text) end)
+function Request.isRequest(v)
+    return type(v) == "table" and getmetatable(v) and getmetatable(v).__type == "Request"
+end
+
+setmetatable(Request,{
+    __call = function(self)
+        return self.new()
+    end,
+})
