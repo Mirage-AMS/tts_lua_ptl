@@ -1,7 +1,4 @@
----@class JSON
----@field decode fun(str: string): table
----@field encode fun(obj: table): string
-JSON = {}
+require("mock/vector")
 
 ---@class Object
 ---@field is_face_down boolean If the object is face down
@@ -82,18 +79,6 @@ Turns = {}
 ---@field delta_time number The amount of time since the last frame. Read only.
 ---@field fixed_delta_time number The interval (in seconds) between physics updates. Read only.
 Time = {}
-
----@class Vector
----@field x number
----@field y number
----@field z number
----@field __call fun(self: Vector, x?: number|table, y?: number, z?: number): Vector
----@field new fun(self: Vector, x?: number|table, y?: number, z?: number): Vector
----@field __add fun(self: Vector, a: Vector): Vector
----@field __sub fun(self: Vector, a: Vector): Vector
----@field __mul fun(self: Vector, a: number): Vector  -- 向量×数字返回Vector
----@field __mul fun(self: Vector, a: Vector): number  -- 向量×向量返回点积（数字）
-Vector = {}
 
 ---@class Wait
 ---@field condition fun(toRunFunc: function, conditionFunc: function, timeout?: number, timeoutFunc?: function): any

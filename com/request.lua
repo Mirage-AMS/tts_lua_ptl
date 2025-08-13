@@ -1,5 +1,6 @@
 require("mock/default")
 require("com/enum")
+require("com/json")
 
 ---@class RequestMethodEnum
 ---@field DELETE string
@@ -80,7 +81,7 @@ local RequestMethodTable = {
     end,
     send = function(self)
         if self.data and not self.body then
-            self.body = JSON.encode(self.data)        -- 如果设置了data但没有设置body，则自动编码data为JSON
+            self.body = Json.encode(self.data)        -- 如果设置了data但没有设置body，则自动编码data为JSON
         end
 
         if (self.method == EnumRequestMethod.POST or self.method == EnumRequestMethod.PUT)

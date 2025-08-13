@@ -1,4 +1,4 @@
-require("mock/default")
+require("mock/vector")
 
 ---@param p0 Vector: pattern origin
 ---@param idx number: index in x-axis
