@@ -141,7 +141,7 @@ local VotingSystem = (function()
             voter.showOptionsDialog(
                 "请投票决定是否同意 "..initiatorName.." 胜利",
                 {EnumDialogConfirm.YES, EnumDialogConfirm.NO, EnumDialogConfirm.YES_WITH_ANNOTATION},
-                2,  -- 默认选择"否"
+                1,  -- 默认选择"是"
                 function(selectedText, selectedIndex, playerColor)
                     -- 如果投票已结束（超时或全部完成），不再处理
                     if isVotingCompleted then return end
@@ -189,12 +189,12 @@ local VotingSystem = (function()
             end
 
             if turnManager:getRound() <= 4 then
-                broadcastToColor("不能在4回合内宣言胜利", player_clicker_color, DEFAULT_COLOR_WHITE)
+                broadcastToColor("游戏开始4轮之内不能宣言胜利", player_clicker_color, DEFAULT_COLOR_WHITE)
                 return
             end
 
             if turnManager:isWinner(player_clicker_color) then
-                broadcastToColor("你已经胜利，不能再次宣言胜利", player_clicker_color, DEFAULT_COLOR_WHITE)
+                broadcastToColor("已胜利玩家不能再次宣言胜利", player_clicker_color, DEFAULT_COLOR_WHITE)
                 return
             end
 
@@ -210,16 +210,12 @@ local VotingSystem = (function()
                 return
             end
 
-            playerInstance.showOptionsDialog(
-                "要宣布胜利吗？",
-                {EnumDialogConfirm.YES, EnumDialogConfirm.NO},
-                2, -- 默认选项为NO
-                function(selected_text, selected_index, player_color)
-                    if selected_text == EnumDialogConfirm.YES then
-                        -- 修改闭包内的状态
-                        isVotingInProgress = true
-                        __startVotingProcess(playerInstance)
-                    end
+            playerInstance.showConfirmDialog(
+                "你确定要宣布胜利吗？",
+                function(player_color)
+                    -- 修改闭包内的状态
+                    isVotingInProgress = true
+                    __startVotingProcess(playerInstance)
                 end
             )
         end
