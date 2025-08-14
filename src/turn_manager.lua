@@ -5,6 +5,7 @@ require("com/basic")
 ---@class TurnManager
 ---@field first_player string?
 ---@field current_player string?
+---@field last_round number
 ---@field round number
 ---@field state number
 ---@field getFirstPlayer fun(self:TurnManager):string?
@@ -17,13 +18,18 @@ require("com/basic")
 ---@field getRound fun(self:TurnManager):number
 ---@field setRound fun(self:TurnManager, round:number):TurnManager
 ---@field addRound fun(self:TurnManager):TurnManager
+---@field getLastRound fun(self:TurnManager):number
+---@field setLastRound fun(self:TurnManager, last_round:number):TurnManager
+---@field setCurrentRoundLastRound fun(self:TurnManager): TurnManager
 ---@field isTurnEnable fun(self:TurnManager):boolean
 ---@field getTurnColor fun(self:TurnManager):string?
 ---@field setTurnEnable fun(self:TurnManager, enable: boolean): TurnManager
 ---@field setTurnColor fun(self:TurnManager, player_color:string?): TurnManager
 ---@field getNextTurnColor fun(self:TurnManager):string?
 ---@field getPreviousTurnColor fun(self:TurnManager):string?
+---@field isLastRound fun(self:TurnManager):boolean
 ---@field isGameStart fun(self:TurnManager):boolean
+---@field isGameEnd fun(self:TurnManager):boolean
 ---@field onSave fun(self:TurnManager): table
 ---@field onSnapshot fun(self:TurnManager): table
 ---@field onLoad fun(self:TurnManager, data:table): TurnManager
@@ -35,6 +41,7 @@ function FactoryCreateTurnManager()
     local manager = {
         first_player = nil,
         current_player = nil,
+        last_round = 100,
         round = 0,
         state = 0,
     }
@@ -80,13 +87,26 @@ function FactoryCreateTurnManager()
     end
 
     function manager:setRound(round)
-        self.round = round
+        self.round = math.max(0, round)
         return self
     end
 
     function manager:addRound()
         self.round = self.round + 1
         return self
+    end
+
+    function manager:getLastRound()
+        return self.last_round
+    end
+
+    function manager:setLastRound(last_round)
+        self.last_round = math.max(self:getRound(), last_round)
+        return self
+    end
+
+    function manager:setCurrentRoundLastRound()
+        return self:setLastRound(self:getRound())
     end
 
     -- BASIC Function
@@ -122,8 +142,16 @@ function FactoryCreateTurnManager()
         return Turns.getPreviousTurnColor()
     end
 
+    function manager:isLastRound()
+        return self.round == self:getLastRound()
+    end
+
     function manager:isGameStart()
         return self:getFirstPlayer() ~= nil
+    end
+
+    function manager:isGameEnd()
+        return self.round > self:getLastRound()
     end
 
     -- Save and Load
@@ -132,6 +160,7 @@ function FactoryCreateTurnManager()
             first_player = self.first_player,
             current_player = self.current_player,
             round = self.round,
+            last_round = self.last_round,
             state = self.state,
         }
     end
@@ -146,6 +175,7 @@ function FactoryCreateTurnManager()
         self.first_player = data.first_player
         return self:setCurrentPlayer(data.current_player)
                    :setRound(data.round)
+                   :setLastRound(data.last_round)
                    :setState(data.state)
     end
 
