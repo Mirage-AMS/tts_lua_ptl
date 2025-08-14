@@ -220,10 +220,10 @@ function FactoryCreateGame()
             local privateItemManager = self:getPrivateItemManager(player)
 
             -- init role board buttons (role board is now occupied, use hand zone board instead)
-            local handZoneBoard = privateItemManager:getBoard(NAME_BOARD_ROLE_HAND)
-            if handZoneBoard ~= nil then
+            local roleBoard = privateItemManager:getBoard(NAME_BOARD_ROLE_DISCARD)
+            if roleBoard ~= nil then
                 for _, param in ipairs(LIST_PARAM_ROLE_BOARD_BUTTONS) do
-                    handZoneBoard:createButton(param)
+                    roleBoard:createButton(param)
                 end
             else
                 error("fatal error: role board not found")

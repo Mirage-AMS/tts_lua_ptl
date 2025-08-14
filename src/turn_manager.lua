@@ -93,7 +93,9 @@ function FactoryCreateTurnManager()
     end
 
     function manager:setRound(round)
-        self.round = math.max(0, round)
+        if round ~= nil then
+            self.round = math.max(0, round)
+        end
         return self
     end
 
@@ -107,7 +109,9 @@ function FactoryCreateTurnManager()
     end
 
     function manager:setLastRound(last_round)
-        self.last_round = math.max(self:getRound(), last_round)
+        if last_round ~= nil then
+            self.last_round = math.max(self:getRound(), last_round)
+        end
         return self
     end
 

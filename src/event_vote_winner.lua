@@ -186,6 +186,7 @@ local VotingSystem = (function()
 
             if not turnManager:isGameStart() or turnManager:isGameEnd() then
                 broadcastToColor("必须在游戏进行中宣言胜利", player_clicker_color, DEFAULT_COLOR_WHITE)
+                return
             end
 
             if turnManager:getRound() <= 4 then

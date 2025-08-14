@@ -184,7 +184,6 @@ local function trigEndPhaseEffect(player_clicker_color, _)
             player_clicker_color,
             DEFAULT_COLOR_WHITE
         )
-        return
     end
 
     -- pass turn
