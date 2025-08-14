@@ -51,13 +51,15 @@ local VotingSystem = (function()
             resultMessage = resultMessage .. "未投票: " .. unvotedCount .. " 票（已默认计为反对）\n"
         end
 
-        resultMessage = resultMessage .. "需要通过票数: " .. requiredVotes .. "\n"
+        resultMessage = resultMessage .. "需要通过票数: " .. math.ceil(requiredVotes) .. "\n"
         resultMessage = resultMessage .. "投票" .. (passed and "通过" or "未通过")
 
         broadcastToAll(resultMessage, DEFAULT_COLOR_WHITE)
 
         if passed then
             local turnManager = GAME:getTurnManager()
+            broadcastToAll(initiatorName .. "达成胜利", DEFAULT_COLOR_WHITE)
+
             if not turnManager:isWinner(initiator.color) then
                 turnManager:addWinners(initiator.color)
             end
@@ -101,7 +103,7 @@ local VotingSystem = (function()
             return
         end
 
-        local timeoutSeconds = 30
+        local timeoutSeconds = 15
         broadcastToAll(initiatorName.." 宣布胜利，正在进行投票... ("..timeoutSeconds.."秒后未投票将默认反对)", DEFAULT_COLOR_WHITE)
 
         --- 存储投票结果

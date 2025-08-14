@@ -85,10 +85,12 @@ function onPlayerTurn(player, _)
             for _, winner in ipairs(winners) do
                 local playerInstance = playerService:getPlayerObject(winner)
                 if playerInstance then
-                    broadcastToAll(playerInstance.steam_name or winner .. " 胜利", winner)
+                    local playerName = playerInstance.steam_name or playerInstance.color
+                    broadcastToAll(playerName .. " 胜利", winner)
                 end
             end
 
+            turnManager:setTurnEnable(false)
             -- Cleanup Discards and Upload Data
             __cleanupDiscards()
             __uploadData()
