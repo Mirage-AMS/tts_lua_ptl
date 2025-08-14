@@ -38,8 +38,8 @@ local VotingSystem = (function()
             end
         end
 
-        -- 计算通过所需的票数（超过半数，向上取整）
-        local requiredVotes = math.ceil(totalVoters / 2)
+        -- 计算通过所需的票数（严格超过半数，即同意票必须大于总人数的1/2）
+        local requiredVotes = totalVoters / 2
         local passed = agreeCount > requiredVotes
 
         local resultMessage = initiatorName .. "宣胜投票结果:\n"
@@ -183,6 +183,11 @@ local VotingSystem = (function()
             end
 
             local turnManager = GAME:getTurnManager()
+
+            if not turnManager:isGameStart() or turnManager:isGameEnd() then
+                broadcastToColor("必须在游戏进行中宣言胜利", player_clicker_color, DEFAULT_COLOR_WHITE)
+            end
+
             if turnManager:getRound() <= 4 then
                 broadcastToColor("不能在4回合内宣言胜利", player_clicker_color, DEFAULT_COLOR_WHITE)
                 return
