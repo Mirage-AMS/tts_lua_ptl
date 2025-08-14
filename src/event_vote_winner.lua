@@ -155,9 +155,11 @@ local function __startVotingProcess(initiator)
                 voteResults[voter] = selectedText
                 votesReceived = votesReceived + 1
 
-                -- 如果选择了选项3，进行秘密标注
-                if selectedIndex == 3 then
+                -- 如果选择了YES_WITH_ANNOTATION，进行额外的秘密标注处理
+                if selectedText == EnumDialogConfirm.YES_WITH_ANNOTATION then
                     secretAnnotations[voter] = true
+                else
+                    secretAnnotations[voter] = false
                 end
 
                 -- 当所有玩家都完成投票后，计算结果
