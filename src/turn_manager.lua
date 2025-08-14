@@ -120,20 +120,22 @@ function FactoryCreateTurnManager()
     end
 
     function manager:setWinners(winners)
-        if type(winners) ~= "table" then
-            return self
-        end
+        if type(winners) ~= "table" then return self end
+        local uniqueWinners, seen = {}, {}
         for _, winner in ipairs(winners) do
-            if type(winner) ~= "string" then
-                return self
+            if type(winner) == "string" and not seen[winner] then
+                seen[winner] = true
+                table.insert(uniqueWinners, winner)
             end
         end
-        self.winners = winners
+        self.winners = uniqueWinners
         return self
     end
 
     function manager:addWinners(player_color)
-        table.insert(self.winners, player_color)
+        if type(player_color) == "string" and not self:isWinner(player_color) then
+            table.insert(self.winners, player_color)
+        end
         return self
     end
 
@@ -183,7 +185,7 @@ function FactoryCreateTurnManager()
     end
 
     function manager:isWinner(player_color)
-        return isValInValList(player_color, self.winners)
+        return player_color and type(player_color) == "string" and isValInValList(player_color, self.winners)
     end
 
     -- Save and Load
