@@ -172,8 +172,20 @@ local function trigDrawPhaseEffect(player_clicker_color, alt)
 end
 
 local function trigEndPhaseEffect(player_clicker_color, _)
+    local __max_hand_count = 6
     local turnManager = GAME:getTurnManager()
     local playerService = GAME:getPlayerService()
+
+    -- check maximum hands
+    local playerHandCount = playerService:getPlayerHandCount(player_clicker_color)
+    if playerHandCount > __max_hand_count then
+        broadcastToColor(
+            "你的手牌数过多, 请弃置到" .. __max_hand_count,
+            player_clicker_color,
+            DEFAULT_COLOR_WHITE
+        )
+        return
+    end
 
     -- pass turn
     local seatedPlayerNum = playerService:getSeatedPlayerNum()
@@ -379,4 +391,21 @@ function onButtonClickShowThreeCard(_, _, alt_click)
     else
         conventicleZone:fillTopSlots(nil, true)
     end
+end
+
+--- draw card, if alt click then draw all cards until hand is full
+function onButtonClickDrawCard(_, player_clicker_color, alt_click)
+    local count = 1
+    if alt_click then
+        local playerService = GAME:getPlayerService()
+        local handCount = playerService:getPlayerHandCount(player_clicker_color)
+        count = math.floor(math.max(0, 5 - handCount))
+    end
+
+    local itemManager = GAME:getPublicItemManager()
+    local conventicleZone = itemManager:getZone(NAME_ZONE_CONVENTICLE)
+    if not conventicleZone then
+        error("fatal error: could not find zone " .. NAME_ZONE_CONVENTICLE)
+    end
+    conventicleZone:dealDeckCardIntoHand(count, player_clicker_color)
 end

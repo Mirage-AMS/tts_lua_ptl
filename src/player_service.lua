@@ -4,6 +4,7 @@ require("src/private_service")
 ---@field players table<string, PrivateService>
 ---@field isPlayerDefault fun(self: PlayerService, player_color: string): boolean
 ---@field getPlayer fun(self: PlayerService, player_color: string): PrivateService
+---@field getPlayerHandCount fun(self: PlayerService, player_color: string): number
 ---@field getPlayerObjectList fun(self: PlayerService): PlayerInstance[]
 ---@field getPlayerObject fun(self: PlayerService, player_color: string): PlayerInstance?
 ---@field getSeatedPlayerColorList fun(self: PlayerService): string[]
@@ -30,6 +31,17 @@ function FactoryCreatePlayerService()
             return self.players[player_color]
         end
         error("Player not found for color: " .. tostring(player_color))
+    end
+
+    --- get the number of cards in a player's hand, or 0 if the playerInstance is not existed.
+    ---@param player_color string
+    ---@return number
+    function service:getPlayerHandCount(player_color)
+        local playerInstance = self:getPlayerObject(player_color)
+        if not playerInstance then
+            return 0
+        end
+        return #playerInstance.getHandObjects()
     end
 
     ---@return PlayerInstance[]
