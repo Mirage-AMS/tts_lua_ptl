@@ -213,6 +213,11 @@ local VotingSystem = (function()
                 return
             end
 
+            if not GAME:isPlayerLegendary(player_clicker_color) then
+                broadcastToColor("传奇点不足，不能宣言胜利", player_clicker_color, DEFAULT_COLOR_WHITE)
+                return
+            end
+
             playerInstance.showConfirmDialog(
                 "你确定要宣布胜利吗？",
                 function(player_color)

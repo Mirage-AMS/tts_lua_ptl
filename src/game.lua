@@ -4,6 +4,7 @@ require("com/const_game_board")
 require("com/const_display_board")
 require("com/const_main_board")
 require("com/const_role_board")
+require("com/enum_const")
 require("com/basic")
 require("com/json")
 require("src/public_service")
@@ -35,6 +36,7 @@ end
 ---@field getPlayerService fun(self: Game): PlayerService
 ---@field getPrivateItemManager fun(self:Game, player_color: string): ItemManager
 ---@field setAllBoardNotInteractable fun(self: Game)
+---@field isPlayerLegendary fun(self: Game, player_color: string): boolean
 ---@field onLoad fun(self: Game, data: string): Game
 ---@field onSave fun(self: Game): string
 ---@field onSnapshot fun(self: Game): string
@@ -107,6 +109,48 @@ function FactoryCreateGame()
                 v:setInteractable(false)
             end
         end
+    end
+
+    function game:isPlayerLegendary(player_color)
+        -- 定义常量
+        local LEGENDARY_POINT_LABEL = "●"
+        local REQUIRED_POINTS = {
+            [EnumGameGoal.QUICK] = 2,
+            [EnumGameGoal.STANDARD] = 3
+        }
+        -- 输入检查
+        local playerService = self:getPlayerService()
+        if not playerService:isPlayerDefault(player_color) then
+            return false
+        end
+
+        -- 检查传奇点数是否足够
+        local isLegendaryPointEnough = false
+        local gameGoal = self:getPublicService():getGameModeManager().game_goal
+        if gameGoal == nil then
+            error("fatal error: game goal not found")
+        end
+
+        local privateItemManager = self:getPrivateItemManager(player_color)
+        local playerRoleBoard = privateItemManager:getBoard(NAME_BOARD_ROLE)
+        if not playerRoleBoard then
+            error("fatal error: player role board not found")
+        end
+
+        -- 计算传奇点数
+        local legendaryPointCount = 0
+        for _, buttonInfo in ipairs(playerRoleBoard:getButtons()) do
+            if buttonInfo.label == LEGENDARY_POINT_LABEL then
+                legendaryPointCount = legendaryPointCount + 1
+            end
+        end
+
+        -- 检查点数是否满足当前游戏目标的要求
+        local required = REQUIRED_POINTS[gameGoal]
+        if required ~=nil and legendaryPointCount >= required then
+            isLegendaryPointEnough = true
+        end
+        return isLegendaryPointEnough
     end
 
     ---------------------------------------------------------------------
