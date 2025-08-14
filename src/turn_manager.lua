@@ -8,6 +8,7 @@ require("com/basic")
 ---@field last_round number
 ---@field round number
 ---@field state number
+---@field winners string[]
 ---@field getFirstPlayer fun(self:TurnManager):string?
 ---@field setFirstPlayer fun(self:TurnManager, player_color:string?):TurnManager
 ---@field getCurrentPlayer fun(self:TurnManager):string?
@@ -21,6 +22,9 @@ require("com/basic")
 ---@field getLastRound fun(self:TurnManager):number
 ---@field setLastRound fun(self:TurnManager, last_round:number):TurnManager
 ---@field setCurrentRoundLastRound fun(self:TurnManager): TurnManager
+---@field getWinners fun(self:TurnManager): string[]
+---@field setWinners fun(self:TurnManager, winners: string[]): TurnManager
+---@field addWinners fun(self:TurnManager, player_color: string): TurnManager
 ---@field isTurnEnable fun(self:TurnManager):boolean
 ---@field getTurnColor fun(self:TurnManager):string?
 ---@field setTurnEnable fun(self:TurnManager, enable: boolean): TurnManager
@@ -30,6 +34,7 @@ require("com/basic")
 ---@field isLastRound fun(self:TurnManager):boolean
 ---@field isGameStart fun(self:TurnManager):boolean
 ---@field isGameEnd fun(self:TurnManager):boolean
+---@field isWinner fun(self:TurnManager, player_color:string):boolean
 ---@field onSave fun(self:TurnManager): table
 ---@field onSnapshot fun(self:TurnManager): table
 ---@field onLoad fun(self:TurnManager, data:table): TurnManager
@@ -44,6 +49,7 @@ function FactoryCreateTurnManager()
         last_round = 100,
         round = 0,
         state = 0,
+        winners = {},
     }
 
     -- state getter and setter methods
@@ -109,6 +115,28 @@ function FactoryCreateTurnManager()
         return self:setLastRound(self:getRound())
     end
 
+    function manager:getWinners()
+        return self.winners
+    end
+
+    function manager:setWinners(winners)
+        if type(winners) ~= "table" then
+            return self
+        end
+        for _, winner in ipairs(winners) do
+            if type(winner) ~= "string" then
+                return self
+            end
+        end
+        self.winners = winners
+        return self
+    end
+
+    function manager:addWinners(player_color)
+        table.insert(self.winners, player_color)
+        return self
+    end
+
     -- BASIC Function
     ---Get if turn is enable or not
     ---@return boolean
@@ -154,6 +182,10 @@ function FactoryCreateTurnManager()
         return self.round > self:getLastRound()
     end
 
+    function manager:isWinner(player_color)
+        return isValInValList(player_color, self.winners)
+    end
+
     -- Save and Load
     function manager:onSave()
         return {
@@ -162,6 +194,7 @@ function FactoryCreateTurnManager()
             round = self.round,
             last_round = self.last_round,
             state = self.state,
+            winners = self.winners,
         }
     end
 
@@ -177,6 +210,7 @@ function FactoryCreateTurnManager()
                    :setRound(data.round)
                    :setLastRound(data.last_round)
                    :setState(data.state)
+                   :setWinners(data.winners)
     end
 
     return manager
