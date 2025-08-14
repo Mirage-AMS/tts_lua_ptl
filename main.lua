@@ -78,7 +78,17 @@ function onPlayerTurn(player, _)
 
         -- End Game Check (relied on turnManager.round)
         if turnManager:isGameEnd() then
-            broadcastToAll("游戏已经结束", DEFAULT_COLOR_WHITE)
+            local playerService = GAME:getPlayerService()
+
+            broadcastToAll("游戏结束", DEFAULT_COLOR_WHITE)
+            local winners = turnManager:getWinners()
+            for _, winner in ipairs(winners) do
+                local playerInstance = playerService:getPlayerObject(winner)
+                if playerInstance then
+                    broadcastToAll(playerInstance.steam_name or winner .. " 胜利", winner)
+                end
+            end
+
             -- Cleanup Discards and Upload Data
             __cleanupDiscards()
             __uploadData()

@@ -82,7 +82,14 @@ LIST_PARAM_ONLOAD_BUTTONS = {
         click_function="onButtonClickShowThreeCard",
         function_owner = self,
         width=DEFAULT_BUTTON_WIDTH, height=DEFAULT_BUTTON_HEIGHT,
-        position={z=0.92, x=0.7, y=DEFAULT_BUTTON_LOCATION_Y}, rotation=DEFAULT_ROTATION, scale=DEFAULT_BUTTON_SCALE, font_size=DEFAULT_BUTTON_FONT_SIZE,
+        position={z=0.92, x=0.8, y=DEFAULT_BUTTON_LOCATION_Y}, rotation=DEFAULT_ROTATION, scale=DEFAULT_BUTTON_SCALE, font_size=DEFAULT_BUTTON_FONT_SIZE,
         label="翻3张牌", tooltip="从牌堆顶翻3张牌(左击翻牌/右击返回洗切)"
+    },
+    {
+        click_function="onButtonClickDrawCard",
+        function_owner = self,
+        width=DEFAULT_BUTTON_WIDTH, height=DEFAULT_BUTTON_HEIGHT,
+        position={z=0.92, x=0.6, y=DEFAULT_BUTTON_LOCATION_Y}, rotation=DEFAULT_ROTATION, scale=DEFAULT_BUTTON_SCALE, font_size=DEFAULT_BUTTON_FONT_SIZE,
+        label="抽1张牌", tooltip="从情报区牌堆抽牌(左击抽1张/右击补到5张)"
     },
 }

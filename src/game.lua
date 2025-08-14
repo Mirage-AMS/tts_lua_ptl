@@ -3,6 +3,7 @@ require("com/const")
 require("com/const_game_board")
 require("com/const_display_board")
 require("com/const_main_board")
+require("com/const_role_board")
 require("com/basic")
 require("com/json")
 require("src/public_service")
@@ -13,6 +14,7 @@ require("src/event_dev_board")
 require("src/event_display_board")
 require("src/event_main_board")
 require("src/event_context_menu")
+require("src/event_vote_winner")
 
 local function clearScriptingZones()
     local objTbl = self.getObjects()
@@ -211,6 +213,21 @@ function FactoryCreateGame()
             end
         else
             error("fatal error: main board not found")
+        end
+
+        -- init player related buttons
+        for _, player in ipairs(DEFAULT_PLAYER_COLOR_LIST) do
+            local privateItemManager = self:getPrivateItemManager(player)
+
+            -- init role board buttons (role board is now occupied, use hand zone board instead)
+            local handZoneBoard = privateItemManager:getBoard(NAME_BOARD_ROLE_HAND)
+            if handZoneBoard ~= nil then
+                for _, param in ipairs(LIST_PARAM_ROLE_BOARD_BUTTONS) do
+                    handZoneBoard:createButton(param)
+                end
+            else
+                error("fatal error: role board not found")
+            end
         end
 
         -- init development mode settings
