@@ -7,6 +7,9 @@ require("src/private_service")
 ---@field getPlayerHandCount fun(self: PlayerService, player_color: string): number
 ---@field getPlayerObjectList fun(self: PlayerService): PlayerInstance[]
 ---@field getPlayerObject fun(self: PlayerService, player_color: string): PlayerInstance?
+---@field getPlayerProperty fun(self: PlayerService, player_color: string, propName: string, defaultValue?: any): any?
+---@field getPlayerSteamName fun(self: PlayerService, player_color: string): string?
+---@field getPlayerSteamId fun(self: PlayerService, player_color: string): string?
 ---@field getSeatedPlayerColorList fun(self: PlayerService): string[]
 ---@field getSeatedPlayerNum fun(self: PlayerService): number
 ---@field letPlayerPingTable fun(self: PlayerService, player_color: string, position: Vector)
@@ -59,6 +62,26 @@ function FactoryCreatePlayerService()
             end
         end
         return nil
+    end
+
+    function service:getPlayerProperty(player_color, propName, defaultValue)
+        defaultValue = defaultValue or nil  -- 显式指定默认值（可选，Lua 中未传参数本身就是 nil）
+        local playerInstance = self:getPlayerObject(player_color)
+        if playerInstance then
+            local value = playerInstance[propName]
+            if value ~= nil then
+                return value
+            end
+        end
+        return defaultValue
+    end
+
+    function service:getPlayerSteamName(player_color)
+        return self:getPlayerProperty(player_color, "steam_name")
+    end
+
+    function service:getPlayerSteamId(player_color)
+        return self:getPlayerProperty(player_color, "steam_id")
     end
 
     ---@return string[]

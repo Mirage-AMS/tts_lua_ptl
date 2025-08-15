@@ -3,12 +3,15 @@ require("com/const")
 require("com/basic")
 
 ---@class TurnManager
+---@field record_id string?
 ---@field first_player string?
 ---@field current_player string?
 ---@field last_round number
 ---@field round number
 ---@field state number
 ---@field winners string[]
+---@field getRecordId fun(self:TurnManager):string?
+---@field setRecordId fun(self:TurnManager, record_id:string?):TurnManager
 ---@field getFirstPlayer fun(self:TurnManager):string?
 ---@field setFirstPlayer fun(self:TurnManager, player_color:string?):TurnManager
 ---@field getCurrentPlayer fun(self:TurnManager):string?
@@ -44,6 +47,7 @@ function FactoryCreateTurnManager()
     ---@type TurnManager
     ---@diagnostic disable-next-line: missing-fields
     local manager = {
+        record_id = nil,
         first_player = nil,
         current_player = nil,
         last_round = 100,
@@ -53,6 +57,17 @@ function FactoryCreateTurnManager()
     }
 
     -- state getter and setter methods
+    function manager:getRecordId()
+        return self.record_id
+    end
+
+    function manager:setRecordId(record_id)
+        if type(record_id) == "string" then
+            self.record_id = record_id
+        end
+        return self
+    end
+
     function manager:getFirstPlayer()
         return self.first_player
     end
