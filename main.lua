@@ -95,6 +95,9 @@ function onPlayerTurn(player, _)
             __uploadData()
 
             -- Turn Disable (Trig onPlayerTurn again)
+            local TURN_STATE_END_PHASE = 7
+            turnManager:setState(TURN_STATE_END_PHASE)
+            updateButtonState()
             turnManager:setTurnEnable(false)
 
             return
