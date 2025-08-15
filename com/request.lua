@@ -1,8 +1,9 @@
 require("mock/default")
 require("com/enum")
 require("com/json")
+require("com/basic")
 
----@class RequestMethodEnum
+---@class EnumRequestMethod
 ---@field DELETE string
 ---@field GET string
 ---@field HEAD string
@@ -17,21 +18,62 @@ EnumRequestMethod = Enum({
     PUT = "PUT"
 })
 
+---@class EnumRequestStatus
+---@field UNKNOWN number
+---@field SUCCESS number
+---@field NOT_MODIFIED number
+---@field BAD_REQUEST number
+---@field UNAUTHORIZED number
+---@field FORBIDDEN number
+---@field NOT_FOUND number
+---@field METHOD_NOT_ALLOWED number
+---@field TOO_MANY_REQUESTS number
+---@field INTERNAL_SERVER_ERROR number
+---@field BAD_GATEWAY number
+---@field SERVICE_UNAVAILABLE number
+---@field GATEWAY_TIMEOUT number
+EnumRequestStatus = Enum({
+    UNKNOWN = -1,
+    SUCCESS = 200,
+    NOT_MODIFIED = 304,
+    BAD_REQUEST = 400,
+    UNAUTHORIZED = 401,
+    FORBIDDEN = 403,
+    NOT_FOUND = 404,
+    METHOD_NOT_ALLOWED = 405,
+    TOO_MANY_REQUESTS = 429,
+    INTERNAL_SERVER_ERROR = 500,
+    BAD_GATEWAY = 502,
+    SERVICE_UNAVAILABLE = 503,
+    GATEWAY_TIMEOUT = 504,
+})
+
 ---@class Request
 ---@field __call(self): Request
 ---@field isRequest fun(v: any): boolean
 ---@field __type string
+---@field __max_delay number
+---@field __retry_strategy table<number, boolean>
 ---@field url string
 ---@field method string
 ---@field headers table
 ---@field data table
 ---@field body table
 ---@field handler fun(request: WebRequestInstance)
+---@field max_retry_count number
+---@field retry_delay number
+---@field retry_count number
+---@field setUrl fun(self: Request, url: string): Request
+---@field setMethod fun(self: Request, method: string): Request
 ---@field setHeader fun(self: Request, key: string, value: any): Request
 ---@field setHeaders fun(self: Request, headers: table<string, any>): Request
 ---@field setData fun(self: Request, data: table): Request
 ---@field setBody fun(self: Request, body: any): Request
----@field setHandler fun(self: Request, handler: fun(request: WebRequestInstance)): Request
+---@field setHandler fun(self: Request, handler: fun(request: WebRequestInstance)?): Request
+---@field setMaxRetryCount fun(self: Request, max_retry_count: number): Request
+---@field setRetryDelay fun(self: Request, retry_delay: number): Request
+---@field setRetryCount fun(self: Request, retry_count: number): Request
+---@field clone fun(self: Request): Request
 ---@field send fun(self: Request): Request
 ---@field handleResponse fun(self: Request, response: WebRequestInstance)
 ---@field get fun(self: Request, url: string, callback: fun(request: WebRequestInstance)): Request
@@ -40,6 +82,22 @@ EnumRequestMethod = Enum({
 ---@type table<string, any> RequestMethodTable
 local RequestMethodTable = {
     __type = "Request",
+    __max_delay = 10,
+    __retry_strategy = {
+        [EnumRequestStatus.UNKNOWN] = true,
+        [EnumRequestStatus.SUCCESS] = false,
+        [EnumRequestStatus.NOT_MODIFIED] = false,
+        [EnumRequestStatus.BAD_REQUEST] = false,
+        [EnumRequestStatus.UNAUTHORIZED] = false,
+        [EnumRequestStatus.FORBIDDEN] = false,
+        [EnumRequestStatus.NOT_FOUND] = false,
+        [EnumRequestStatus.METHOD_NOT_ALLOWED] = false,
+        [EnumRequestStatus.TOO_MANY_REQUESTS] = true,
+        [EnumRequestStatus.INTERNAL_SERVER_ERROR] = true,
+        [EnumRequestStatus.BAD_GATEWAY] = true,
+        [EnumRequestStatus.SERVICE_UNAVAILABLE] = true,
+        [EnumRequestStatus.GATEWAY_TIMEOUT] = true,
+    },
     setUrl = function(self, url)
         if type(url) == "string" then
             self.url = url
@@ -70,10 +128,16 @@ local RequestMethodTable = {
         end
         return self
     end,
-    -- 设置请求数据（会触发后续的自动JSON编码）
+    -- setData 优化：data 为 nil 时清除自动添加的 Content-Type
     setData = function(self, data)
         self.data = data
-        if data and not self.headers["Content-Type"] then
+        -- 若 data 为 nil，清除自动设置的 JSON Content-Type
+        if not data then
+            if self.headers["Content-Type"] == "application/json" then
+                self.headers["Content-Type"] = nil
+            end
+        elseif not self.headers["Content-Type"] then
+            -- 仅在 data 存在且无 Content-Type 时自动设置
             self:setHeader("Content-Type", "application/json")
         end
         return self
@@ -81,29 +145,73 @@ local RequestMethodTable = {
     -- 直接设置请求体（不会触发JSON编码）
     setBody = function(self, body)
         self.body = body
+        self.data = nil  -- 显式清除 data，避免冲突
         return self
     end,
     setHandler = function(self, handler)
-        self.handler = handler
+        if handler and type(handler) == "function" then
+            self.handler = handler
+        end
         return self
+    end,
+    -- 设置最大重试次数
+    setMaxRetryCount = function(self, max_retry_count)
+        if type(max_retry_count) == "number" and max_retry_count >= 0 then
+            self.max_retry_count = max_retry_count
+        end
+        return self
+    end,
+    -- 设置重试间隔
+    setRetryDelay = function(self, retry_delay)
+        if type(retry_delay) == "number" and retry_delay >= 0 then
+            self.retry_delay = retry_delay
+        end
+        return self
+    end,
+    -- 设置当前重试次数
+    setRetryCount = function(self, retry_count)
+        if type(retry_count) == "number" and retry_count >= 0 then
+            self.retry_count = retry_count
+        end
+        return self
+    end,
+    clone = function(self)
+        local newRequest = Request()
+            :setUrl(self.url)
+            :setMethod(self.method)
+            :setHeaders(deepCopy(self.headers))
+            :setData(self.data)
+            :setBody(self.body)
+            :setHandler(self.handler)
+            :setMaxRetryCount(self.max_retry_count)
+            :setRetryDelay(self.retry_delay)
+            :setRetryCount(self.retry_count)
+        return newRequest
     end,
     send = function(self)
         -- 校验 url
         if type(self.url) ~= "string" or self.url == "" then
-            error("Request url is invalid (must be a non-empty string)")
+            print("Error: Request url is invalid (must be a non-empty string)")
+            return self  -- 返回 self 维持链式调用
         end
         -- 校验 method
         if not EnumRequestMethod(self.method) then
-            error("Request method is invalid (must be one of: DELETE, GET, HEAD, POST, PUT)")
+            print("Error: Request method is invalid (must be one of: be one of DELETE, GET, HEAD, POST, PUT)")
+            return self
         end
 
         if self.data and not self.body then
-            self.body = Json.encode(self.data)        -- 如果设置了data但没有设置body，则自动编码data为JSON
+            local success, encoded = pcall(Json.encode, self.data)
+            if not success then
+                print("Error: Failed to encode data to JSON - " .. encoded)
+                return self  -- 终止请求发送
+            end
+            self.body = encoded
         end
 
-        if (self.method == EnumRequestMethod.POST or self.method == EnumRequestMethod.PUT)
-           and not self.headers["Content-Type"] then
-            self.headers["Content-Type"] = "application/x-www-form-urlencoded"  -- 如果是POST等有请求体的方法且未设置Content-Type，设置默认值
+        local hasContentType = self.headers["Content-Type"] ~= nil
+        if (self.method == EnumRequestMethod.POST or self.method == EnumRequestMethod.PUT) and not hasContentType then
+            self.headers["Content-Type"] = "application/x-www-form-urlencoded"
         end
 
         if not self.headers["Accept"] then
@@ -126,13 +234,38 @@ local RequestMethodTable = {
     ---@param self Request
     ---@param request WebRequestInstance
     handleResponse = function(self, request)
-        if request.is_error then
-            print("Error: " .. request.error)
-            return
+        --- Successful Response Handler
+        if request and not request.is_error then
+            if self.handler ~= nil then
+                self.handler(request)
+            end
+            if not self.__retry_strategy[request.response_code] then
+                return
+            end
         end
-        ---@TODO: 后续可以封装一些错误处理逻辑，例如重试机制等
-        if self.handler ~= nil then
-            self.handler(request)
+
+        --- Error Response Handler
+        local statusCode = request and request.response_code or EnumRequestStatus.UNKNOWN
+        if not request or request.is_error then
+            local errMsg = request and ("error: " .. (request.error or "unknown error")) or "request is nil"
+            print(string.format("Request failed (url: %s, code: %d): %s", self.url, statusCode, errMsg))
+        end
+
+        --- Retry Strategy
+        local isRetry = self.__retry_strategy[statusCode] == true and self.retry_count < self.max_retry_count
+        if isRetry then
+            local retryDelay = math.min(self.retry_delay * (2 ^ self.retry_count), self.__max_delay)
+
+            local newRequest = self:clone()
+                :setRetryCount(self.retry_count + 1)
+
+            Wait.time(
+                function()
+                    print(string.format("Retrying request (url: %s) - attempt %d", newRequest.url, newRequest.retry_count))
+                    newRequest:send()
+                end,
+                retryDelay
+            )
         end
     end,
     --- 快捷发起GET请求
@@ -167,7 +300,10 @@ function Request.new()
         headers = {},                         -- 初始化 headers 为空表（关键修复）
         data = nil,
         body = nil,
-        handler = nil
+        handler = nil,
+        max_retry_count = 3,
+        retry_delay = 1,
+        retry_count = 0,
     }
     setmetatable(self, RequestMethodTable)
     ---@cast self Request
