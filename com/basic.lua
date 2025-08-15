@@ -1,6 +1,4 @@
 require("com/json")
-require("com/request")
-require("com/stopwatch")
 
 function isValInValList(value, list)
     for _, val in ipairs(list) do if val == value then return true end end

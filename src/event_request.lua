@@ -1,4 +1,5 @@
 require("mock/default")
+require("com/const_request")
 require("com/basic")
 require("com/request")
 
