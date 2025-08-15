@@ -46,7 +46,7 @@ function onPlayerTurn(player, _)
     -- Quick Break
     --------------------------------------------------------------------
     if turnManager:isGameEnd() then
-        broadcastToAll("游戏已经结束", DEFAULT_COLOR_WHITE)
+        broadcastToAll("游戏结束", DEFAULT_COLOR_WHITE)
         return
     end
 
@@ -80,7 +80,7 @@ function onPlayerTurn(player, _)
         if turnManager:isGameEnd() then
             local playerService = GAME:getPlayerService()
 
-            broadcastToAll("游戏结束", DEFAULT_COLOR_WHITE)
+            -- Broadcast Winners
             local winners = turnManager:getWinners()
             for _, winner in ipairs(winners) do
                 local playerInstance = playerService:getPlayerObject(winner)
@@ -90,14 +90,22 @@ function onPlayerTurn(player, _)
                 end
             end
 
-            turnManager:setTurnEnable(false)
             -- Cleanup Discards and Upload Data
             __cleanupDiscards()
             __uploadData()
+
+            -- Turn Disable (Trig onPlayerTurn again)
+            turnManager:setTurnEnable(false)
+
             return
         end
 
         broadcastToAll("第" .. turnManager:getRound() .. "轮开始", DEFAULT_COLOR_WHITE)
+    end
+
+    -- Last Round Broadcast
+    if turnManager:isLastRound() then
+        broadcastToAll("本轮为公平轮, 本轮结束后游戏结束", DEFAULT_COLOR_WHITE)
     end
 
     -- Turn Update
