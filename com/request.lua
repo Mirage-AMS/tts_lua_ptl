@@ -74,6 +74,7 @@ EnumRequestStatus = Enum({
 ---@field setRetryDelay fun(self: Request, retry_delay: number): Request
 ---@field setRetryCount fun(self: Request, retry_count: number): Request
 ---@field clone fun(self: Request): Request
+---@field retry fun(self: Request, delay: number?)
 ---@field send fun(self: Request): Request
 ---@field handleResponse fun(self: Request, response: WebRequestInstance)
 ---@field get fun(self: Request, url: string, callback: fun(request: WebRequestInstance)): Request
@@ -188,6 +189,25 @@ local RequestMethodTable = {
             :setRetryCount(self.retry_count)
         return newRequest
     end,
+    retry = function(self, delay)
+        local baseDelay = (self.retry_delay or 1) * (2 ^ self.retry_count)  -- 默认1秒为基础
+        if delay and type(delay) == "number" and delay > 0 then
+            baseDelay = delay
+        end
+        local jitter = math.random() * 0.5 * baseDelay  -- 0~50%的随机延迟
+        local retryDelay = math.min(baseDelay + jitter, self.__max_delay)
+
+        local newRequest = self:clone()
+            :setRetryCount(self.retry_count + 1)
+
+        Wait.time(
+            function()
+                print(string.format("Retrying request (url: %s) - attempt %d", newRequest.url, newRequest.retry_count))
+                newRequest:send()
+            end,
+            retryDelay
+        )
+    end,
     send = function(self)
         -- 校验 url
         if type(self.url) ~= "string" or self.url == "" then
@@ -232,40 +252,34 @@ local RequestMethodTable = {
     end,
     --- 处理响应函数, 主要封装一些错误处理
     ---@param self Request
-    ---@param request WebRequestInstance
-    handleResponse = function(self, request)
-        --- Successful Response Handler
-        if request and not request.is_error then
+    ---@param response WebRequestInstance
+    handleResponse = function(self, response)
+        --- Successful Response Handler (response code 200-299)
+        if response and not response.is_error and (
+            response.response_code >= 200 and response.response_code < 300
+        ) then
             if self.handler ~= nil then
-                self.handler(request)
+                self.handler(response)
             end
-            if not self.__retry_strategy[request.response_code] then
-                return
-            end
+            return
         end
 
         --- Error Response Handler
-        local statusCode = request and request.response_code or EnumRequestStatus.UNKNOWN
-        if not request or request.is_error then
-            local errMsg = request and ("error: " .. (request.error or "unknown error")) or "request is nil"
+        local statusCode = response and response.response_code or EnumRequestStatus.UNKNOWN
+        if not response or response.is_error then
+            local errMsg = response and ("error: " .. (response.error or "unknown error")) or "request is nil"
             print(string.format("Request failed (url: %s, code: %d): %s", self.url, statusCode, errMsg))
         end
 
         --- Retry Strategy
         local isRetry = self.__retry_strategy[statusCode] == true and self.retry_count < self.max_retry_count
         if isRetry then
-            local retryDelay = math.min(self.retry_delay * (2 ^ self.retry_count), self.__max_delay)
-
-            local newRequest = self:clone()
-                :setRetryCount(self.retry_count + 1)
-
-            Wait.time(
-                function()
-                    print(string.format("Retrying request (url: %s) - attempt %d", newRequest.url, newRequest.retry_count))
-                    newRequest:send()
-                end,
-                retryDelay
-            )
+            local retryAfter = response and response.getResponseHeader("Retry-After") or nil
+            local retryDelay = tonumber(retryAfter)
+            self:retry(retryDelay)
+        else
+            print(string.format("Request failed after %d retries (url: %s, code: %d)",
+                self.max_retry_count, self.url, statusCode))
         end
     end,
     --- 快捷发起GET请求
