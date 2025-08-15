@@ -210,6 +210,7 @@ function FactoryCreateTurnManager()
     -- Save and Load
     function manager:onSave()
         return {
+            record_id = self.record_id,
             first_player = self.first_player,
             current_player = self.current_player,
             round = self.round,
@@ -227,7 +228,8 @@ function FactoryCreateTurnManager()
     ---@return TurnManager
     function manager:onLoad(data)
         self.first_player = data.first_player
-        return self:setCurrentPlayer(data.current_player)
+        return self:setRecordId(data.record_id)
+                   :setCurrentPlayer(data.current_player)
                    :setRound(data.round)
                    :setLastRound(data.last_round)
                    :setState(data.state)
