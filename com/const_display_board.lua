@@ -283,7 +283,7 @@ ROLE_REGISTER_DICT = {
         [KWORD_ORDER]       = 10,
         [KWORD_DIFFICULTY]  = EnumRoleDifficulty.NORMAL,
         [KWORD_PREFERENCE]  = EnumRolePreference.NO_PREFERENCE,
-        [KWORD_NICKNAME]    = {"夏洛克", "商人"},
+        [KWORD_NICKNAME]    = {"夏洛克", "商人", "老头"},
         [KWORD_ITEM]        = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT01, index = 10, loc_idx = 1},
             [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF01, index = 19, loc_idx = 2},
@@ -397,7 +397,7 @@ ROLE_REGISTER_DICT = {
         [KWORD_ORDER]       = 20,
         [KWORD_DIFFICULTY]  = EnumRoleDifficulty.NORMAL,
         [KWORD_PREFERENCE]  = EnumRolePreference.NO_PREFERENCE,
-        [KWORD_NICKNAME]    = {"卡洛斯", "万法", "法师"},
+        [KWORD_NICKNAME]    = {"卡洛斯", "万法", "万咒", "法师"},
         [KWORD_ITEM]        = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT02, index = 8, loc_idx = 1},
             [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF02, index = 16, loc_idx = 2},
@@ -429,8 +429,8 @@ ROLE_REGISTER_DICT = {
     [KWORD_ROLE_FERESHTEH] = {
         [KWORD_ORDER]       = 23,
         [KWORD_DIFFICULTY]  = EnumRoleDifficulty.NORMAL,
-        [KWORD_PREFERENCE]  = EnumRolePreference.GATHERING,
-        [KWORD_NICKNAME]    = {"芙蕾什塔", "芙蕾", "神灯"},
+        [KWORD_PREFERENCE]  = EnumRolePreference.NO_PREFERENCE,
+        [KWORD_NICKNAME]    = {"芙蕾什塔", "芙蕾", "神灯", "商人"},
         [KWORD_ITEM]        = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT02, index = 11, loc_idx = 1},
             [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF02, index = 22, loc_idx = 2},
