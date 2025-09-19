@@ -175,7 +175,8 @@ KWORD_ROLE_ARYA = "role_arya" ---- 艾丽娅，驯鹰人
 KWORD_ROLE_CARLOS = "role_carlos" ---- 卡洛斯，万咒环身
 KWORD_ROLE_KAY = "role_kay" ---- 凯，嗜赌成性
 KWORD_ROLE_COLIN = "role_colin" ---- 科林，石拳
-KWORD_ROLE_FERESHTEH = "role_fereshteh"
+KWORD_ROLE_FERESHTEH = "role_fereshteh"  ---- 芙蕾什塔，丝路行商
+KWORD_ROLE_KASIM = "role_kasim"  ---- 卡西姆，祸福一念
 KWORD_ROLE_NEXT = "role_next" ---- 下一角色，用于测试
 
 
@@ -430,11 +431,22 @@ ROLE_REGISTER_DICT = {
         [KWORD_ORDER]       = 23,
         [KWORD_DIFFICULTY]  = EnumRoleDifficulty.NORMAL,
         [KWORD_PREFERENCE]  = EnumRolePreference.NO_PREFERENCE,
-        [KWORD_NICKNAME]    = {"芙蕾什塔", "芙蕾", "神灯", "商人"},
+        [KWORD_NICKNAME]    = {"芙蕾什塔", "芙蕾", "神灯", "波斯", "商人"},
         [KWORD_ITEM]        = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT02, index = 11, loc_idx = 1},
             [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF02, index = 22, loc_idx = 2},
             [3] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF02, index = 23, loc_idx = 3},
+        }
+    },
+    [KWORD_ROLE_KASIM] = {
+        [KWORD_ORDER]       = 24,
+        [KWORD_DIFFICULTY]  = EnumRoleDifficulty.NORMAL,
+        [KWORD_PREFERENCE]  = EnumRolePreference.GATHERING,
+        [KWORD_NICKNAME]    = {"卡西姆", "阿里巴巴", "芝麻", "波斯", "商人"},
+        [KWORD_ITEM]        = {
+            [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT02, index = 12, loc_idx = 1},
+            [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF02, index = 24, loc_idx = 2},
+            [3] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF02, index = 25, loc_idx = 3},
         }
     }
 }
