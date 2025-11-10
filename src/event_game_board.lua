@@ -295,15 +295,30 @@ local function applyBPStrategyStandard()
     )
 end
 
-function onButtonClickSetGameModeFinished(_, _, _)
+---@class EnumDialogSoloMode
+---@field YES_12 string
+---@field YES_10 string
+---@field NO string
+---@field TIMEOUT string
+EnumDialogSoloMode = Enum({
+    YES_12 = "新手单人模式(12轮)",
+    YES_10 = "老手单人模式(10轮)",
+    NO = "不开启",
+    TIMEOUT = "超时"
+})
+
+function onButtonClickSetGameModeFinished(_, player_clicker_color, _)
+    -- cache game instance
     local publicService = GAME:getPublicService()
+    local playerService = GAME:getPlayerService()
+    local turnManager = GAME:getTurnManager()
     local gameModeManager = publicService:getGameModeManager()
 
     -- quick break if game mode is not setable
     if not isGameModeSetable() then return end
 
     -- set game mode finished
-    publicService:getGameModeManager():setIsSet(true)
+    gameModeManager:setIsSet(true)
     updateGameMode({}, true)
 
     -- trigger game mode set event
@@ -311,5 +326,30 @@ function onButtonClickSetGameModeFinished(_, _, _)
     local bp_strategy = gameModeManager.bp_strategy
     if enable_role and bp_strategy == EnumBPStrategy.STANDARD then
         applyBPStrategyStandard()
+    end
+
+    -- extra setting solo mode
+    if playerService:getSeatedPlayerNum() == 1 then
+        broadcastToAll("检测到只有一名玩家, 请选择是否开启单人模式")
+        local player = playerService:getPlayerObject(player_clicker_color)
+        if not player then return end
+        -- show dialog to player
+        player.showOptionsDialog(
+            "是否要开启单人模式？",
+            {EnumDialogSoloMode.YES_12, EnumDialogSoloMode.YES_10, EnumDialogSoloMode.NO},
+            1,
+            function(selectedText, _, _)
+                -- IF NO is selected, do nothing
+                if selectedText == EnumDialogSoloMode.NO then
+                    return
+                elseif selectedText == EnumDialogSoloMode.YES_12 then
+                    gameModeManager:setIsSolo(EnumIsSolo.YES)
+                    turnManager:setLastRound(12)
+                elseif selectedText == EnumDialogSoloMode.YES_10 then
+                    gameModeManager:setIsSolo(EnumIsSolo.YES)
+                    turnManager:setLastRound(10)
+                end
+            end
+        )
     end
 end

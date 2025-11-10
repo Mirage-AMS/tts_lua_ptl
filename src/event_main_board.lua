@@ -344,11 +344,47 @@ function onButtonClickClaimFirst(_, player_clicker_color, alt_click)
     turnManager:setTurnColor(player_clicker_color)
     turnManager:setTurnEnable(true)
 
-    ---- shuffle all conventicle cards back
+    -- shuffle all conventicle cards back
     local itemManager = GAME:getPublicItemManager()
     local conventicleZone = itemManager:getZone(NAME_ZONE_CONVENTICLE)
     if conventicleZone ~= nil then
         conventicleZone:getRebuildDeckObj()
+    end
+
+    -- solo mode actions
+    local publicService = GAME:getPublicService()
+    if publicService:isSoloMode() then
+        broadcastToAll("单人模式，弃置所有区域一半卡牌")
+        local __splitPublicZoneCards = function()
+            -- fill zone display slots
+            for _, zoneName in ipairs(PUBLIC_ZONE_NAME_LIST) do
+                local zone = itemManager:getZone(zoneName)
+                if zone ~= nil then
+                    local deckObj = zone:getDeckObj()
+                    local decks = splitCard(deckObj, 2)
+                    if #decks == 2 then
+                        zone:setObjDiscard(decks[1])
+                    end
+                end
+            end
+        end
+        local __checkConventicleRebuildFinished = function()
+            if conventicleZone == nil then return true end  -- which is impossible, but just for safety
+            local discardSlot = conventicleZone.discard_slot
+            if discardSlot == nil then return true end -- which is impossible, but just for safety
+            return #discardSlot:getCardObjects() == 0
+        end
+
+        Wait.condition(
+            -- runFunc: discard half of the decks
+            __splitPublicZoneCards,
+            -- conditionFunc: rebuild finished
+            __checkConventicleRebuildFinished,
+            -- timeout
+            3,
+            -- onTimeout: run as usual
+            __splitPublicZoneCards
+        )
     end
 end
 

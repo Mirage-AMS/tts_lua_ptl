@@ -4,11 +4,13 @@ require("com/enum_const")
 ---@field is_set boolean
 ---@field deck_set number: default as EnumDeckSet.STD
 ---@field game_goal number: default as EnumGameGoal.QUICK
+---@field is_solo number: default as EnumIsSolo.NO
 ---@field enable_role boolean: default as false
 ---@field bp_strategy number: default as EnumBPStrategy.FREE
 ---@field setIsSet fun(self: GameModeManager, isSet: boolean): GameModeManager
 ---@field setDeckSet fun(self: GameModeManager, deckSet: number): GameModeManager
 ---@field setGameGoal fun(self: GameModeManager, gameGoal: number): GameModeManager
+---@field setIsSolo fun(self: GameModeManager, isSolo: number): GameModeManager
 ---@field setEnableRole fun(self: GameModeManager, enableRole: boolean): GameModeManager
 ---@field setBPStrategy fun(self: GameModeManager, bpStrategy: number): GameModeManager
 ---@field set fun(self: GameModeManager, data: table): GameModeManager
@@ -25,6 +27,7 @@ function FactoryCreateGameModeManager()
         enable_role = false,
         deck_set = EnumDeckSet.STD,
         game_goal = EnumGameGoal.QUICK,
+        is_solo = EnumIsSolo.NO,
         bp_strategy = EnumBPStrategy.FREE
     }
 
@@ -50,6 +53,13 @@ function FactoryCreateGameModeManager()
         return self
     end
 
+    function game_mode_manager:setIsSolo(isSolo)
+        if EnumIsSolo(isSolo) then
+            self.is_solo = isSolo
+        end
+        return self
+    end
+
     function game_mode_manager:setEnableRole(enableRole)
         if enableRole ~= nil and type(enableRole) == "boolean" then
             self.enable_role = enableRole
@@ -70,6 +80,7 @@ function FactoryCreateGameModeManager()
             self:setIsSet(data.is_set)
                 :setDeckSet(data.deck_set)
                 :setGameGoal(data.game_goal)
+                :setIsSolo(data.is_solo)
                 :setEnableRole(data.enable_role)
                 :setBPStrategy(data.bp_strategy)
         end
@@ -81,6 +92,7 @@ function FactoryCreateGameModeManager()
             is_set = self.is_set,
             deck_set = self.deck_set,
             game_goal = self.game_goal,
+            is_solo = self.is_solo,
             enable_role = self.enable_role,
             bp_strategy = self.bp_strategy,
         }

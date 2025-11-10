@@ -81,6 +81,7 @@ local VotingSystem = (function()
         local initiatorName = initiator.steam_name or initiator.color
 
         local playerService = GAME:getPlayerService()
+        local publicService = GAME:getPublicService()
         local seatedPlayerColorList = playerService:getSeatedPlayerColorList()
 
         ---@type PlayerInstance[]
@@ -98,9 +99,20 @@ local VotingSystem = (function()
         end
 
         if #votingPlayers == 0 then
-            broadcastToColor("发起投票失败: 没有可投票的玩家", initiator.color, DEFAULT_COLOR_WHITE)
-            isVotingInProgress = false  -- 重置状态
-            return
+            if not publicService:isSoloMode() then
+                broadcastToColor("发起投票失败: 没有可投票的玩家", initiator.color, DEFAULT_COLOR_WHITE)
+                isVotingInProgress = false  -- 重置状态
+                return
+            else
+                __calculateVotingResult(
+                    initiator,
+                    {initiator},                                -- 单人模式下，投票者为发起者自己
+                    {[initiator] = EnumDialogConfirm.YES},      -- 自己投同意票
+                    {[initiator] = false},            -- 无需秘密标注
+                    false
+                )
+                return
+            end
         end
 
         local timeoutSeconds = 15

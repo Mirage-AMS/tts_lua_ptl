@@ -29,6 +29,11 @@ EnumDeckSet = Enum({ STD = 1, DLC01 = 2, DLC02 = 3,})
 ---@field __call(number): boolean
 EnumGameGoal = Enum({QUICK = 1, STANDARD = 2,})
 
+---@class EnumIsSolo
+---@field NO number
+---@field YES number
+EnumIsSolo = Enum({NO = 1, YES = 2})
+
 ---@class EnumBPStrategy
 ---@field FREE number
 ---@field STANDARD number

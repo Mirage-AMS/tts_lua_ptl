@@ -34,6 +34,7 @@ require("mock/vector")
 ---@field setPosition fun(vector: Vector): boolean
 ---@field setPositionSmooth fun(vector: Vector, collide?: boolean, fast?: boolean): boolean
 ---@field shuffle fun(): boolean
+---@field split fun(piles: number?): Object[]
 ---@field takeObject fun(param?: table<string, any>): Object
 Object = {}
 

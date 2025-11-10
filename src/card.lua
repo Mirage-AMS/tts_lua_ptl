@@ -88,6 +88,19 @@ function numCard(obj)
     end
 end
 
+---splitCard: split a card into number of cards
+---@param obj Object? object to split
+---@param num number? number of cards to split into
+---@return Object[] result array of cards
+function splitCard(obj, num)
+    -- quick error break
+    if not obj or not isCardLike(obj) then
+        return {}
+    end
+    -- normal
+    return obj.split(num)
+end
+
 
 --- registerCard: generate all deck items and register info on them
 --- @param deck any: The deck to register.

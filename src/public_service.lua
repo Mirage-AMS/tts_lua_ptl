@@ -13,6 +13,7 @@ require("src/mode_manager")
 ---@field getGameModeManager fun(self: PublicService): GameModeManager
 ---@field isGameModeSet fun(self: PublicService): boolean
 ---@field isDevMode fun(self: PublicService): boolean
+---@field isSoloMode fun(self: PublicService): boolean
 ---@field getPublicBoard fun(self: PublicService, name: string): Board?
 ---@field getPublicZone fun(self: PublicService, name: string): Zone?
 ---@field getDevDeck fun(self: PublicService, prefix: string): Object?
@@ -75,6 +76,11 @@ function FactoryCreatePublicService()
     ---@return boolean
     function service:isDevMode()
         return self:getModeManager():isDevMode()
+    end
+
+    ---@return boolean
+    function service:isSoloMode()
+        return self:getGameModeManager().is_solo == EnumIsSolo.YES
     end
 
     ---@param name string: name of board
