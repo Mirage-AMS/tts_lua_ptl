@@ -323,8 +323,12 @@ function onButtonClickClaimFirst(_, player_clicker_color, alt_click)
         return
     end
 
-    -- quick break if game has started
+    -- quick break if game has started or game never started
     local turnManager = GAME:getTurnManager()
+    if turnManager:getState() <= 0 then
+        broadcastToColor("请先点击开局", player_clicker_color)
+        return
+    end
     if turnManager:isGameStart() then
         if turnManager:isTurnEnable() then
             broadcastToColor("已经开局, 请勿重复操作", player_clicker_color)
@@ -363,28 +367,14 @@ function onButtonClickClaimFirst(_, player_clicker_color, alt_click)
                     local deckObj = zone:getDeckObj()
                     local decks = splitCard(deckObj, 2)
                     if #decks == 2 then
-                        zone:setObjDiscard(decks[1])
+                        local targetDeck = decks[1]
+                        targetDeck.setRotationSmooth(Vector(__CARD_ROTATION_FACE_UP))
+                        zone:setObjDiscard(targetDeck)
                     end
                 end
             end
         end
-        local __checkConventicleRebuildFinished = function()
-            if conventicleZone == nil then return true end  -- which is impossible, but just for safety
-            local discardSlot = conventicleZone.discard_slot
-            if discardSlot == nil then return true end -- which is impossible, but just for safety
-            return #discardSlot:getCardObjects() == 0
-        end
-
-        Wait.condition(
-            -- runFunc: discard half of the decks
-            __splitPublicZoneCards,
-            -- conditionFunc: rebuild finished
-            __checkConventicleRebuildFinished,
-            -- timeout
-            3,
-            -- onTimeout: run as usual
-            __splitPublicZoneCards
-        )
+        Wait.time(__splitPublicZoneCards,1)
     end
 end
 

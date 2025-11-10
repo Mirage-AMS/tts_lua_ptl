@@ -301,8 +301,8 @@ end
 ---@field NO string
 ---@field TIMEOUT string
 EnumDialogSoloMode = Enum({
-    YES_12 = "新手单人模式(12轮)",
-    YES_10 = "老手单人模式(10轮)",
+    YES_12 = "新手Solo(12轮)",
+    YES_10 = "老手Solo(10轮)",
     NO = "不开启",
     TIMEOUT = "超时"
 })
@@ -316,6 +316,12 @@ function onButtonClickSetGameModeFinished(_, player_clicker_color, _)
 
     -- quick break if game mode is not setable
     if not isGameModeSetable() then return end
+
+    -- quick break if no player seated
+    if playerService:getSeatedPlayerNum() == 0 then
+        broadcastToAll("没有玩家就座, 请先就座")
+        return
+    end
 
     -- set game mode finished
     gameModeManager:setIsSet(true)
@@ -339,16 +345,23 @@ function onButtonClickSetGameModeFinished(_, player_clicker_color, _)
             {EnumDialogSoloMode.YES_12, EnumDialogSoloMode.YES_10, EnumDialogSoloMode.NO},
             1,
             function(selectedText, _, _)
+                -- IF GAME HAS ALREADY STARTED, DO NOTHING
+                if turnManager:isGameStart() then
+                    broadcastToAll("游戏已经开局, 无法再开启单人模式")
+                    return
+                end
                 -- IF NO is selected, do nothing
                 if selectedText == EnumDialogSoloMode.NO then
                     return
-                elseif selectedText == EnumDialogSoloMode.YES_12 then
-                    gameModeManager:setIsSolo(EnumIsSolo.YES)
+                end
+
+                gameModeManager:setIsSolo(EnumIsSolo.YES)
+                if selectedText == EnumDialogSoloMode.YES_12 then
                     turnManager:setLastRound(12)
                 elseif selectedText == EnumDialogSoloMode.YES_10 then
-                    gameModeManager:setIsSolo(EnumIsSolo.YES)
                     turnManager:setLastRound(10)
                 end
+                broadcastToAll("单人模式已开启, 总轮次数为: " .. turnManager:getLastRound())
             end
         )
     end

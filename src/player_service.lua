@@ -84,9 +84,23 @@ function FactoryCreatePlayerService()
         return self:getPlayerProperty(player_color, "steam_id")
     end
 
+    ---TTS function regard white player as a seated player, which shall be corrected here.
     ---@return string[]
     function service:getSeatedPlayerColorList()
-        return getSeatedPlayers()
+        local result = {}
+        local originalSeatedPlayers = getSeatedPlayers()
+
+        -- if tts return {} or nil, return empty list directly.
+        if not originalSeatedPlayers or #originalSeatedPlayers == 0 then
+            return result
+        end
+
+        for _, player_color in ipairs(originalSeatedPlayers) do
+            if self:isPlayerDefault(player_color) then
+                table.insert(result, player_color)
+            end
+        end
+        return result
     end
 
     function service:getSeatedPlayerNum()

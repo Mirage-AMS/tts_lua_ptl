@@ -279,6 +279,7 @@ function FactoryCreateGame()
         -- init development mode settings
         if publicService:isDevMode() then
             addContextMenuItem("Quit Dev-Mode", QuitDevMode, false)
+            print("当前脚本版本为 " .. SCRIPT_VERSION)
         else
             Wait.frames(
                 function()
