@@ -70,6 +70,7 @@ function onPlayerTurn(player, _)
     --------------------------------------------------------------------
 
     -- Current Player Update
+    local publicService = GAME:getPublicService()
     turnManager:setCurrentPlayer(player_color)
 
     if player_color == turnManager:getFirstPlayer() then
@@ -103,12 +104,20 @@ function onPlayerTurn(player, _)
             return
         end
 
-        broadcastToAll("第" .. turnManager:getRound() .. "轮开始", DEFAULT_COLOR_WHITE)
+        if publicService:isSoloMode() then
+            broadcastToAll("第" .. turnManager:getRound() .. "/" .. turnManager:getLastRound() .. "轮开始", DEFAULT_COLOR_WHITE)
+        else
+            broadcastToAll("第" .. turnManager:getRound() .. "轮开始", DEFAULT_COLOR_WHITE)
+        end
     end
 
     -- Last Round Broadcast
     if turnManager:isLastRound() then
-        broadcastToAll("本轮为公平轮, 本轮结束后游戏结束", DEFAULT_COLOR_WHITE)
+        if publicService:isSoloMode() then
+            broadcastToAll("最后一轮", DEFAULT_COLOR_WHITE)
+        else
+            broadcastToAll("本轮为公平轮, 本轮结束后游戏结束", DEFAULT_COLOR_WHITE)
+        end
     end
 
     -- Turn Update
