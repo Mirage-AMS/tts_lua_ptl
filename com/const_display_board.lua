@@ -178,6 +178,7 @@ KWORD_ROLE_COLIN = "role_colin" ---- 科林，石拳
 KWORD_ROLE_FERESHTEH = "role_fereshteh"  ---- 芙蕾什塔，丝路行商
 KWORD_ROLE_KASIM = "role_kasim"  ---- 卡西姆，祸福一念
 KWORD_ROLE_LOUIS = "role_louis"  ---- “庸王”路易
+KWORD_ROLE_FACELESS = "role_faceless"  ---- “无面人”
 KWORD_ROLE_NEXT = "role_next" ---- 下一角色，用于测试
 
 
@@ -458,6 +459,17 @@ ROLE_REGISTER_DICT = {
         [KWORD_ITEM]        = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT02, index = 13, loc_idx = 1},
             [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF02, index = 26, loc_idx = 2},
+        }
+    },
+    [KWORD_ROLE_FACELESS] = {
+        [KWORD_ORDER]       = 26,
+        [KWORD_DIFFICULTY]  = EnumRoleDifficulty.HARD,
+        [KWORD_PREFERENCE]  = EnumRolePreference.NO_PREFERENCE,
+        [KWORD_NICKNAME]    = {"无脸", "无面"},
+        [KWORD_ITEM]        = {
+            [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT02, index = 14, loc_idx = 1},
+            [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF02, index = 27, loc_idx = 2},
+            [3] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF02, index = 28, loc_idx = 3},
         }
     },
 }
