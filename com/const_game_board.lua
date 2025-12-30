@@ -58,7 +58,8 @@ PARAM_GAME_BOARD_SWITCH_BUTTON_CHANGE = {
     },
     [2] = {
         [EnumDeckSet.STD] = {label = "牌堆-标准", tooltip = "点击切换至牌堆-Dlc01", color = __BUTTON_COLOR_DEFAULT},
-        [EnumDeckSet.DLC01] = {label ="牌堆-Dlc01", tooltip = "点击切换至牌堆-标准", color = __BUTTON_COLOR_YELLOW},
+        [EnumDeckSet.DLC01] = {label ="牌堆-Dlc01", tooltip = "点击切换至牌堆-Dlc02", color = __BUTTON_COLOR_YELLOW},
+        [EnumDeckSet.DLC02] = {label ="牌堆-Dlc02", tooltip = "点击切换至牌堆-标准", color = __BUTTON_COLOR_PURPLE},
     },
     [3] = {
         [false] = {label = "角色-禁用", tooltip = "点击启用角色", color = __BUTTON_COLOR_DEFAULT},

@@ -133,10 +133,13 @@ local function updateDeckSet(deckSet)
     }
     if deckSet == EnumDeckSet.STD then
         zoneReflect[NAME_ZONE_CONVENTICLE] = {PREFIX_CO_STD02, PREFIX_CO_STD01,}
-        zoneReflect[NAME_ZONE_MARKET] = {PREFIX_MA_STD01,}
+        zoneReflect[NAME_ZONE_MARKET] = {PREFIX_MA_STD02, PREFIX_MA_STD01,}
     elseif deckSet == EnumDeckSet.DLC01 then
         zoneReflect[NAME_ZONE_CONVENTICLE] = {PREFIX_CO_DLC01, PREFIX_CO_STD02, PREFIX_CO_STD01,}
-        zoneReflect[NAME_ZONE_MARKET] = {PREFIX_MA_DLC01, PREFIX_MA_STD01,}
+        zoneReflect[NAME_ZONE_MARKET] = {PREFIX_MA_DLC01, PREFIX_MA_STD02, PREFIX_MA_STD01,}
+    elseif deckSet == EnumDeckSet.DLC02 then
+        zoneReflect[NAME_ZONE_CONVENTICLE] = {PREFIX_CO_DLC02, PREFIX_CO_DLC01, PREFIX_CO_STD02,}
+        zoneReflect[NAME_ZONE_MARKET] = {PREFIX_MA_DLC02, PREFIX_MA_DLC01, PREFIX_MA_STD02,}
     end
 
     setDeckPosition(zoneReflect)
