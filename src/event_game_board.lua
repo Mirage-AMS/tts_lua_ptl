@@ -61,6 +61,18 @@ local function setDeckPosition(zoneReflect)
     end
 end
 
+--- set Board visibility
+---@param boardReflect table<string, boolean>
+local function setBoardVisibility(boardReflect)
+    local publicService = GAME:getPublicService()
+    for boardName, boardVisibility in pairs(boardReflect) do
+        local eachBoard = publicService:getPublicBoard(boardName)
+        if not eachBoard then
+            error("fatal error: publicService:getPublicBoard(\"" .. boardName .. "\") is nil")
+        end
+        eachBoard:setVisible(boardVisibility)
+    end
+end
 
 --- update game goal
 ---@param gameGoal number
@@ -142,7 +154,15 @@ local function updateDeckSet(deckSet)
         zoneReflect[NAME_ZONE_MARKET] = {PREFIX_MA_DLC02, PREFIX_MA_DLC01, PREFIX_MA_STD02,}
     end
 
+    -- set board visibility
+    local boardReflect = {
+        -- 默认隐藏，只有 DLC01/DLC02 才开启
+        [NAME_BOARD_MECHANISM] = (deckSet == EnumDeckSet.DLC01 or deckSet == EnumDeckSet.DLC02)
+    }
+
+    -- execution
     setDeckPosition(zoneReflect)
+    setBoardVisibility(boardReflect)
 end
 
 -- update enable role

@@ -10,6 +10,8 @@ require("mock/default")
 ---@field createInput fun(self: Board, param: table)
 ---@field editInput fun(self: Board, param: table)
 ---@field setInteractable fun(self: Board, interactable: boolean)
+---@field getHideId fun(self: Board): string
+---@field setVisible fun(self: Board, visible: boolean)
 ---@field getValueByIndex fun(self: Board, index: number): number?
 ---@field tiltValueByIndex fun(self: Board, index: number, value: number)
 ---@field onSave fun(self: Board): table
@@ -79,6 +81,23 @@ function FactoryCreateBoard()
         end
         self.object.interactable = interactable
     end
+
+    function board:getHideId()
+        if not self.object then
+            error("fatal error: Board object is nil")
+        end
+        return self.guid .. "_hide_board"
+    end
+
+    ---@param visible boolean if false, the board will not be visible
+    function board:setVisible(visible)
+        if not self.object then
+            error("fatal error: Board object is nil")
+        end
+        local hideId = self:getHideId()
+        self.object.attachInvisibleHider(hideId, not visible)
+    end
+
     -- --------------------------------------------------
     -- Function Below only applies to Role Board
     -- --------------------------------------------------

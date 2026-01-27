@@ -166,6 +166,7 @@ function buildDefaultData()
                     [NAME_BOARD_MAIN] = { guid = GUID_MAIN_BOARD },
                     [NAME_BOARD_GAME] = { guid = GUID_GAME_BOARD },
                     [NAME_BOARD_DEVELOPMENT] = { guid = GUID_DEV_BOARD },
+                    [NAME_BOARD_MECHANISM] = {guid = GUID_MECHANISM_BOARD },
                 },
                 displayBoards = {
                     [NAME_BOARD_DISPLAY] = { guid = GUID_DISPLAY_BOARD}

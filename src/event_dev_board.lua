@@ -95,7 +95,7 @@ function setDevBoardHidden()
     if not devBoard or not devBoard.object then
         error("fatal error: devBoard not found")
     end
-    devBoard.object.attachInvisibleHider(hideId, true, DEFAULT_ALL_COLOR_LIST)
+    devBoard:setVisible(false)
 
     --- hide dev zone's cards
     local devZoneName = NAME_ZONE_DEVELOPMENT

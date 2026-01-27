@@ -3,6 +3,7 @@ require("com/enum_const")
 
 --Boards ----------------------------------------------------------------------------------
 NAME_BOARD_GAME = "game_board"
+NAME_BOARD_MECHANISM = "mechanism_board"
 
 -- Buttons ----------------------------------------------------------------------------
 GAME_BOARD_BUTTON_SCALE = {x=0.6,z=0.6,y=1}
@@ -129,3 +130,4 @@ LIST_PARAM_SCRIPTING_ROLE_PICK = {
 
 -- variant
 GUID_GAME_BOARD = "ef690b"
+GUID_MECHANISM_BOARD = ""
