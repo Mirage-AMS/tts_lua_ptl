@@ -86,7 +86,6 @@ end
 
 --- setDevBoardHidden: Hide the development board and all its components.
 function setDevBoardHidden()
-    local hideId = "DevBoardHider"
     local publicService = GAME:getPublicService()
 
     --- hide dev board
@@ -95,6 +94,7 @@ function setDevBoardHidden()
     if not devBoard or not devBoard.object then
         error("fatal error: devBoard not found")
     end
+    local hideId = devBoard:getHideId()
     devBoard:setVisible(false)
 
     --- hide dev zone's cards
@@ -114,7 +114,7 @@ function setDevBoardHidden()
         if not eachDeck then
             error("fatal error: getDevDeck[" .. prefix .. "] is nil")
         end
-        eachDeck.attachInvisibleHider(hideId, true, DEFAULT_ALL_COLOR_LIST)
+        eachDeck.attachInvisibleHider(hideId, true)
     end
 end
 
