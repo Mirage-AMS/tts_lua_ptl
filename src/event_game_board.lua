@@ -279,7 +279,7 @@ onButtonClickSwitchGameGoal = onButtonClickToggle(
 
 onButtonClickSwitchDeckSet = onButtonClickToggle(
     "deck_set",
-    {EnumDeckSet.STD, EnumDeckSet.DLC01},
+    {EnumDeckSet.STD, EnumDeckSet.DLC02, EnumDeckSet.DLC01},
     function() return GAME:getPublicService():getGameModeManager().deck_set end
 )
 
