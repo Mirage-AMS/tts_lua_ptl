@@ -71,6 +71,8 @@ local function setBoardVisibility(boardReflect)
             error("fatal error: publicService:getPublicBoard(\"" .. boardName .. "\") is nil")
         end
         eachBoard:setVisible(boardVisibility)
+        -- if board can be seen, it shall be interactable
+        eachBoard:setInteractable(boardVisibility)
     end
 end
 
