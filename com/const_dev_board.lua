@@ -15,8 +15,10 @@ PREFIX_CO_DLC01 = "CO_DLC01"
 PREFIX_CO_DLC02 = "CO_DLC02"
 PREFIX_RO_INT01 = "RO_INT01"
 PREFIX_RO_INT02 = "RO_INT02"
+PREFIX_RO_INT03 = "RO_INT03"
 PREFIX_RO_INF01 = "RO_INF01"
 PREFIX_RO_INF02 = "RO_INF02"
+PREFIX_RO_INF03 = "RO_INF03"
 PREFIX_LG_STD01 = "LG_STD01"
 PREFIX_AC_STD01 = "AC_STD01"
 PREFIX_AC_STD02 = "AC_STD02"
@@ -25,8 +27,8 @@ DECK_LIST = {
     PREFIX_MO_STD01, PREFIX_FO_STD01, PREFIX_DU_STD01,
     PREFIX_MA_STD01, PREFIX_MA_STD02, PREFIX_MA_DLC01, PREFIX_MA_DLC02,
     PREFIX_CO_STD01, PREFIX_CO_STD02, PREFIX_CO_DLC01, PREFIX_CO_DLC02,
-    PREFIX_RO_INT01, PREFIX_RO_INT02,
-    PREFIX_RO_INF01, PREFIX_RO_INF02,
+    PREFIX_RO_INT01, PREFIX_RO_INT02, PREFIX_RO_INT03,
+    PREFIX_RO_INF01, PREFIX_RO_INF02, PREFIX_RO_INF03,
     PREFIX_LG_STD01, PREFIX_AC_STD01, PREFIX_AC_STD02,
 }
 
@@ -120,6 +122,9 @@ DECK_INFO = {
         "艾丽娅，驯鹰人","卡洛斯，万咒环身","凯，嗜赌成性","科林，石拳","芙蕾什塔，丝路行商","卡西姆，祸福一念",
         "“庸王”路易","“无面人”"
     },
+    [PREFIX_RO_INT03] = {
+        "爱德温，猩红梦魇", "爱德温，猩红梦魇"
+    },
     [PREFIX_RO_INF01] = {
         "嗜血药剂","达维安的巨人杀手","卓越战技：诱敌深入","卓越战技：决胜一击","金刚铸魂","激昂澎湃",
         "活力药剂","润物无声","波娜的记账簿","冰火轮舞","优雅之舞","风之华舞",
@@ -132,6 +137,9 @@ DECK_INFO = {
         "林地作业","林中小屋","鹰舍邂逅","万咒法典","法术研习","老千惯犯",
         "连战连胜","碎岩击","石锢千劫","以物易物","异域神灯","芝麻开门","铤而走险",
         "庸王自扰","千人千面","剥皮刀"
+    },
+    [PREFIX_RO_INF03] = {
+        "血族转变", "嗜血猎手",
     },
 
     -- Legend ---------------------------------------------------------
