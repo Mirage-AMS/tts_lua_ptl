@@ -123,7 +123,7 @@ DECK_INFO = {
         "“庸王”路易","“无面人”"
     },
     [PREFIX_RO_INT03] = {
-        "爱德温，猩红梦魇", "爱德温，猩红梦魇"
+        "爱德温，猩红梦魇", "荷莉，名门遗孤", " "
     },
     [PREFIX_RO_INF01] = {
         "嗜血药剂","达维安的巨人杀手","卓越战技：诱敌深入","卓越战技：决胜一击","金刚铸魂","激昂澎湃",
@@ -139,7 +139,7 @@ DECK_INFO = {
         "庸王自扰","千人千面","剥皮刀"
     },
     [PREFIX_RO_INF03] = {
-        "血族转变", "嗜血猎手",
+        "血族转变", "嗜血猎手", "隐身斗篷", "唤灵魔石", "古老魔杖",
     },
 
     -- Legend ---------------------------------------------------------
@@ -183,9 +183,11 @@ DEVELOPMENT_ZONE_DISPLAY_SLOT_SETUP = {
     -- 4rd part
     [PREFIX_RO_INT01] = 13,
     [PREFIX_RO_INT02] = 14,
+    [PREFIX_RO_INT03] = 15,
     -- 5rd part
     [PREFIX_RO_INF01] = 17,
     [PREFIX_RO_INF02] = 18,
+    [PREFIX_RO_INF03] = 19,
     -- 6th part
     [PREFIX_LG_STD01] = 21,
     [PREFIX_AC_STD01] = 22,

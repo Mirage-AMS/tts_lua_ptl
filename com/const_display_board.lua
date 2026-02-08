@@ -180,6 +180,7 @@ KWORD_ROLE_KASIM = "role_kasim"  ---- 卡西姆，祸福一念
 KWORD_ROLE_LOUIS = "role_louis"  ---- “庸王”路易
 KWORD_ROLE_FACELESS = "role_faceless"  ---- “无面人”
 KWORD_ROLE_EDWIN = "role_edwin"  ---- 爱德温，猩红梦魇
+KWORD_ROLE_HOLLY = "role_holly"  ---- 霍莉，名门遗孤
 KWORD_ROLE_NEXT = "role_next" ---- 下一角色，用于测试
 
 
@@ -482,6 +483,18 @@ ROLE_REGISTER_DICT = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT03, index = 1, loc_idx = 1},
             [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 1, loc_idx = 2},
             [3] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 2, loc_idx = 3},
+        }
+    },
+    [KWORD_ROLE_HOLLY] = {
+        [KWORD_ORDER]       = 28,
+        [KWORD_DIFFICULTY]  = EnumRoleDifficulty.NORMAL,
+        [KWORD_PREFERENCE]  = EnumRolePreference.HUNTING,
+        [KWORD_NICKNAME]    = {"荷莉", "哈利", "隐形", "复活", "魔杖"},
+        [KWORD_ITEM]        = {
+            [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT03, index = 2, loc_idx = 1},
+            [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 3, loc_idx = 2},
+            [3] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 4, loc_idx = 3, loc_idxx = 1},
+            [4] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 5, loc_idx = 3, loc_idxx = 2},
         }
     },
 }
