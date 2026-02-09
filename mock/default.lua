@@ -7,6 +7,7 @@ require("mock/vector")
 ---@field name string Name of the object
 ---@field nickname string Nickname of the object
 ---@field tags string[]? A table of  representing the tags on the contained object.
+---@field remainder Object? This variable provides a reference to the remaining object when it is being spawned. Otherwise, it's nil. Read only.
 ---@field __call fun(param?: table<string, any>): Object
 ---@field new fun(param?: table<string, any>): Object
 ---@field getButtons fun(): table<string, any>[] indexes start at 0

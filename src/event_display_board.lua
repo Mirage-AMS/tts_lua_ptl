@@ -205,7 +205,8 @@ local function setupRoleItem(infoList)
                     local clonedObject = deck.clone({position = pos, rotation = rot})
                     local takeParam = {index = item.index - 1, position = pos, rotation = rot}
                     clonedObject.takeObject(takeParam).setLock(true)
-                    clonedObject.destruct()
+                    local remnantObject = clonedObject.remainder and clonedObject.remainder or clonedObject
+                    remnantObject.destruct()
                 end
             end
         end
