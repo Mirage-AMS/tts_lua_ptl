@@ -180,7 +180,7 @@ local function updateEnableRole(enableRole)
     -- set new deck set
     if enableRole then
         local zoneReflect = {
-            [NAME_ZONE_ROLE_PICK] = {PREFIX_RO_INT02, PREFIX_RO_INT01}
+            [NAME_ZONE_ROLE_PICK] = {PREFIX_RO_INT03, PREFIX_RO_INT02, PREFIX_RO_INT01}
         }
         setDeckPosition(zoneReflect)
     end
