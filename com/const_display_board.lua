@@ -181,6 +181,7 @@ KWORD_ROLE_LOUIS = "role_louis"  ---- “庸王”路易
 KWORD_ROLE_FACELESS = "role_faceless"  ---- “无面人”
 KWORD_ROLE_EDWIN = "role_edwin"  ---- 爱德温，猩红梦魇
 KWORD_ROLE_HOLLY = "role_holly"  ---- 霍莉，名门遗孤
+KWORD_ROLE_MORGAN = "role_morgan"  ---- 摩根，猎巫将军
 KWORD_ROLE_NEXT = "role_next" ---- 下一角色，用于测试
 
 
@@ -495,6 +496,17 @@ ROLE_REGISTER_DICT = {
             [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 3, loc_idx = 2},
             [3] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 4, loc_idx = 3, loc_idxx = 1},
             [4] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 5, loc_idx = 3, loc_idxx = 2},
+        }
+    },
+    [KWORD_ROLE_MORGAN] = {
+        [KWORD_ORDER]       = 29,
+        [KWORD_DIFFICULTY]  = EnumRoleDifficulty.NORMAL,
+        [KWORD_PREFERENCE]  = EnumRolePreference.NO_PREFERENCE,
+        [KWORD_NICKNAME]    = {"摩根", "猎巫", "将军", "杀手"},
+        [KWORD_ITEM]        = {
+            [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT03, index = 3, loc_idx = 1},
+            [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 6, loc_idx = 2},
+            [3] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 7, loc_idx = 3},
         }
     },
 }
