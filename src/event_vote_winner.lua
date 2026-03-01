@@ -155,7 +155,7 @@ local VotingSystem = (function()
             voter.showOptionsDialog(
                 "请投票决定是否同意 "..initiatorName.." 胜利",
                 {EnumDialogConfirm.YES, EnumDialogConfirm.NO},
-                2,  -- 默认选择"否"
+                1,  -- 默认选择"是"
                 function(selectedText, selectedIndex, playerColor)
                     -- 如果投票已结束（超时或全部完成），不再处理
                     if isVotingCompleted then return end
