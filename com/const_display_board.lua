@@ -183,6 +183,7 @@ KWORD_ROLE_EDWIN = "role_edwin"  ---- 爱德温，猩红梦魇
 KWORD_ROLE_HOLLY = "role_holly"  ---- 霍莉，名门遗孤
 KWORD_ROLE_MORGAN = "role_morgan"  ---- 摩根，猎巫将军
 KWORD_ROLE_IRJA = "role_irja"  ---- 伊尔嘉，极境织晶
+KWORD_ROLE_CASALE = "role_casale"  ---- 卡萨尔，盲眼修士
 KWORD_ROLE_NEXT = "role_next" ---- 下一角色，用于测试
 
 
@@ -519,6 +520,16 @@ ROLE_REGISTER_DICT = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT03, index = 4, loc_idx = 1},
             [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 8, loc_idx = 2},
             [3] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 9, loc_idx = 3},
+        }
+    },
+    [KWORD_ROLE_CASALE] = {
+        [KWORD_ORDER]       = 31,
+        [KWORD_DIFFICULTY]  = EnumRoleDifficulty.NORMAL,
+        [KWORD_PREFERENCE]  = EnumRolePreference.NO_PREFERENCE,
+        [KWORD_NICKNAME]    = {"卡萨尔", "修士", "瞎子", "圣"},
+        [KWORD_ITEM]        = {
+            [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT03, index = 5, loc_idx = 1},
+            [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 10, loc_idx = 2},
         }
     },
 }
