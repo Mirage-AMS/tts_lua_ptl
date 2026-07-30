@@ -14,6 +14,7 @@ require("src/build_data")
 require("src/event_game_board")
 require("src/event_dev_board")
 require("src/event_display_board")
+require("src/event_bp_display_board")
 require("src/event_main_board")
 require("src/event_context_menu")
 require("src/event_vote_winner")
@@ -251,6 +252,16 @@ function FactoryCreateGame()
             error("fatal error: display board not found")
         end
 
+        -- init bp display board buttons
+        local bpDisplayBoard = publicService:getPublicBoard(NAME_BOARD_BP_DISPLAY)
+        if bpDisplayBoard ~= nil then
+            for _, param in ipairs(LIST_PARAM_BP_DISPLAY_BOARD_BUTTONS) do
+                bpDisplayBoard:createButton(param)
+            end
+        else
+            error("fatal error: bp display board not found")
+        end
+
         -- init main board buttons
         local mainBoard = publicService:getPublicBoard(NAME_BOARD_MAIN)
         if mainBoard ~= nil then
@@ -288,6 +299,7 @@ function FactoryCreateGame()
                     --- setup dev board hidden and  all boards not interactable
                     self:setAllBoardNotInteractable()
                     setDevBoardHidden()
+                    setBpDisplayBoardVisibility(false)
                     --- update game mode and display board
                     updateGameMode({}, true)
                     updateDisplayBoard({}, true)

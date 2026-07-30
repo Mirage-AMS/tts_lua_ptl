@@ -2,6 +2,7 @@ require("com/const")
 require("com/const_dev_board")
 require("com/const_game_board")
 require("com/const_display_board")
+require("com/const_bp_display_board")
 require("com/basic")
 require("com/vector_op")
 require("com/enum_const")
@@ -125,6 +126,12 @@ function buildPublicZoneData()
     refGuid = GUID_GAME_BOARD
     data = buildItemZoneData(data, paramTemplate, paramData, zoneNameList, refGuid)
 
+    -- bp display zone
+    paramData = LIST_PARAM_SCRIPTING_BP_DISPLAY
+    zoneNameList = {NAME_ZONE_BP_DISPLAY}
+    refGuid = GUID_BP_DISPLAY_BOARD
+    data = buildItemZoneData(data, paramTemplate, paramData, zoneNameList, refGuid)
+
     -- legendary card zone
     paramTemplate = PARAM_SCRIPTING_TRIGGER_LEGEND
     paramData = LIST_PARAM_SCRIPTING_LEGEND_DISPLAY
@@ -168,6 +175,7 @@ function buildDefaultData()
                     [NAME_BOARD_GAME] = { guid = GUID_GAME_BOARD },
                     [NAME_BOARD_DEVELOPMENT] = { guid = GUID_DEV_BOARD },
                     [NAME_BOARD_MECHANISM] = {guid = GUID_MECHANISM_BOARD },
+                    [NAME_BOARD_BP_DISPLAY] = { guid = GUID_BP_DISPLAY_BOARD },
                 },
                 displayBoards = {
                     [NAME_BOARD_DISPLAY] = { guid = GUID_DISPLAY_BOARD}
