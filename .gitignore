@@ -33,6 +33,9 @@ config.lua
 *.sublime-workspace
 *.sublime-project
 
+# 本地需求与记忆文件
+/.memory/
+
 # 环境特定文件
 .env.*
 !.env.example

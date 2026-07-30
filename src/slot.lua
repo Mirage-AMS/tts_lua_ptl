@@ -8,11 +8,11 @@ require("src/card")
 ---@field object Object?
 ---@field getPosition fun(self: Slot): Vector?
 ---@field getObjects fun(self: Slot): Object[]?
----@field getCardObjects fun(self: Slot): Object?[]
+---@field getCardObjects fun(self: Slot): Object[]?
 ---@field getCardObject fun(self: Slot, isFirst?: boolean): Object?
 ---@field getMergedCardObject fun(self: Slot, tag?: string): Object?
 ---@field shuffle fun(self: Slot)
----@feild setFlipped fun(self: Slot, flipped: boolean)
+---@field setFlipped fun(self: Slot, flipped: boolean)
 ---@field setStraight fun(self: Slot, straight: boolean)
 ---@field onSave fun(self: Slot): table
 ---@field onSnapshot fun(self: Slot): table

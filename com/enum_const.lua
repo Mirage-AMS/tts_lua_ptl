@@ -36,9 +36,10 @@ EnumIsSolo = Enum({NO = 1, YES = 2})
 
 ---@class EnumBPStrategy
 ---@field FREE number
+---@field RANDOM number
 ---@field STANDARD number
 ---@field __call(number): boolean
-EnumBPStrategy = Enum({FREE = 1, STANDARD = 2})
+EnumBPStrategy = Enum({FREE = 1, RANDOM = 2, STANDARD = 3})
 
 ---@class EnumRoleDifficulty
 ---@field EASY number

@@ -67,8 +67,9 @@ PARAM_GAME_BOARD_SWITCH_BUTTON_CHANGE = {
         [true] = {label = "角色-启用", tooltip = "点击禁用角色", color = __BUTTON_COLOR_GREEN},
     },
     [4] = {
-        [EnumBPStrategy.FREE] = {label ="BP-自由", tooltip = "点击切换至标准BP", color = __BUTTON_COLOR_PURPLE},
-        [EnumBPStrategy.STANDARD] = {label ="BP-标准", tooltip = "点击切换至自由BP", color = __BUTTON_COLOR_YELLOW},
+        [EnumBPStrategy.RANDOM] = {label ="BP-随机", tooltip = "点击切换至标准BP", color = __BUTTON_COLOR_DEFAULT},
+        [EnumBPStrategy.STANDARD] = {label ="BP-标准", tooltip = "点击切换至自由BP", color = __BUTTON_COLOR_PURPLE},
+        [EnumBPStrategy.FREE] = {label ="BP-自由", tooltip = "点击切换至随机BP", color = __BUTTON_COLOR_YELLOW},
     },
 }
 
