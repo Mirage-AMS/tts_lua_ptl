@@ -17,7 +17,7 @@ PARAM_BP_DISPLAY_BOARD_BUTTON_ACTION = {
     function_owner = self,
     width = BP_DISPLAY_BOARD_BUTTON_WIDTH, height = BP_DISPLAY_BOARD_BUTTON_HEIGHT,
     scale=BP_DISPLAY_BOARD_BUTTON_SCALE, font_size=BP_DISPLAY_BOARD_BUTTON_FONT_SIZE,
-    position = Vector(0.0, 1.0, 0.0),
+    position = Vector(-1.07, 1.0, -1.05),
     label = "发牌/清空", tooltip = "左键发牌，右键清空",
 }
 
@@ -30,20 +30,23 @@ NAME_ZONE_BP_DISPLAY = "zone_bp_display"
 
 PARAM_SCRIPTING_TRIGGER_BP_DISPLAY = {
     type        = DEFAULT_SPAWN_TYPE_SCRIPTING_TRIGGER,
+    scale       = {x=3.75, z=5.25, y=1.0},
     rotation    = {0, 0, 0},
 }
+
+PARAM_BP_BOARD_HEIGHT = 0.5
+
 LIST_PARAM_SCRIPTING_BP_DISPLAY = {
     [NAME_ZONE_BP_DISPLAY] = {
         [KEYWORD_ZONE_DISPLAY] = {
-            position = {x=0, y=0.0, z=0},
-            scale = {x=30, y=1.00, z=20}
+            position = {x=-11.60, z=8.4, y=PARAM_BP_BOARD_HEIGHT},
         },
         [KEYWORD_ZONE_DISPLAY_PATTERN] = {
-            x_num=5, x_shift=4.9,
-            z_num=4, z_shift=-5.3,
+            x_num=6, x_shift=4.63,
+            z_num=4, z_shift=-5.6,
         },
     }
 }
 
 -- Variant ---------------------------------------------------------------------------------
-GUID_BP_DISPLAY_BOARD = "to_be_replaced"
+GUID_BP_DISPLAY_BOARD = "6c43d5"

@@ -201,3 +201,28 @@ function fuzzySearch(data, searchStr)
 
     return result
 end
+
+
+--- 从列表中随机抽取指定数量的元素
+--- @param list table 源列表
+--- @param count number 需要抽取的数量
+--- @return table 包含抽取元素的新列表
+function getRandomSubset(list, count)
+    local pool = {}
+    for i, v in ipairs(list) do
+        pool[i] = v
+    end
+
+    local len = #pool
+    count = math.min(count, len)
+
+    local result = {}
+
+    for i = 1, count do
+        local randIndex = math.random(i, len)
+        pool[i], pool[randIndex] = pool[randIndex], pool[i]
+        table.insert(result, pool[i])
+    end
+
+    return result
+end
