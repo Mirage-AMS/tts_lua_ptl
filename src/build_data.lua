@@ -127,9 +127,9 @@ function buildPublicZoneData()
     data = buildItemZoneData(data, paramTemplate, paramData, zoneNameList, refGuid)
 
     -- bp-display zone
-    paramTemplate = PARAM_SCRIPTING_TRIGGER_BP_DISPLAY
+    paramTemplate = PARAM_SCRIPTING_TRIGGER_BP_DISPLAY_BOARD
     paramData = LIST_PARAM_SCRIPTING_BP_DISPLAY
-    zoneNameList = {NAME_ZONE_BP_DISPLAY}
+    zoneNameList = {NAME_ZONE_BP_DISPLAY_BOARD}
     refGuid = GUID_BP_DISPLAY_BOARD
     data = buildItemZoneData(data, paramTemplate, paramData, zoneNameList, refGuid)
 

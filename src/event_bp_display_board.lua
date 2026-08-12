@@ -6,7 +6,7 @@ require("com/const_display_board")
 require("com/basic")
 
 local function getBpDisplayZone()
-    local zone = GAME:getPublicService():getPublicZone(NAME_ZONE_BP_DISPLAY)
+    local zone = GAME:getPublicService():getPublicZone(NAME_ZONE_BP_DISPLAY_BOARD)
     if not zone then
         error("fatal error: bp display zone is nil")
     end
@@ -23,31 +23,31 @@ end
 
 function clearBpDisplayZone()
     local zone = getBpDisplayZone()
-    for _, slot in ipairs(zone and zone.display_slots or {}) do
-        for _, card in ipairs(slot:getCardObjects() or {}) do
-            card.destruct()
-        end
+    local deckSlot = zone and zone.deck_slot
+    if not deckSlot then
+        error("fatal error: bp display zone deck_slot is nil")
+    end
+    for _, card in ipairs(deckSlot:getCardObjects() or {}) do
+        card.destruct()
     end
 end
 
 function dealBpDisplayCards()
-    local maxRoleNum = 16
     local zone = getBpDisplayZone()
-    local slotList = zone.display_slots or {}
-
-    --- if no slot, return directly
-    if #slotList == 0 then return end
-
-    --- if all slots are occupied, return directly
-    local blankSlot = {}
-    for index = 1, math.min(maxRoleNum, #slotList) do
-        local slot = slotList[index]
-        if slot and slot:getCardObject() == nil then
-            table.insert(blankSlot, index)
-        end
+    local deckSlot = zone and zone.deck_slot
+    if not deckSlot then
+        error("fatal error: bp display zone deck_slot is nil")
     end
-    local dealNum = #blankSlot
-    if dealNum == 0 then return end
+
+    local layout = BP_DISPLAY_BOARD_LAYOUT
+    if not layout then
+        error("fatal error: BP_DISPLAY_BOARD_LAYOUT is nil")
+    end
+
+    local cols = layout.cols
+    local rows = layout.rows
+    local dealNum = cols * rows
+    local faceupNum = layout.max_count
 
     --- build-up a random role pool
     local rolePool = {}
@@ -60,23 +60,33 @@ function dealBpDisplayCards()
     if #randomRolePool ~= dealNum then error("fatal error: role pool is not equal") end
 
     local publicService = GAME:getPublicService()
+    local originPos = deckSlot:getPosition() or Vector(0,0,0)
+    local originShift = layout.origin or Vector(0,0,0)
+    local originPos = originPos + originShift
+    local xShift = layout.x_shift
+    local zShift = layout.z_shift
+    local yOffset = 0.0
+
     for index, roleKey in ipairs(randomRolePool) do
-        local slotIndex = blankSlot[index]
-        local slot = slotList[slotIndex]
         local roleData = ROLE_REGISTER_DICT[roleKey] or {}
         local roleItem = roleData[KWORD_ITEM] or {}
         local item = roleItem[1] or {}
         if item.origin ~= EnumItemOrigin.DEV_DECK then
             error("fatal error: character card "..roleKey.." is not from dev deck")
         end
-        local isFlip = true
-        if item.flip ~= nil then isFlip = item.flip end
+
+        --- check if the card is face up or face down
+        local isFlip = index <= faceupNum
         local rot = isFlip and __CARD_ROTATION_FACE_UP or __CARD_ROTATION_FACE_DOWN
-        local pos = slot:getPosition()
+        
+        --- calculate position
+        local col = ((index - 1) % cols)
+        local row = math.floor((index - 1) / cols)
+        local pos = originPos + Vector(col * xShift, yOffset, row * zShift)
+
+        --- clone a card from dev deck
         local deck = publicService:getDevDeck(item.prefix)
         if not deck then error("fatal error: could not find dev deck "..item.prefix) end
-
-        ---- clone a card from dev deck
         local clonedObject = deck.clone({position = pos, rotation = rot})
         local takeParam = {index = item.index - 1, position = pos, rotation = rot}
         clonedObject.takeObject(takeParam)
