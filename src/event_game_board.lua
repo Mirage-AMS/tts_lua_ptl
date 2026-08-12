@@ -189,6 +189,16 @@ local function updateEnableRole(enableRole)
     end
 end
 
+-- update bp strategy
+---@param bpStrategy number
+local function updateBpStrategy(bpStrategy)
+    if bpStrategy == EnumBPStrategy.STANDARD then
+        setBpDisplayBoardVisibility(true)
+    else
+        setBpDisplayBoardVisibility(false)
+    end
+end
+
 --- update game mode
 ---@param data table<string, any>: data to update
 ---@param forceUpdate boolean: force update all fields
@@ -206,7 +216,7 @@ function updateGameMode(data, forceUpdate)
         { key = "game_goal",    handler = updateGameGoal },
         { key = "deck_set",     handler = updateDeckSet },
         { key = "enable_role",  handler = updateEnableRole },
-        { key = "bp_strategy",  handler = nil },
+        { key = "bp_strategy",  handler = updateBpStrategy },
     }
     local isSet = publicService:isGameModeSet()
     if isSet then
@@ -336,7 +346,11 @@ function onButtonClickSetGameModeFinished(_, player_clicker_color, _)
     -- trigger game mode set event
     local enable_role = gameModeManager.enable_role
     local bp_strategy = gameModeManager.bp_strategy
-    if enable_role then applyBPStrategy(bp_strategy) end
+    if enable_role then
+        applyBPStrategy(bp_strategy)
+    else
+        setBpDisplayBoardVisibility(false)
+    end
 
     -- extra setting solo mode
     if playerService:getSeatedPlayerNum() == 1 then

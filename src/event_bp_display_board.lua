@@ -19,6 +19,11 @@ function setBpDisplayBoardVisibility(visible)
         error("fatal error: bp display board is nil")
     end
     board:setVisible(visible)
+
+    -- clear zone if not visible
+    if not visible then
+        clearBpDisplayZone()
+    end
 end
 
 function clearBpDisplayZone()
@@ -80,8 +85,9 @@ function dealBpDisplayCards()
         local rot = isFlip and __CARD_ROTATION_FACE_UP or __CARD_ROTATION_FACE_DOWN
         
         --- calculate position
-        local col = ((index - 1) % cols)
-        local row = math.floor((index - 1) / cols)
+        local row = ((index - 1) % rows)
+        local col = math.floor((index - 1) / rows)
+
         local pos = originPos + Vector(col * xShift, yOffset, row * zShift)
 
         --- clone a card from dev deck
@@ -96,8 +102,9 @@ function dealBpDisplayCards()
 end
 
 function onButtonClickBpDisplayAction(_, _, alt_click)
-    if alt_click then clearBpDisplayZone()
-    else dealBpDisplayCards()
+    clearBpDisplayZone()
+    if not alt_click then
+        dealBpDisplayCards()
     end
 end
 
@@ -128,10 +135,12 @@ function applyBPStrategy(strategy)
         )
 
     elseif strategy == EnumBPStrategy.STANDARD then
-        setBpDisplayBoardVisibility(true)
+        rolePickZone:destructDeck()
+        clearBpDisplayZone()
+
         Wait.time(
             function()
-                rolePickZone:destructDeck()
+                dealBpDisplayCards()
             end,
             1
         )

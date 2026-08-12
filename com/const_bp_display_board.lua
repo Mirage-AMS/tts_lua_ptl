@@ -36,7 +36,7 @@ LIST_PARAM_SCRIPTING_BP_DISPLAY = {
     [NAME_ZONE_BP_DISPLAY_BOARD] = {
         [KEYWORD_ZONE_DECK] = {
             position = {x=0.0, y=0.0, z=0.0},
-            scale =  {x=30, y=1.00, z=20}
+            scale =  {x=30, y=1.00, z=22}
         }
     }
 }
