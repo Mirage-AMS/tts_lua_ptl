@@ -186,6 +186,7 @@ KWORD_ROLE_IRJA = "role_irja"  ---- 伊尔嘉，极境织晶
 KWORD_ROLE_CASALE = "role_casale"  ---- 卡萨尔，盲眼修士
 KWORD_ROLE_OROPE = "role_orope"  ---- 欧洛佩，绿野芳踪
 KWORD_ROLE_BORJE = "role_borje"  ---- 博里，疫境独行
+KWORD_ROLE_EVELYN = "role_evelyn"  ---- 伊芙琳，星罗占影
 KWORD_ROLE_NEXT = "role_next" ---- 下一角色，用于测试
 
 
@@ -554,6 +555,17 @@ ROLE_REGISTER_DICT = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT03, index = 7, loc_idx = 1},
             [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 13, loc_idx = 2},
             [3] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 14, loc_idx = 3},
+        }
+    },
+    [KWORD_ROLE_EVELYN] = {
+        [KWORD_ORDER]       = 34,
+        [KWORD_DIFFICULTY]  = EnumRoleDifficulty.NORMAL,
+        [KWORD_PREFERENCE]  = EnumRolePreference.NO_PREFERENCE,
+        [KWORD_NICKNAME]    = {"伊芙琳", "占卜", "占星", "群星", "塔罗"},
+        [KWORD_ITEM]        = {
+            [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT03, index = 8, loc_idx = 1},
+            [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 15, loc_idx = 2},
+            [3] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 16, loc_idx = 3},
         }
     },
 }
