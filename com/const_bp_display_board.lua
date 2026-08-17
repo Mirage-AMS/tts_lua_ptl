@@ -45,7 +45,7 @@ BP_DISPLAY_BOARD_LAYOUT = {
     origin = Vector(-11.60, 0.5, 8.4),
     cols = 6, rows = 4,
     x_shift = 4.63, z_shift = -5.6,
-    max_count = 16,
+    max_count = 12,
 }
 
 -- Variant ---------------------------------------------------------------------------------
