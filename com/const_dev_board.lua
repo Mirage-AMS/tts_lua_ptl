@@ -165,8 +165,6 @@ NAME_ZONE_DEVELOPMENT = "zone_development"
 NAME_CONTAINER_ACCESSORY_ROTTEN_GRASS = "container_accessory_rotten_grass"
 NAME_CONTAINER_ACCESSORY_GOLD = "container_accessory_gold"
 NAME_CONTAINER_ACCESSORY_GOLEM = "container_accessory_golem"
-NAME_CONTAINER_ROLE_PHYLLIS_HOLY_WATER = "container_role_phyllis_holy_water"
-NAME_CONTAINER_ROLE_ARYA_EAGLET = "container_role_arya_eaglet"
 
 DEVELOPMENT_ZONE_DISPLAY_SLOT_SETUP = {
     -- 1st part
@@ -214,11 +212,9 @@ LIST_PARAM_SCRIPTING_DEV_MODE = {
 
 -- container setup
 CONTAINER_REGISTER_DICT = {
-    [NAME_CONTAINER_ACCESSORY_ROTTEN_GRASS]  = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_AC_STD01, index = 1},
-    [NAME_CONTAINER_ACCESSORY_GOLD]          = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_AC_STD01, index = 2},
-    [NAME_CONTAINER_ROLE_PHYLLIS_HOLY_WATER] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_AC_STD01, index = 3},
-    [NAME_CONTAINER_ACCESSORY_GOLEM]       = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_AC_STD01, index = 4},
-    [NAME_CONTAINER_ROLE_ARYA_EAGLET]        = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_AC_STD02, index = 1},
+    [NAME_CONTAINER_ACCESSORY_ROTTEN_GRASS] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_AC_STD01, index = 1},
+    [NAME_CONTAINER_ACCESSORY_GOLD]         = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_AC_STD01, index = 2},
+    [NAME_CONTAINER_ACCESSORY_GOLEM]        = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_AC_STD01, index = 4},
 }
 
 -- VAR
@@ -226,5 +222,3 @@ GUID_DEV_BOARD = "877790"
 GUID_CONTAINER_ACCESSORY_ROTTEN_GRASS = "2d9f73"
 GUID_CONTAINER_ACCESSORY_GOLD = "4e26c2"
 GUID_CONTAINER_ACCESSORY_GOLEM = "238db5"
-GUID_CONTAINER_ROLE_PHYLLIS_HOLY_WATER = "1f70e5"
-GUID_CONTAINER_ROLE_ARYA_EAGLET = "13acb9"

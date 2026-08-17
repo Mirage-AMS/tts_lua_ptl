@@ -168,8 +168,6 @@ function buildDefaultData()
                     [NAME_CONTAINER_ACCESSORY_ROTTEN_GRASS] = {guid = GUID_CONTAINER_ACCESSORY_ROTTEN_GRASS},
                     [NAME_CONTAINER_ACCESSORY_GOLD] = {guid = GUID_CONTAINER_ACCESSORY_GOLD},
                     [NAME_CONTAINER_ACCESSORY_GOLEM] = {guid = GUID_CONTAINER_ACCESSORY_GOLEM},
-                    [NAME_CONTAINER_ROLE_PHYLLIS_HOLY_WATER] = {guid = GUID_CONTAINER_ROLE_PHYLLIS_HOLY_WATER},
-                    [NAME_CONTAINER_ROLE_ARYA_EAGLET] = {guid = GUID_CONTAINER_ROLE_ARYA_EAGLET},
                 },
                 boards = {
                     [NAME_BOARD_MAIN] = { guid = GUID_MAIN_BOARD },

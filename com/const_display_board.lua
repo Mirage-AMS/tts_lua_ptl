@@ -320,7 +320,7 @@ ROLE_REGISTER_DICT = {
         [KWORD_ITEM]        = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT01, index = 12, loc_idx = 1},
             [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF01, index = 23, loc_idx = 2, loc_idxx = 1},
-            [3] = {origin = EnumItemOrigin.DEV_CONTAINER_ITEM, prefix = NAME_CONTAINER_ROLE_PHYLLIS_HOLY_WATER, loc_idx = 2, loc_idxx = 2},
+            [3] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_AC_STD01, index = 3, loc_idx = 2, loc_idxx = 2},
             [4] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF01, index = 24, loc_idx = 3},
         }
     },
@@ -400,8 +400,8 @@ ROLE_REGISTER_DICT = {
         [KWORD_ITEM]        = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT02, index = 7, loc_idx = 1},
             [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF02, index = 15, loc_idx = 2},
-            [3] = {origin = EnumItemOrigin.DEV_CONTAINER_ITEM, prefix = NAME_CONTAINER_ROLE_ARYA_EAGLET, loc_idx = 3, loc_idxx = 1, flip = true},
-            [4] = {origin = EnumItemOrigin.DEV_CONTAINER_ITEM, prefix = NAME_CONTAINER_ROLE_ARYA_EAGLET, loc_idx = 3, loc_idxx = 2, flip = false},
+            [3] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_AC_STD02, index = 1, loc_idx = 3, loc_idxx = 1, flip = true},
+            [4] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_AC_STD02, index = 2, loc_idx = 3, loc_idxx = 2, flip = false},
         }
     },
     [KWORD_ROLE_CARLOS] = {
