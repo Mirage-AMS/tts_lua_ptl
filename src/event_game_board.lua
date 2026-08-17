@@ -3,7 +3,10 @@ require("com/const")
 require("com/basic")
 require("com/enum_const")
 require("com/const_game_board")
+require("com/const_display_board")
+require("com/const_bp_display_board")
 require("src/event_dev_board")
+require("src/event_bp_display_board")
 
 --- isGameModeSetable: Check if player can set game mode
 --- @return boolean
@@ -293,32 +296,10 @@ onButtonClickSwitchRole = onButtonClickToggle(
 
 onButtonClickSwitchBpStrategy = onButtonClickToggle(
     "bp_strategy",
-    { EnumBPStrategy.FREE, EnumBPStrategy.STANDARD},
+    { EnumBPStrategy.RANDOM, EnumBPStrategy.STANDARD, EnumBPStrategy.FREE},
     function() return GAME:getPublicService():getGameModeManager().bp_strategy end
 )
 
-local function applyBPStrategyStandard()
-    local rolePickZone = GAME:getPublicService():getPublicZone(NAME_ZONE_ROLE_PICK)
-    if not rolePickZone then
-        error("fatal error: could not find role pick zone")
-    end
-    -- shuffle role pick deck
-    rolePickZone:shuffleDeck()
-
-    -- deal role pick cards
-    local dealNum = 5
-    local playerService = GAME:getPlayerService()
-    local playerList = playerService:getSeatedPlayerColorList()
-    for _, player_color in ipairs(playerList) do
-        rolePickZone:dealDeckCardIntoHand(dealNum, player_color)
-    end
-    Wait.time(
-        function()
-            rolePickZone:destructDeck()
-        end,
-        1
-    )
-end
 
 ---@class EnumDialogSoloMode
 ---@field YES_12 string
@@ -355,9 +336,7 @@ function onButtonClickSetGameModeFinished(_, player_clicker_color, _)
     -- trigger game mode set event
     local enable_role = gameModeManager.enable_role
     local bp_strategy = gameModeManager.bp_strategy
-    if enable_role and bp_strategy == EnumBPStrategy.STANDARD then
-        applyBPStrategyStandard()
-    end
+    if enable_role then applyBPStrategy(bp_strategy) end
 
     -- extra setting solo mode
     if playerService:getSeatedPlayerNum() == 1 then

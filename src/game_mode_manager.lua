@@ -28,7 +28,7 @@ function FactoryCreateGameModeManager()
         deck_set = EnumDeckSet.STD,
         game_goal = EnumGameGoal.QUICK,
         is_solo = EnumIsSolo.NO,
-        bp_strategy = EnumBPStrategy.FREE
+        bp_strategy = EnumBPStrategy.RANDOM
     }
 
     -- set functions
