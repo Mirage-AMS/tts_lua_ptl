@@ -187,6 +187,7 @@ KWORD_ROLE_CASALE = "role_casale"  ---- 卡萨尔，盲眼修士
 KWORD_ROLE_OROPE = "role_orope"  ---- 欧洛佩，绿野芳踪
 KWORD_ROLE_BORJE = "role_borje"  ---- 博里，疫境独行
 KWORD_ROLE_EVELYN = "role_evelyn"  ---- 伊芙琳，星罗占影
+KWORD_ROLE_FERGUS = "role_fergus" ---- 弗格斯，高地矿工
 KWORD_ROLE_NEXT = "role_next" ---- 下一角色，用于测试
 
 
@@ -566,6 +567,17 @@ ROLE_REGISTER_DICT = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT03, index = 8, loc_idx = 1},
             [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 15, loc_idx = 2},
             [3] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 16, loc_idx = 3},
+        }
+    },
+    [KWORD_ROLE_FERGUS] = {
+        [KWORD_ORDER]       = 35,
+        [KWORD_DIFFICULTY]  = EnumRoleDifficulty.NORMAL,
+        [KWORD_PREFERENCE]  = EnumRolePreference.GATHERING,
+        [KWORD_NICKNAME]    = {"弗格斯", "矿工", "矮人", "高地"},
+        [KWORD_ITEM]        = {
+            [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT03, index = 9, loc_idx = 1},
+            [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 17, loc_idx = 2},
+            [3] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 18, loc_idx = 3},
         }
     },
 }
