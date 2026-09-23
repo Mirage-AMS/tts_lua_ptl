@@ -188,6 +188,7 @@ KWORD_ROLE_OROPE = "role_orope"  ---- 欧洛佩，绿野芳踪
 KWORD_ROLE_BORJE = "role_borje"  ---- 博里，疫境独行
 KWORD_ROLE_EVELYN = "role_evelyn"  ---- 伊芙琳，星罗占影
 KWORD_ROLE_FERGUS = "role_fergus" ---- 弗格斯，高地矿工
+KWORD_ROLE_VASILISA = "role_vasilisa" ---- 瓦西里莎，与兽共舞
 KWORD_ROLE_NEXT = "role_next" ---- 下一角色，用于测试
 
 
@@ -402,7 +403,7 @@ ROLE_REGISTER_DICT = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT02, index = 7, loc_idx = 1},
             [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF02, index = 15, loc_idx = 2},
             [3] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_AC_STD02, index = 1, loc_idx = 3, loc_idxx = 1, flip = true},
-            [4] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_AC_STD02, index = 2, loc_idx = 3, loc_idxx = 2, flip = false},
+            [4] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_AC_STD02, index = 1, loc_idx = 3, loc_idxx = 2, flip = false},
         }
     },
     [KWORD_ROLE_CARLOS] = {
@@ -578,6 +579,19 @@ ROLE_REGISTER_DICT = {
             [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT03, index = 9, loc_idx = 1},
             [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 17, loc_idx = 2},
             [3] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 18, loc_idx = 3},
+        }
+    },
+    [KWORD_ROLE_VASILISA] = {
+        [KWORD_ORDER]       = 36,
+        [KWORD_DIFFICULTY]  = EnumRoleDifficulty.NORMAL,
+        [KWORD_PREFERENCE]  = EnumRolePreference.HUNTING,
+        [KWORD_NICKNAME]    = {"瓦西里莎", "狼女", "大狗"},
+        [KWORD_ITEM]        = {
+            [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT03, index = 10, loc_idx = 1},
+            [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 19, loc_idx = 2, loc_idxx = 1},
+            [3] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_AC_STD02, index = 2, loc_idx = 2, loc_idxx = 2, flip = true},
+            [4] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_AC_STD02, index = 2, loc_idx = 2, loc_idxx = 3, flip = false},
+            [5] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 20, loc_idx = 3},
         }
     },
 }
