@@ -189,6 +189,8 @@ KWORD_ROLE_BORJE = "role_borje"  ---- 博里，疫境独行
 KWORD_ROLE_EVELYN = "role_evelyn"  ---- 伊芙琳，星罗占影
 KWORD_ROLE_FERGUS = "role_fergus" ---- 弗格斯，高地矿工
 KWORD_ROLE_VASILISA = "role_vasilisa" ---- 瓦西里莎，与兽共舞
+KWORD_ROLE_MARINA = "role_marina" ---- 玛丽娜，蛇骨猎人
+KWORD_ROLE_JULIEN = "role_julien" ---- 朱利安，未竟之脉
 KWORD_ROLE_NEXT = "role_next" ---- 下一角色，用于测试
 
 
@@ -592,6 +594,29 @@ ROLE_REGISTER_DICT = {
             [3] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_AC_STD02, index = 2, loc_idx = 2, loc_idxx = 2, flip = true},
             [4] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_AC_STD02, index = 2, loc_idx = 2, loc_idxx = 3, flip = false},
             [5] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 20, loc_idx = 3},
+        }
+    },
+    [KWORD_ROLE_MARINA] = {
+        [KWORD_ORDER]       = 37,
+        [KWORD_DIFFICULTY]  = EnumRoleDifficulty.NORMAL,
+        [KWORD_PREFERENCE]  = EnumRolePreference.GATHERING,
+        [KWORD_NICKNAME]    = {"玛琳娜", "安宁", "碎石", "蛇骨"},
+        [KWORD_ITEM]        = {
+            [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT03, index = 11, loc_idx = 1},
+            [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 21, loc_idx = 2, loc_idxx = 1},
+            [3] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_AC_STD01, index = 5, loc_idx = 2, loc_idxx = 2},
+            [4] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 22, loc_idx = 3},
+        }
+    },
+    [KWORD_ROLE_JULIEN] = {
+        [KWORD_ORDER]       = 38,
+        [KWORD_DIFFICULTY]  = EnumRoleDifficulty.NORMAL,
+        [KWORD_PREFERENCE]  = EnumRolePreference.NO_PREFERENCE,
+        [KWORD_NICKNAME]    = {"朱利安"},
+        [KWORD_ITEM]        = {
+            [1] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INT03, index = 12, loc_idx = 1},
+            [2] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 23, loc_idx = 2},
+            [3] = {origin = EnumItemOrigin.DEV_DECK, prefix = PREFIX_RO_INF03, index = 24, loc_idx = 3},
         }
     },
 }
