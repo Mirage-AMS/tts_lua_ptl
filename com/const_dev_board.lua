@@ -143,7 +143,7 @@ DECK_INFO = {
         "血族转变", "嗜血猎手", "隐身斗篷", "唤灵魔石", "古老魔杖", "恶魔名单",
         "狩猎开幕", "晶脉共振", "石芯之缚", "聆听罪愆", "没香魔药", "走马观花",
         "孢子瘟疫", "林奈药剂", "群星之瞳", "塔罗预兆", "皮革手套", "废寝忘食",
-        "歃血为盟", "契灵兽使", "拾骨寻踪", "惊涛拍岸", "标本匣", "寻宝罗盘",
+        "歃血为盟", "契灵兽使", "海栏皮包", "惊涛拍岸", "标本匣", "寻宝罗盘",
     },
 
     -- Legend ---------------------------------------------------------
@@ -172,6 +172,7 @@ DEVELOPMENT_ZONE_DISPLAY_SLOT_SETUP = {
     [PREFIX_MO_STD01] = 1,
     [PREFIX_FO_STD01] = 2,
     [PREFIX_DU_STD01] = 3,
+    [PREFIX_LG_STD01] = 4,
     -- 2nd part
     [PREFIX_MA_STD01] = 5,
     [PREFIX_MA_STD02] = 6,
@@ -191,9 +192,8 @@ DEVELOPMENT_ZONE_DISPLAY_SLOT_SETUP = {
     [PREFIX_RO_INF02] = 18,
     [PREFIX_RO_INF03] = 19,
     -- 6th part
-    [PREFIX_LG_STD01] = 21,
-    [PREFIX_AC_STD01] = 22,
-    [PREFIX_AC_STD02] = 23,
+    [PREFIX_AC_STD01] = 21,
+    [PREFIX_AC_STD02] = 22,
 }
 
 PARAM_DEV_BOARD_HEIGHT = 2.0
